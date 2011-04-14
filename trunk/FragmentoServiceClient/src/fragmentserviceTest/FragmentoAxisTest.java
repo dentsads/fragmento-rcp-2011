@@ -38,8 +38,8 @@ public class FragmentoAxisTest {
 			// createArtifact("WSDL", "This is a test","<echo xmlns='asdf'><a>Hi! This is a sample Request.</a></echo>");
 			//System.out.println(retrieveArtifactBundle(3l).getArtefactBundle().getRelation());
 			//System.out.println(retrieveArtifactHistory(3l).getArtefactDescriptors().getArtefact()[0].getArtefactId());
-			checkinArtifact(191l,"WSDL","Test 3", "<echo xmlns='asdf'><a>Hi! This is a sample Request 3.</a></echo>", true);
-			
+			//checkinArtifact(191l,"WSDL","Test 3", "<echo xmlns='asdf'><a>Hi! This is a sample Request 3.</a></echo>", true);
+			//System.out.println(browseLocks("doodle").getLockDescriptors().getLock()[0].getLockId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("\n\n\n");
@@ -213,6 +213,7 @@ public class FragmentoAxisTest {
 	}
 	
 	/**
+	 * Browse artifacts by Date
 	 * 
 	 * @param date_from
 	 * @param date_to
@@ -238,6 +239,7 @@ public class FragmentoAxisTest {
 	}
 	
 	/**
+	 * Browse artifacts by content
 	 * 
 	 * @param content
 	 * @return
@@ -259,6 +261,7 @@ public class FragmentoAxisTest {
 	}
 	
 	/**
+	 * Browse artifacts by description
 	 * 
 	 * @param description
 	 * @return
@@ -280,6 +283,7 @@ public class FragmentoAxisTest {
 	}
 	
 	/**
+	 * Browse artifacts by date and type
 	 * 
 	 * @param date_from
 	 * @param date_to
@@ -302,6 +306,60 @@ public class FragmentoAxisTest {
 			req.setBrowseArtefactSelector(type);
 			
 			return new FragmentServiceStub(serviceURI).browseArtefacts(req);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("\n\n\n");
+		}
+		return null;
+	}
+	
+	/**
+	 * This method retrieves latest artefact version
+	 * 
+	 * @param artifactId
+	 * @return
+	 */
+	public static FragmentServiceStub.RetrieveArtefactLatestVersionResponseMessage retrieveArtifactLatestVersion(
+			long artifactId) {
+		try {
+			FragmentServiceStub.RetrieveArtefactLatestVersionRequestMessage req = new FragmentServiceStub.RetrieveArtefactLatestVersionRequestMessage();
+			FragmentServiceStub.ArtefactSelectorType type = new FragmentServiceStub.ArtefactSelectorType();
+			type.setArtefactId(artifactId);
+			req.setArtefactSelector(type);
+			
+			return new FragmentServiceStub(serviceURI).retrieveArtefactLatestVersion(req);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("\n\n\n");
+		}
+		return null;
+	}
+	
+	/**
+	 * browse locks
+	 * 
+	 * @return
+	 */
+	public static FragmentServiceStub.BrowseLocksResponseMessage browseLocks(String request) {
+		try {
+			FragmentServiceStub.BrowseLocksRequestMessage req = new FragmentServiceStub.BrowseLocksRequestMessage();
+			req.setRequest(request);
+			return new FragmentServiceStub(serviceURI).browseLocks(req);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("\n\n\n");
+		}
+		return null;
+	}
+	
+	public static FragmentServiceStub.ReleaseLocksResponseMessage releaseLocks(FragmentServiceStub.Lock_type0[] locks) {
+		try {
+			FragmentServiceStub.ReleaseLocksRequestMessage req = new FragmentServiceStub.ReleaseLocksRequestMessage();
+			FragmentServiceStub.LockDescriptorsType type = new FragmentServiceStub.LockDescriptorsType();
+			FragmentServiceStub.Lock_type0[] l = locks; 
+			type.setLock(l);
+			req.setLockDescriptors(type);
+			return new FragmentServiceStub(serviceURI).releaseLocks(req);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("\n\n\n");
