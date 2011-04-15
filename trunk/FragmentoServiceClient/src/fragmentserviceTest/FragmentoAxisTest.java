@@ -1,13 +1,8 @@
 package fragmentserviceTest;
 
 import java.util.Calendar;
-import java.util.Date;
-
 import org.apache.axiom.om.impl.llom.util.AXIOMUtil;
-
-import eu.compas_ict.www.fragmentservice.FragmentServiceCallbackHandler;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub;
-import eu.compas_ict.www.fragmentservice.FragmentServiceStub.BrowseLocksRequestMessage;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.RelationTypeSchemaType;
 
 /**
@@ -478,17 +473,13 @@ public class FragmentoAxisTest {
 	 * @return
 	 */
 	public static FragmentServiceStub.BrowseRelationsResponseMessage browseRelation_byDate(
-			Date date_from, Date date_to) {
+			Calendar date_from, Calendar date_to) {
 		try {
 			FragmentServiceStub.BrowseRelationsRequestMessage req = new FragmentServiceStub.BrowseRelationsRequestMessage();
 			FragmentServiceStub.RelationSelectorType type = new FragmentServiceStub.RelationSelectorType();
 			FragmentServiceStub.Interval_type0 interval = new FragmentServiceStub.Interval_type0();
-			Calendar date = Calendar.getInstance();
-			date.setTime(date_from);
-			interval.setFromDate(date);
-			date.setTime(date_to);
-			interval.setToDate(date);
-			type.setInterval(interval);
+			interval.setFromDate(date_from);
+			interval.setToDate(date_to);
 			req.setSelector(type);
 
 			return new FragmentServiceStub(serviceURI).browseRelations(req);
@@ -549,16 +540,13 @@ public class FragmentoAxisTest {
 	 * @return
 	 */
 	public static FragmentServiceStub.BrowseRelationsResponseMessage browseRelation_byDateType(
-			Date date_from, Date date_to, String relationType) {
+			Calendar date_from, Calendar date_to, String relationType) {
 		try {
 			FragmentServiceStub.BrowseRelationsRequestMessage req = new FragmentServiceStub.BrowseRelationsRequestMessage();
 			FragmentServiceStub.RelationSelectorType type = new FragmentServiceStub.RelationSelectorType();
 			FragmentServiceStub.TypedInterval_type0 typeint = new FragmentServiceStub.TypedInterval_type0();
-			Calendar date = Calendar.getInstance();
-			date.setTime(date_from);
-			typeint.setFromDate(date);
-			date.setTime(date_to);
-			typeint.setToDate(date);
+			typeint.setFromDate(date_from);
+			typeint.setToDate(date_to);
 			typeint.setType(relationType);
 			type.setTypedInterval(typeint);
 			req.setSelector(type);
