@@ -40,13 +40,19 @@ public class FragmentoAxisTest {
 			// "This is a test","<echo xmlns='asdf'><a>Hi! This is a sample Request.</a></echo>");
 			// System.out.println(retrieveArtifactBundle(3l).getArtefactBundle().getRelation());
 			// System.out.println(retrieveArtifactHistory(3l).getArtefactDescriptors().getArtefact()[0].getArtefactId());
-			// checkinArtifact(191l,"WSDL","Test 3",
-			// "<echo xmlns='asdf'><a>Hi! This is a sample Request 3.</a></echo>",
-			// true);
+			//checkinArtifact(129l,"WSDL","Test 3","<echo xmlns='asdf'><a>Hi! This is a sample Request 3.</a></echo>",true);
 			// System.out.println(browseLocks("doodle").getLockDescriptors().getLock()[0].getLockId());
-			createRelation("test relation", 201l, 196l,
-					FragmentServiceStub.RelationTypeSchemaType.wsdl);
-
+			//createRelation("test relation", 201l, 196l,
+			//		FragmentServiceStub.RelationTypeSchemaType.wsdl);
+//			Calendar from = Calendar.getInstance(); 
+//			Calendar to = Calendar.getInstance(); 
+//			from.set(3, Calendar.APRIL, 12);
+//			to.set(2011,Calendar.APRIL,15);
+//			System.out.println(browseArtifact_byDate(from,to).getArtefactDescriptors().getArtefact()[0].getArtefactId());
+			//System.out.println(browseArtifact_byContent("echo").getArtefactDescriptors().getArtefact().length);
+			//System.out.println(browseArtifact_byDescription("trusted").getArtefactDescriptors().getArtefact()[0].getArtefactId());
+			//System.out.println(retrieveArtifactLatestVersion(196).getArtefact().getDescription());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("\n\n\n");
@@ -197,7 +203,7 @@ public class FragmentoAxisTest {
 			req.setArtefactId(artifactId);
 			req.setKeepRelations(keepRelations);
 			req.setArtefact(type);
-			// TODO req.setLockId(200);
+			req.setLockId(browseLocks(String.valueOf(artifactId)).getLockDescriptors().getLock()[0].getLockId());
 
 			return new FragmentServiceStub(serviceURI).checkInArtefact(req);
 		} catch (Exception e) {
@@ -238,13 +244,13 @@ public class FragmentoAxisTest {
 	 * @return
 	 */
 	public static FragmentServiceStub.BrowseArtefactsResponseMessage browseArtifact_byDate(
-			Date date_from, Date date_to) {
+			Calendar date_from, Calendar date_to) {
 		try {
 			FragmentServiceStub.BrowseArtefactsRequestMessage req = new FragmentServiceStub.BrowseArtefactsRequestMessage();
 			FragmentServiceStub.BrowseArtefactSelectorType type = new FragmentServiceStub.BrowseArtefactSelectorType();
 			FragmentServiceStub.Date_type0 date = new FragmentServiceStub.Date_type0();
-			date.getFrom().setTime(date_from);
-			date.getTo().setTime(date_to);
+			date.setFrom(date_from);
+			date.setTo(date_to);
 			type.setDate(date);
 			req.setBrowseArtefactSelector(type);
 
@@ -309,16 +315,13 @@ public class FragmentoAxisTest {
 	 * @return
 	 */
 	public static FragmentServiceStub.BrowseArtefactsResponseMessage browseArtifact_byDateType(
-			Date date_from, Date date_to, String artifactType) {
+			Calendar date_from, Calendar date_to, String artifactType) {
 		try {
 			FragmentServiceStub.BrowseArtefactsRequestMessage req = new FragmentServiceStub.BrowseArtefactsRequestMessage();
 			FragmentServiceStub.BrowseArtefactSelectorType type = new FragmentServiceStub.BrowseArtefactSelectorType();
 			FragmentServiceStub.TypeAndDate_type0 td = new FragmentServiceStub.TypeAndDate_type0();
-			Calendar date = Calendar.getInstance();
-			date.setTime(date_from);
-			td.setFrom(date);
-			date.setTime(date_to);
-			td.setTo(date);
+			td.setFrom(date_from);
+			td.setTo(date_to);
 			td.setType(artifactType);
 			type.setTypeAndDate(td);
 			req.setBrowseArtefactSelector(type);
