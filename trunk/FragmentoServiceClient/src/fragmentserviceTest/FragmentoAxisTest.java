@@ -4,7 +4,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.axiom.om.impl.llom.util.AXIOMUtil;
+
+import eu.compas_ict.www.fragmentservice.FragmentServiceCallbackHandler;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub;
+import eu.compas_ict.www.fragmentservice.FragmentServiceStub.BrowseLocksRequestMessage;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.RelationTypeSchemaType;
 
 /**
@@ -41,7 +44,7 @@ public class FragmentoAxisTest {
 			// System.out.println(retrieveArtifactBundle(3l).getArtefactBundle().getRelation());
 			// System.out.println(retrieveArtifactHistory(3l).getArtefactDescriptors().getArtefact()[0].getArtefactId());
 			//checkinArtifact(129l,"WSDL","Test 3","<echo xmlns='asdf'><a>Hi! This is a sample Request 3.</a></echo>",true);
-			// System.out.println(browseLocks("doodle").getLockDescriptors().getLock()[0].getLockId());
+			// System.out.println(browseLocks().getLockDescriptors().getLock()[0].getLockId());
 			//createRelation("test relation", 201l, 196l,
 			//		FragmentServiceStub.RelationTypeSchemaType.wsdl);
 //			Calendar from = Calendar.getInstance(); 
@@ -52,7 +55,11 @@ public class FragmentoAxisTest {
 			//System.out.println(browseArtifact_byContent("echo").getArtefactDescriptors().getArtefact().length);
 			//System.out.println(browseArtifact_byDescription("trusted").getArtefactDescriptors().getArtefact()[0].getArtefactId());
 			//System.out.println(retrieveArtifactLatestVersion(196).getArtefact().getDescription());
-			
+			//System.out.println(browseLocks().getLockDescriptors().getLock()[1].getLockId());
+			//FragmentServiceStub.Lock_type0[] locks = new FragmentServiceStub.Lock_type0[1];
+			//releaseLocks(locks);
+			//createRelation("bla bla", 201, 210, RelationTypeSchemaType.modeller);
+			//deleteRelation(226);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("\n\n\n");
@@ -203,7 +210,7 @@ public class FragmentoAxisTest {
 			req.setArtefactId(artifactId);
 			req.setKeepRelations(keepRelations);
 			req.setArtefact(type);
-			req.setLockId(browseLocks(String.valueOf(artifactId)).getLockDescriptors().getLock()[0].getLockId());
+			req.setLockId(browseLocks().getLockDescriptors().getLock()[0].getLockId());
 
 			return new FragmentServiceStub(serviceURI).checkInArtefact(req);
 		} catch (Exception e) {
@@ -362,11 +369,11 @@ public class FragmentoAxisTest {
 	 * 
 	 * @return
 	 */
-	public static FragmentServiceStub.BrowseLocksResponseMessage browseLocks(
-			String request) {
+	public static FragmentServiceStub.BrowseLocksResponseMessage browseLocks() {
 		try {
 			FragmentServiceStub.BrowseLocksRequestMessage req = new FragmentServiceStub.BrowseLocksRequestMessage();
-			req.setRequest(request);
+			req.setRequest("");
+			
 			return new FragmentServiceStub(serviceURI).browseLocks(req);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -386,8 +393,7 @@ public class FragmentoAxisTest {
 		try {
 			FragmentServiceStub.ReleaseLocksRequestMessage req = new FragmentServiceStub.ReleaseLocksRequestMessage();
 			FragmentServiceStub.LockDescriptorsType type = new FragmentServiceStub.LockDescriptorsType();
-			FragmentServiceStub.Lock_type0[] l = locks;
-			type.setLock(l);
+			type.setLock(browseLocks().getLockDescriptors().getLock());
 			req.setLockDescriptors(type);
 			return new FragmentServiceStub(serviceURI).releaseLocks(req);
 		} catch (Exception e) {
