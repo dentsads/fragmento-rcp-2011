@@ -2,14 +2,6 @@
 
 Notes for the conceptual design stage
 
-= Introduction =
+= Notes =
 
-TreeViewer icon buttons with , collapse all, open all, options, search
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+Tree Viewer icon buttons with , collapse all, open all, options, search
