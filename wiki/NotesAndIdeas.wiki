@@ -1,7 +1,5 @@
-#summary One-sentence summary of this page.
-
-Notes for the conceptual design stage
+#summary Notes for the conceptual design stage
 
 = Notes =
 
-Tree Viewer icon buttons with , collapse all, open all, options, search
+1) Tree Viewer icon buttons with , collapse all, open all, options, search
