@@ -173,6 +173,7 @@
       </wizard>
       <wizard
             class="fragmentorcp.wizards.openoptions.OpenOptionsPage"
+            icon="icons/favicon.ico"
             id="FragmentoRCP.OpenOptionsPage"
             name="openOptions Page 1">
       </wizard>

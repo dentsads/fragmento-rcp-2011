@@ -17,6 +17,7 @@ public class OpenOptionsPage2 extends WizardPage {
 		
 		setTitle("Personal information 2");
         setDescription("Please enter your personal information");
+        this.setPageComplete(false);
 	}
 
 	@Override
