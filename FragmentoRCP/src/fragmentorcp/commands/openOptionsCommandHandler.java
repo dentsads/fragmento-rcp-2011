@@ -35,15 +35,14 @@ public class openOptionsCommandHandler extends AbstractHandler {
 		
 		if (wizardParameter.equalsIgnoreCase("TOOLBAR_OPTIONS")) {
 			pages.add(new OpenOptionsPage("1"));
-			pages.add(new OpenOptionsPage2("2"));
+			//pages.add(new OpenOptionsPage2("2"));
 		} else if (wizardParameter.equalsIgnoreCase("TOOLBAR_CREATE_NEW_ITEM")) {
 			pages.add(new CreateNewItem("1"));
 		} else if (wizardParameter.equalsIgnoreCase("TOOLBAR_SEARCH")) {
 			pages.add(new OpenOptionsPage("1"));
 			pages.add(new OpenOptionsPage2("2"));
 		}
-		
-		System.out.println(pages.size());	
+
 		CreateWizard wizard = new CreateWizard(pages);
         WizardDialog dialog = new WizardDialog(HandlerUtil.getActiveWorkbenchWindow(event).getShell(), wizard);
         dialog.create();
