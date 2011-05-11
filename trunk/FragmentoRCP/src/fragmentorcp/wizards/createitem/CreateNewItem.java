@@ -1,5 +1,6 @@
 package fragmentorcp.wizards.createitem;
 
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
@@ -18,6 +19,9 @@ public class CreateNewItem extends WizardPage {
 		
 		setTitle("Create new Item");
         setDescription("Please enter your personal information");
+        
+        this.setPageComplete(false);
+        TrayDialog.setDialogHelpAvailable(false);
 	}
 
 
