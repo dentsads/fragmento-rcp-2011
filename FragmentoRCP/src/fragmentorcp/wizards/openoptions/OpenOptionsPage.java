@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 
-import fragmentorcp.models.OptionsWizardBean;
+import fragmentorcppresenter.models.OptionsWizardBean;
 
 public class OpenOptionsPage extends WizardPage implements Listener {
 	private Text txtserviceUri;
