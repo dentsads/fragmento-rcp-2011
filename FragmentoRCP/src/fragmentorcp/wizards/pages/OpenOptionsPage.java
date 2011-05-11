@@ -1,4 +1,4 @@
-package fragmentorcp.wizards.openoptions;
+package fragmentorcp.wizards.pages;
 
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
