@@ -3,8 +3,6 @@ package fragmentorcp.views;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
-import fragmentorcp.models.OptionsWizardBean;
-
 public class RepositoryView extends ViewPart {
 	
 	
