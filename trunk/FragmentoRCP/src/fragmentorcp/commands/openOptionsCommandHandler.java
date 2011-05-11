@@ -13,9 +13,9 @@ import org.eclipse.ui.services.ISourceProviderService;
 
 import fragmentorcp.sourceprovider.CommandState;
 import fragmentorcp.wizards.CreateWizard;
-import fragmentorcp.wizards.createitem.CreateNewItem;
-import fragmentorcp.wizards.openoptions.OpenOptionsPage;
-import fragmentorcp.wizards.openoptions.OpenOptionsPage2;
+import fragmentorcp.wizards.pages.CreateNewItemPage;
+import fragmentorcp.wizards.pages.OpenOptionsPage;
+import fragmentorcp.wizards.pages.OpenOptionsPage2;
 
 public class openOptionsCommandHandler extends AbstractHandler {
 	
@@ -37,7 +37,7 @@ public class openOptionsCommandHandler extends AbstractHandler {
 			pages.add(new OpenOptionsPage("Repository options"));
 			//pages.add(new OpenOptionsPage2("2"));
 		} else if (wizardParameter.equalsIgnoreCase("TOOLBAR_CREATE_NEW_ITEM")) {
-			pages.add(new CreateNewItem("1"));
+			pages.add(new CreateNewItemPage("1"));
 		} else if (wizardParameter.equalsIgnoreCase("TOOLBAR_SEARCH")) {
 			pages.add(new OpenOptionsPage("1"));
 			pages.add(new OpenOptionsPage2("2"));
