@@ -34,7 +34,7 @@ public class openOptionsCommandHandler extends AbstractHandler {
 		List<IWizardPage> pages = new ArrayList<IWizardPage>();
 		
 		if (wizardParameter.equalsIgnoreCase("TOOLBAR_OPTIONS")) {
-			pages.add(new OpenOptionsPage("1"));
+			pages.add(new OpenOptionsPage("Repository options"));
 			//pages.add(new OpenOptionsPage2("2"));
 		} else if (wizardParameter.equalsIgnoreCase("TOOLBAR_CREATE_NEW_ITEM")) {
 			pages.add(new CreateNewItem("1"));

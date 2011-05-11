@@ -2,6 +2,7 @@ package fragmentorcp.wizards.openoptions;
 
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.jface.wizard.WizardPage;
@@ -17,16 +18,18 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 
-import fragmentorcppresenter.ifaces.IViewContainer;
-import fragmentorcppresenter.models.OptionsWizardBean;
+import fragmentorcppresenter.ifaces.IOptionsWizardContainer;
+import fragmentorcppresenter.models.datatest;
 
-public class OpenOptionsPage extends WizardPage implements IViewContainer{
+public class OpenOptionsPage extends WizardPage implements IOptionsWizardContainer{
 	private Text txtserviceUri;
 	private ControlDecoration controlDecoration;
 	private Button btnApply;
 	private IObservableValue txtserviceUriObservable;
-	private IObservableValue btnApplyObservable;	
-	private OptionsWizardBean bean;
+	private IObservableValue btnApplyObservable;
+	private IObservableValue btnRetrieveAllAvailableObservable;
+	private datatest test;
+	private Button btnRetrieveAllAvailable;
 	
 	public OpenOptionsPage(String pageName) {
 		super(pageName);
@@ -35,6 +38,7 @@ public class OpenOptionsPage extends WizardPage implements IViewContainer{
         setDescription("Please specify the repository service URI");
         
         this.setPageComplete(false);
+        TrayDialog.setDialogHelpAvailable(false);
 	}
 
 	@Override
@@ -57,35 +61,50 @@ public class OpenOptionsPage extends WizardPage implements IViewContainer{
          txtserviceUri.addFocusListener(new FocusAdapter() {
          	@Override
          	public void focusGained(FocusEvent e) {
-         		controlDecoration.hide();
+         		controlDecoration.show();
+         		controlDecoration.setDescriptionText("http(s):// ... .wsdl");
+         		controlDecoration.setImage(FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_CONTENT_PROPOSAL).getImage());
          	}
          });
-         txtserviceUri.setMessage("http(s)://");
+                  
          txtserviceUri.setBounds(43, 28, 404, 25);
-         this.txtserviceUriObservable = SWTObservables.observeText(this.txtserviceUri,SWT.Modify);
+         this.txtserviceUriObservable = SWTObservables.observeText(this.txtserviceUri,SWT.Modify);     
          
          controlDecoration = new ControlDecoration(txtserviceUri, SWT.LEFT | SWT.TOP);
          controlDecoration.setImage(FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR).getImage());
          controlDecoration.setDescriptionText("Service endpoint not found");
+         controlDecoration.hide();
          
          btnApply = new Button(grpEdd, SWT.NONE);
          btnApply.addSelectionListener(new SelectionAdapter() {
          	@Override
-         	public void widgetSelected(SelectionEvent e) {
-         		controlDecoration.show();
+         	public void widgetSelected(SelectionEvent e) {       		         		
+         		if (!test.isValidUrl()) {
+         			controlDecoration.show();
+         			controlDecoration.setImage(FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR).getImage());
+         	        controlDecoration.setDescriptionText("Service endpoint not found");
+         	       setPageComplete(false);
+				} else {
+					controlDecoration.show();
+         			controlDecoration.setImage(FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_INFORMATION).getImage());
+         	        controlDecoration.setDescriptionText("Service endpoint found");
+         	        setPageComplete(true);
+				}
+         		
          	}
          });
-
+         
          btnApply.setBounds(464, 28, 84, 27);
          btnApply.setText("Apply");
-         this.btnApplyObservable = SWTObservables.observeSelection(this.btnApply);
-         
-         Button btnRetrieveAllAvailable = new Button(grpEdd, SWT.CHECK);
+         this.btnApplyObservable = SWTObservables.observeEnabled(this.btnApply);
+             
+         btnRetrieveAllAvailable = new Button(grpEdd, SWT.CHECK);
          btnRetrieveAllAvailable.setSelection(true);
          btnRetrieveAllAvailable.setBounds(44, 72, 359, 22);
          btnRetrieveAllAvailable.setText("Retrieve all available repository items for initialization");
-                 
-         bean = new OptionsWizardBean(this);
+         this.btnRetrieveAllAvailableObservable = SWTObservables.observeSelection(this.btnRetrieveAllAvailable);
+         
+         test = new datatest(this);  
 	}
 
 
@@ -95,5 +114,9 @@ public class OpenOptionsPage extends WizardPage implements IViewContainer{
 
 	public IObservableValue getBtnApplyObservable() {
 		return btnApplyObservable;
+	}
+	
+	public IObservableValue getBtnRetrieveAllAvailableObservable() {
+		return btnRetrieveAllAvailableObservable;
 	}
 }
