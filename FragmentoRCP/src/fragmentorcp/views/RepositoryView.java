@@ -3,8 +3,11 @@ package fragmentorcp.views;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
-public class RepositoryView extends ViewPart {
+import fragmentorcp.models.OptionsWizardBean;
 
+public class RepositoryView extends ViewPart {
+	
+	
 	public RepositoryView() {
 	}
 
@@ -12,7 +15,6 @@ public class RepositoryView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

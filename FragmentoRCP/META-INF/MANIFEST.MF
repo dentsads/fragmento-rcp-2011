@@ -6,6 +6,12 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: fragmentorcp.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.core.expressions;bundle-version="3.4.200"
+ org.eclipse.core.expressions;bundle-version="3.4.200",
+ org.eclipse.core.databinding,
+ org.eclipse.core.databinding.beans,
+ org.eclipse.core.databinding.observable,
+ org.eclipse.core.databinding.property,
+ org.eclipse.jface.databinding,
+ com.ibm.icu
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
