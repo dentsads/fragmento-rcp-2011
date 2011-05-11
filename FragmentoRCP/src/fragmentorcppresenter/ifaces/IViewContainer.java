@@ -1,5 +1,9 @@
 package fragmentorcppresenter.ifaces;
 
-public interface IViewContainer {
+import org.eclipse.core.databinding.observable.value.IObservableValue;
 
+public interface IViewContainer {
+	IObservableValue getTxtserviceUriObservable();
+
+	IObservableValue getBtnApplyObservable();
 }
