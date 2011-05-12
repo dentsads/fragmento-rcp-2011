@@ -8,11 +8,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+
 public class CreateNewItemPage extends WizardPage {
 
 	Text firstNameText;
 	Text secondNameText;
-
 
 	public CreateNewItemPage(String pageName) {
 		super(pageName);
@@ -22,6 +22,8 @@ public class CreateNewItemPage extends WizardPage {
         
         this.setPageComplete(false);
         TrayDialog.setDialogHelpAvailable(false);
+        
+        
 	}
 
 

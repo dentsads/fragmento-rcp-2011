@@ -5,6 +5,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.eclipse.ui.PlatformUI;
+
+import fragmentorcp.views.RepositoryView;
 import fragmentorcppresenter.ifaces.IOptionsWizardContainer;
 
 public class datatest extends OptionsWizardBean {
@@ -30,7 +33,7 @@ public class datatest extends OptionsWizardBean {
 			if (responseCode != 200) {
 			   return false;
 			} else {
-				this.setServiceURI(this.getTxtserviceUri());
+				this.setServiceURI(this.getTxtserviceUri());			
 				return true;	
 			}
 		} catch (MalformedURLException e) {
