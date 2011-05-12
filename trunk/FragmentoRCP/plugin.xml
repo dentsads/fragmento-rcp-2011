@@ -172,20 +172,25 @@
             name="Create new wizard">
       </wizard>
       <wizard
-            class="fragmentorcp.wizards.openoptions.OpenOptionsPage"
+            class="fragmentorcp.wizards.pages.OpenOptionsPage"
             icon="icons/favicon.ico"
             id="FragmentoRCP.OpenOptionsPage"
             name="openOptions Page 1">
       </wizard>
       <wizard
-            class="fragmentorcp.wizards.openoptions.OpenOptionsPage2"
+            class="fragmentorcp.wizards.pages.OpenOptionsPage2"
             id="FragmentoRCP.OpenOptionsPage2"
             name="openOptions Page 2">
       </wizard>
       <wizard
-            class="fragmentorcp.wizards.createitem.CreateNewItem"
+            class="fragmentorcp.wizards.pages.CreateNewItemPage"
             id="FragmentoRCP.CreateNewItem"
             name="create new item">
+      </wizard>
+      <wizard
+            class="fragmentorcp.wizards.pages.SerachWizardPage1"
+            id="FragmentoRCP.SearchWizardPage1"
+            name="Search Wizard Page 1">
       </wizard>
    </extension>
    <extension

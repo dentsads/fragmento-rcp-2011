@@ -16,6 +16,7 @@ import fragmentorcp.wizards.CreateWizard;
 import fragmentorcp.wizards.pages.CreateNewItemPage;
 import fragmentorcp.wizards.pages.OpenOptionsPage;
 import fragmentorcp.wizards.pages.OpenOptionsPage2;
+import fragmentorcp.wizards.pages.SearchWizardPage1;
 
 public class openOptionsCommandHandler extends AbstractHandler {
 	
@@ -39,8 +40,7 @@ public class openOptionsCommandHandler extends AbstractHandler {
 		} else if (wizardParameter.equalsIgnoreCase("TOOLBAR_CREATE_NEW_ITEM")) {
 			pages.add(new CreateNewItemPage("1"));
 		} else if (wizardParameter.equalsIgnoreCase("TOOLBAR_SEARCH")) {
-			pages.add(new OpenOptionsPage("1"));
-			pages.add(new OpenOptionsPage2("2"));
+			pages.add(new SearchWizardPage1("1"));
 		}
 
 		CreateWizard wizard = new CreateWizard(pages);

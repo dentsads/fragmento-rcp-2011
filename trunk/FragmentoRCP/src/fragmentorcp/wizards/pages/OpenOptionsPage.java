@@ -54,7 +54,7 @@ public class OpenOptionsPage extends WizardPage implements IOptionsWizardContain
          
          Label lblUri = new Label(grpEdd, SWT.NONE);
          lblUri.setAlignment(SWT.CENTER);
-         lblUri.setBounds(1, 28, 30, 25);
+         lblUri.setBounds(1, 32, 30, 25);
          lblUri.setText("URI:");
          
          txtserviceUri = new Text(grpEdd, SWT.BORDER);
@@ -84,11 +84,13 @@ public class OpenOptionsPage extends WizardPage implements IOptionsWizardContain
          			controlDecoration.setImage(FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR).getImage());
          	        controlDecoration.setDescriptionText("Service endpoint not found");
          	       setPageComplete(false);
+         	      btnRetrieveAllAvailable.setEnabled(false);
 				} else {
 					controlDecoration.show();
          			controlDecoration.setImage(FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_INFORMATION).getImage());
          	        controlDecoration.setDescriptionText("Service endpoint found");
          	        setPageComplete(true);
+         	       btnRetrieveAllAvailable.setEnabled(true);
 				}
          		
          	}
@@ -99,6 +101,7 @@ public class OpenOptionsPage extends WizardPage implements IOptionsWizardContain
          this.btnApplyObservable = SWTObservables.observeEnabled(this.btnApply);
              
          btnRetrieveAllAvailable = new Button(grpEdd, SWT.CHECK);
+         btnRetrieveAllAvailable.setEnabled(false);
          btnRetrieveAllAvailable.setSelection(true);
          btnRetrieveAllAvailable.setBounds(44, 72, 359, 22);
          btnRetrieveAllAvailable.setText("Retrieve all available repository items for initialization");
