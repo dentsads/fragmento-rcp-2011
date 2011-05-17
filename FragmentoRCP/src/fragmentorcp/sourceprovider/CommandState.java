@@ -22,7 +22,7 @@ public class CommandState extends AbstractSourceProvider {
 
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Map getCurrentState() {
 		Map map = new HashMap(1);

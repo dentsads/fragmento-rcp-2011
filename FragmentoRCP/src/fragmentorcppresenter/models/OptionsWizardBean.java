@@ -1,39 +1,27 @@
 package fragmentorcppresenter.models;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeansObservables;
-import org.eclipse.core.databinding.observable.value.IObservableValue;
 
 import fragmentorcppresenter.ifaces.IOptionsWizardContainer;
 
 
-public class OptionsWizardBean  {
+public class OptionsWizardBean extends ModelAbstraction{
 	
 	private IOptionsWizardContainer viewContainer;
 	
 	public OptionsWizardBean(IOptionsWizardContainer container) {
+		super();
 		this.viewContainer = container;
-		this.bindValues();
+		//this.bindValues();
+	}
+	
+	public OptionsWizardBean() {
 	}
 
 	private String txtserviceUri;
 	private boolean btnApply;
 	private boolean btnRetrieveAllAvailable;
-	
-	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
-			this);
-	
-	public void addPropertyChangeListener(String propertyName,
-			PropertyChangeListener listener) {
-		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
-	}
-
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeSupport.removePropertyChangeListener(listener);
-	}
 	
 	public void setTxtserviceUri(String txtserviceUri) {
 		propertyChangeSupport.firePropertyChange("txtserviceUri", this.txtserviceUri,
@@ -63,7 +51,8 @@ public class OptionsWizardBean  {
 	public boolean isBtnRetrieveAllAvailable() {
 		return btnRetrieveAllAvailable;
 	}
-
+	
+	@SuppressWarnings("unused")
 	private void bindValues() {
 		
 		DataBindingContext bindingContext = new DataBindingContext();

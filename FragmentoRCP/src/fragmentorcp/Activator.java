@@ -3,6 +3,8 @@ package fragmentorcp;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import fragmentorcppresenter.presenter.Presenter;
+
 /**
  * The activator class controls the plug-in life cycle
  */
@@ -11,6 +13,8 @@ public class Activator extends AbstractUIPlugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "FragmentoRCP"; //$NON-NLS-1$
 
+	private Presenter presenter = new Presenter();
+	
 	// The shared instance
 	private static Activator plugin;
 	
@@ -45,6 +49,10 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static Activator getDefault() {
 		return plugin;
+	}
+
+	public Presenter getPresenter() {
+		return presenter;
 	}
 
 }

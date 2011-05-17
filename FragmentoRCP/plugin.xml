@@ -4,6 +4,7 @@
    <extension
          point="org.eclipse.ui.views">
       <view
+            allowMultiple="false"
             category="FragmentoRCP.FragmentoCategory"
             class="fragmentorcp.views.RepositoryView"
             icon="icons/favicon.ico"
