@@ -9,13 +9,10 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.ui.services.ISourceProviderService;
 
-import fragmentorcp.sourceprovider.CommandState;
 import fragmentorcp.wizards.CreateWizard;
 import fragmentorcp.wizards.pages.CreateNewItemPage;
 import fragmentorcp.wizards.pages.OpenOptionsPage;
-import fragmentorcp.wizards.pages.OpenOptionsPage2;
 import fragmentorcp.wizards.pages.SearchWizardPage1;
 
 public class openOptionsCommandHandler extends AbstractHandler {
@@ -50,5 +47,4 @@ public class openOptionsCommandHandler extends AbstractHandler {
             
 		return null;
 	}
-
 }
