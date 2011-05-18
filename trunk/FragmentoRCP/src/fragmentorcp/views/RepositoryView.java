@@ -2,28 +2,23 @@ package fragmentorcp.views;
 
 import java.beans.PropertyChangeEvent;
 
-import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 
 import fragmentorcp.Activator;
+import fragmentorcp.views.treeviewer.provider.ContentProvider;
+import fragmentorcp.views.treeviewer.provider.LabelProvider;
+import fragmentorcp.views.treeviewer.provider.TodoMockModel;
 import fragmentorcppresenter.ifaces.GuiModelPropertyChange_IViewPart;
-import fragmentorcppresenter.ifaces.IRepositoryViewContainer;
 import fragmentorcppresenter.presenter.Presenter;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Button;
 
 
-public class RepositoryView extends GuiModelPropertyChange_IViewPart implements IRepositoryViewContainer {
+public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 	
 	public static final String ID = "FragmentoRCP.RepositoryView";
-	private IObservableValue serviceURIObservable;
-	private Text text;
-	private Button btnTest;
+	private TreeViewer viewer;
 	
 	private Presenter presenter;
 	
@@ -31,43 +26,31 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart implements 
 		
 		this.presenter = Activator.getDefault().getPresenter();
         this.presenter.addView(this);
+        this.presenter.setNewRepostoryViewBean();
 	}
 
 	@Override
 	public void createPartControl(Composite parent) {
-		
-		Composite composite = new Composite(parent, SWT.NONE);
-		
-		text = new Text(composite, SWT.BORDER);				
-		text.setBounds(72, 60, 185, 25);
-		this.serviceURIObservable = SWTObservables.observeText(this.text,SWT.Modify);
-		btnTest = new Button(composite, SWT.NONE);
-		btnTest.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-			}
-		});
-		btnTest.setBounds(72, 106, 84, 27);
-		btnTest.setText("test");
+						
+		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL
+				| SWT.V_SCROLL);
+		viewer.setContentProvider(new ContentProvider());
+		viewer.setLabelProvider(new LabelProvider());
+		// Expand the tree 
+		viewer.setAutoExpandLevel(2);
+		// Provide the input to the ContentProvider
+		viewer.setInput(new TodoMockModel());
+		viewer.expandAll();
 	}
 	
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public IObservableValue getServiceURIObservable() {
-		return serviceURIObservable;
+		viewer.getControl().setFocus();
 	}
 
 	@Override
-	public void modelPropertyChange(PropertyChangeEvent event) {
-		if (event.getPropertyName().equals("text")) {
-			text.setText(event.getNewValue().toString());
-		}
-		
+	public void modelPropertyChange(PropertyChangeEvent event) {		
 	}
 	
 }

@@ -1,5 +1,7 @@
 package fragmentorcp.wizards.pages;
 
+import java.beans.PropertyChangeEvent;
+
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -14,7 +16,11 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.DateTime;
 
-public class SearchWizardPage1 extends WizardPage {
+import fragmentorcp.Activator;
+import fragmentorcppresenter.ifaces.GuiModelPropertyChange_IWizardPage;
+import fragmentorcppresenter.presenter.Presenter;
+
+public class SearchWizardPage1 extends GuiModelPropertyChange_IWizardPage  {
 	private Text text;
 	private Text text_1;
 	private Combo combo;
@@ -61,7 +67,9 @@ public class SearchWizardPage1 extends WizardPage {
 	private DateTime dateTime_7;
 	private Label label_13;
 	private Combo combo_5;
-
+	
+	private Presenter presenter;
+	
 	public SearchWizardPage1(String pageName) {
 		super(pageName);
 		
@@ -70,7 +78,10 @@ public class SearchWizardPage1 extends WizardPage {
         
         this.setPageComplete(false);
         TrayDialog.setDialogHelpAvailable(false);
-		
+        
+        this.presenter = Activator.getDefault().getPresenter();
+        this.presenter.addView(this);
+        this.presenter.setNewSearchWizardBean();
 	}
 
 	@Override
@@ -464,5 +475,15 @@ public class SearchWizardPage1 extends WizardPage {
 		   label_13.setEnabled(itembool4);
 		   combo_5.setEnabled(itembool4);	   
 		}
+	}
+
+	@Override
+	public void modelPropertyChange(PropertyChangeEvent event) {
+		if (event.getPropertyName().equals("finished") || event.getPropertyName().equals("canceled")) {	
+			this.presenter.removeModel(this.presenter.getSearchWizardBean());
+			this.presenter.removeView(this);			
+			dispose();	
+		} 
+		
 	}
 }

@@ -5,7 +5,12 @@ import java.util.List;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 
+import fragmentorcp.Activator;
+import fragmentorcppresenter.presenter.Presenter;
+
 public class CreateWizard extends Wizard {
+	
+	Presenter presenter = Activator.getDefault().getPresenter();
 	
 	List<IWizardPage> pages;
 	
@@ -21,10 +26,17 @@ public class CreateWizard extends Wizard {
 	public CreateWizard(List<IWizardPage> pages) {
 		this.pages = pages;
 	}
-
+	
 	@Override
 	public boolean performFinish() {
-		return false;
+		presenter.setModelProperty("finished", true);
+		return true;
+	}
+	
+	@Override
+	public boolean performCancel() {
+		presenter.setModelProperty("canceled", true);
+		return true;
 	}
 
 }

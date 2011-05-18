@@ -22,6 +22,8 @@ public class OptionsWizardBean extends ModelAbstraction{
 	private String txtserviceUri;
 	private boolean btnApply;
 	private boolean btnRetrieveAllAvailable;
+	private boolean finished = false;
+	private boolean canceled = false;
 	
 	public void setTxtserviceUri(String txtserviceUri) {
 		propertyChangeSupport.firePropertyChange("txtserviceUri", this.txtserviceUri,
@@ -52,6 +54,24 @@ public class OptionsWizardBean extends ModelAbstraction{
 		return btnRetrieveAllAvailable;
 	}
 	
+	public boolean isFinishedOpenOptions() {
+		return finished;
+	}
+
+	public void setFinishedOpenOptions(boolean finished) {
+		propertyChangeSupport.firePropertyChange("finished", this.finished,
+				this.finished = finished);
+	}
+	
+	public boolean isCanceled() {
+		return canceled;
+	}
+
+	public void setCanceled(boolean canceled) {
+		propertyChangeSupport.firePropertyChange("canceled", this.canceled,
+				this.canceled = canceled);
+	}
+
 	@SuppressWarnings("unused")
 	private void bindValues() {
 		
