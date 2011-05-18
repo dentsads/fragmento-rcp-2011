@@ -146,8 +146,7 @@
             name="openOptionsCommand">
          <commandParameter
                id="FragmentoRCP.WizardParameter"
-               name="Wizard selection parameter"
-               optional="false">
+               name="Wizard selection parameter">
          </commandParameter>
       </command>
    </extension>
@@ -174,7 +173,6 @@
       </wizard>
       <wizard
             class="fragmentorcp.wizards.pages.OpenOptionsPage"
-            icon="icons/favicon.ico"
             id="FragmentoRCP.OpenOptionsPage"
             name="openOptions Page 1">
       </wizard>

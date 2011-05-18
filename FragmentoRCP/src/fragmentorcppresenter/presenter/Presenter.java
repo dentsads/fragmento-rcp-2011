@@ -9,20 +9,43 @@ import fragmentorcppresenter.ifaces.IGuiModelPropertyChange;
 import fragmentorcppresenter.models.ModelAbstraction;
 import fragmentorcppresenter.models.OptionsWizardBean;
 import fragmentorcppresenter.models.RepositoryViewBean;
+import fragmentorcppresenter.models.SearchWizardBean;
 
 public class Presenter extends PresenterAbstraction<IGuiModelPropertyChange>{
 	
-	private ModelAbstraction model;
+	private ModelAbstraction optionsWizardBean;
+	private ModelAbstraction repostoryViewBean;
+	private ModelAbstraction searchWizardBean;
 	
-	public Presenter() {
-		
-		this.model = new OptionsWizardBean();
-		this.addModel(model);
-		this.model = new RepositoryViewBean();
-		this.addModel(model);
-		
+	public Presenter() {	
 	}
 	
+	public ModelAbstraction getOptionsWizardBean() {
+		return optionsWizardBean;
+	}
+
+	public ModelAbstraction getRepostoryViewBean() {
+		return repostoryViewBean;
+	}
+	
+	public ModelAbstraction getSearchWizardBean() {
+		return searchWizardBean;
+	}
+	
+	public void setNewOptionsWizardBean() {
+		this.optionsWizardBean = new OptionsWizardBean();
+		this.addModel(this.optionsWizardBean);
+	}
+
+	public void setNewRepostoryViewBean() {
+		this.repostoryViewBean = new RepositoryViewBean();
+		this.addModel(this.repostoryViewBean);
+	}
+	
+	public void setNewSearchWizardBean() {
+		this.searchWizardBean = new SearchWizardBean();
+		this.addModel(this.searchWizardBean);
+	}
 	
 	public boolean isValidUrl(String url) {
 		try {

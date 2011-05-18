@@ -44,7 +44,7 @@ public class openOptionsCommandHandler extends AbstractHandler {
         WizardDialog dialog = new WizardDialog(HandlerUtil.getActiveWorkbenchWindow(event).getShell(), wizard);
         dialog.create();
         dialog.open();
-            
+        
 		return null;
 	}
 }
