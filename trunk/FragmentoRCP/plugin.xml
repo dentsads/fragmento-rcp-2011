@@ -105,7 +105,7 @@
                visible="true">
          </separator>
          <command
-               commandId="fragmentorcp.commands.openOptionsCommand"
+               commandId="fragmentorcp.commands.toolbarRemainingCommand"
                icon="icons/toolbar_expand.gif"
                label="expandAll"
                style="push"
@@ -119,9 +119,13 @@
                   </equals>
                </with>
             </visibleWhen>
+            <parameter
+                  name="FragmentoRCP.WizardParameter"
+                  value="TOOLBAR_EXPAND_ALL">
+            </parameter>
          </command>
          <command
-               commandId="fragmentorcp.commands.openOptionsCommand"
+               commandId="fragmentorcp.commands.toolbarRemainingCommand"
                icon="icons/toolbar_collapse.gif"
                label="collapseAll"
                style="push"
@@ -135,6 +139,10 @@
                   </equals>
                </with>
             </visibleWhen>
+            <parameter
+                  name="FragmentoRCP.WizardParameter"
+                  value="TOOLBAR_COLLAPSE_ALL">
+            </parameter>
          </command>
       </menuContribution>
    </extension>
@@ -149,11 +157,23 @@
                name="Wizard selection parameter">
          </commandParameter>
       </command>
+      <command
+            defaultHandler="fragmentorcp.commands.toolbarRemainingCommandHandler"
+            id="fragmentorcp.commands.toolbarRemainingCommand"
+            name="toolbarRemainingCommand">
+         <commandParameter
+               id="FragmentoRCP.WizardParameter"
+               name="Wizard selection parameter">
+         </commandParameter>
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
       <handler
             commandId="fragmentorcp.commands.openOptionsCommand">
+      </handler>
+      <handler
+            commandId="fragmentorcp.commands.toolbarRemainingCommand">
       </handler>
    </extension>
    <extension
