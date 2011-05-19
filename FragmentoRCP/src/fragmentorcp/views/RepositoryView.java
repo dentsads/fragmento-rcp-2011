@@ -90,7 +90,7 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 		});
 		Menu menu = menuMgr.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
-		getSite().registerContextMenu(menuMgr, viewer);
+		getSite().registerContextMenu("treePopupMenu",menuMgr, viewer);
 	}
 
 
