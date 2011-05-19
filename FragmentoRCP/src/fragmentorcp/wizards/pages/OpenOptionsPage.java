@@ -89,8 +89,7 @@ public class OpenOptionsPage extends GuiModelPropertyChange_IWizardPage implemen
          btnApply.addSelectionListener(new SelectionAdapter() {
          	@Override
          	public void widgetSelected(SelectionEvent e) {
-         		presenter.setModelProperty("btnApply", (boolean)true);
-         		presenter.setModelProperty("text",txtserviceUri.getText());         		
+         		presenter.setModelProperty("btnApply", (boolean)true);         		
          	}
          });
          

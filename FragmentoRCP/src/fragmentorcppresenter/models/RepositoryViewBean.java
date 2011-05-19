@@ -1,26 +1,30 @@
 package fragmentorcppresenter.models;
 
 public class RepositoryViewBean extends ModelAbstraction {
+
+	private boolean collapseAll;
+	private boolean expandAll;
+
+	public RepositoryViewBean() {
+		
+	}
 	
-	private String text;
-	private boolean btnTest;
-	
-	public boolean isbBtnTest() {
-		return btnTest;
+	public void setCollapseAll(boolean collapseAll) {
+		propertyChangeSupport.firePropertyChange("collapseAll", this.collapseAll,
+				this.collapseAll = collapseAll);
 	}
 
-	public void setBtnTest(boolean buttonClicked) {
-		propertyChangeSupport.firePropertyChange("btnTest", this.btnTest,
-				this.btnTest = buttonClicked);
+	public boolean isCollapseAll() {
+		return collapseAll;
 	}
 
-	public String getText() {
-		return text;
+	public void setExpandAll(boolean expandAll) {
+		propertyChangeSupport.firePropertyChange("expandAll", this.expandAll,
+				this.expandAll = expandAll);
 	}
 
-	public void setText(String text) {	
-		propertyChangeSupport.firePropertyChange("text", this.text,
-				this.text = text);
+	public boolean isExpandAll() {
+		return expandAll;
 	}
 	
 }

@@ -3,7 +3,6 @@ package fragmentorcp.wizards.pages;
 import java.beans.PropertyChangeEvent;
 
 import org.eclipse.jface.dialogs.TrayDialog;
-import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
