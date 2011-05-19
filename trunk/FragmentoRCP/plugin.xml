@@ -145,6 +145,19 @@
             </parameter>
          </command>
       </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:treePopupMenu">
+         <command
+               commandId="fragmentorcp.commands.toolbarRemainingCommand"
+               label="Expand All"
+               style="push">
+            <parameter
+                  name="FragmentoRCP.WizardParameter"
+                  value="TOOLBAR_EXPAND_ALL">
+            </parameter>
+         </command>
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
