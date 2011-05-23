@@ -1,6 +1,7 @@
 package fragmentorcp.views.treeviewer.provider;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import fragmentorcppresenter.models.repository.Artefact;
@@ -13,21 +14,33 @@ import fragmentorcppresenter.models.repository.RelationsCategory;
 
 public class TodoMockModel {
 	
+	public TodoMockModel() {
+	}
+	
+	List<IPlaceHolder> categories = new ArrayList<IPlaceHolder>();
+	
 	public List<IPlaceHolder> getCategories() {
-		List<IPlaceHolder> categories = new ArrayList<IPlaceHolder>();
-		
+	
+		return categories;
+	}
+	
+	public void init() {
 		ArtefactCategory<ArtefactCategory<Artefact>> artefactsCategory = new ArtefactCategory<ArtefactCategory<Artefact>>();
+		ArtefactCategory<Artefact> subArtefactsCategory = new ArtefactCategory<Artefact>();
+		
+		RelationsCategory<RelationsCategory<Relation>> relationsCategory = new RelationsCategory<RelationsCategory<Relation>>();
+		RelationsCategory<Relation> subRelationsCategory = new RelationsCategory<Relation>();
+		
+		Artefact artefact = new Artefact();
+		Relation relation = new Relation();
+		
 		artefactsCategory.setName("Artefacts");
 		categories.add(artefactsCategory);
 		
-		ArtefactCategory<Artefact> subArtefactsCategory = new ArtefactCategory<Artefact>();
 		
-		subArtefactsCategory.setName("Annotation");
+		subArtefactsCategory.setName(ArtefactTypes.ANNOTATION.toString());
 		artefactsCategory.getChildren().add(subArtefactsCategory);
 		
-		
-		
-		Artefact artefact = new Artefact();
 		artefact.setArtefactID(1);
 		artefact.setArtefactDescription("blub studi");
 		artefact.setArtefactType(ArtefactTypes.ANNOTATION);
@@ -35,7 +48,7 @@ public class TodoMockModel {
 		subArtefactsCategory.getChildren().add(artefact);
 		
 		subArtefactsCategory = new ArtefactCategory<Artefact>();
-		subArtefactsCategory.setName("WSDL");
+		subArtefactsCategory.setName(ArtefactTypes.WSDL.toString());
 		artefactsCategory.getChildren().add(subArtefactsCategory);
 		
 		artefact = new Artefact();
@@ -45,23 +58,36 @@ public class TodoMockModel {
 		artefact.setCheckedOut(false);
 		subArtefactsCategory.getChildren().add(artefact);
 		
-		RelationsCategory<RelationsCategory<Relation>> relationsCategory = new RelationsCategory<RelationsCategory<Relation>>();
+		
+		
 		relationsCategory.setName("Relations");
 		categories.add(relationsCategory);
 		
-		RelationsCategory<Relation> subRelationsCategory = new RelationsCategory<Relation>();
-		
-		subRelationsCategory.setName("Container");
+		subRelationsCategory.setName(RelationTypes.CONTAINER.toString());
 		relationsCategory.getChildren().add(subRelationsCategory);
 		
-		Relation relation = new Relation();
 		relation.setRelationID(3);
 		relation.setRelationDescription("ssl slsls");
 		relation.setFromID(1);
 		relation.setToID(2);
 		relation.setRelationType(RelationTypes.CONTAINER);
-		subRelationsCategory.getChildren().add(relation);;
-		
-		return categories;
+		subRelationsCategory.getChildren().add(relation);
 	}
+	
+//	public void createArtefactCategory(ArtefactTypes type) {
+//		this.subArtefactsCategory = new ArtefactCategory<Artefact>();
+//		subArtefactsCategory.setName(type.toString());
+//		
+//		int size = this.artefactsCategory.getChildren().size();
+//		
+//		for (int i = 0; i < size; i++) {
+//			if (i==size && this.artefactsCategory.getChildren().get(i).getName() != type.toString()) {
+//				this.subArtefactsCategory = new ArtefactCategory<Artefact>();
+//				subArtefactsCategory.setName(type.toString());
+//				this.artefactsCategory.getChildren().add(subArtefactsCategory);
+//			}
+//		}
+//	}
+	
+	
 }
