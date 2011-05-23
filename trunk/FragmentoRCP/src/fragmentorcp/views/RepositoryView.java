@@ -16,7 +16,6 @@ import fragmentorcp.views.treeviewer.provider.LabelProvider;
 import fragmentorcp.views.treeviewer.provider.TodoMockModel;
 import fragmentorcp.views.treeviewer.provider.TreeViewerOperator;
 import fragmentorcppresenter.ifaces.GuiModelPropertyChange_IViewPart;
-import fragmentorcppresenter.models.repository.ArtefactTypes;
 import fragmentorcppresenter.presenter.Presenter;
 
 public class RepositoryView extends GuiModelPropertyChange_IViewPart {

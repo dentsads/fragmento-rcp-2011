@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import fragmentorcppresenter.ifaces.IGuiModelPropertyChange;
+import fragmentorcppresenter.models.CreateNewItemBean;
 import fragmentorcppresenter.models.ModelAbstraction;
 import fragmentorcppresenter.models.OptionsWizardBean;
 import fragmentorcppresenter.models.RepositoryViewBean;
@@ -16,6 +17,7 @@ public class Presenter extends PresenterAbstraction<IGuiModelPropertyChange>{
 	private ModelAbstraction optionsWizardBean;
 	private ModelAbstraction repostoryViewBean;
 	private ModelAbstraction searchWizardBean;
+	private ModelAbstraction createNewItemBean;
 	
 	public Presenter() {	
 	}
@@ -32,6 +34,10 @@ public class Presenter extends PresenterAbstraction<IGuiModelPropertyChange>{
 		return searchWizardBean;
 	}
 	
+	public ModelAbstraction getCreateNewItemBean() {
+		return createNewItemBean;
+	}
+	
 	public void setNewOptionsWizardBean() {
 		this.optionsWizardBean = new OptionsWizardBean();
 		this.addModel(this.optionsWizardBean);
@@ -45,6 +51,11 @@ public class Presenter extends PresenterAbstraction<IGuiModelPropertyChange>{
 	public void setNewSearchWizardBean() {
 		this.searchWizardBean = new SearchWizardBean();
 		this.addModel(this.searchWizardBean);
+	}
+	
+	public void setNewCreateNewItemBean() {
+		this.createNewItemBean = new CreateNewItemBean();
+		this.addModel(this.createNewItemBean);
 	}
 	
 	public boolean isValidUrl(String url) {
