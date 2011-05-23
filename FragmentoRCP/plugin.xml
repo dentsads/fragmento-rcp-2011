@@ -154,6 +154,15 @@
             locationURI="popup:treePopupMenu">
          <command
                commandId="fragmentorcp.commands.toolbarRemainingCommand"
+               label="Delete"
+               style="push">
+            <parameter
+                  name="FragmentoRCP.WizardParameter"
+                  value="TOOLBAR_DELETE">
+            </parameter>
+         </command>
+         <command
+               commandId="fragmentorcp.commands.toolbarRemainingCommand"
                label="Expand All"
                style="push">
             <parameter

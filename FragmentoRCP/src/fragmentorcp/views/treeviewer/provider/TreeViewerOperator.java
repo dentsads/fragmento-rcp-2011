@@ -183,6 +183,7 @@ public class TreeViewerOperator {
 			ArtefactCategory<Artefact> sub = (ArtefactCategory<Artefact>)subArray[i]; 
 			if (sub.getName() == type.toString()) {
 				sub.getChildren().add(artefact);
+				viewer.refresh();
 			}
 		}
 	}
