@@ -20,6 +20,8 @@ public class toolbarRemainingCommandHandler extends AbstractHandler {
 			this.presenter.setModelProperty("expandAll", true);
 		} else if (wizardParameter.equalsIgnoreCase("TOOLBAR_COLLAPSE_ALL")) {
 			this.presenter.setModelProperty("collapseAll", true);
+		} else if (wizardParameter.equalsIgnoreCase("TOOLBAR_DELETE")) {
+			this.presenter.setModelProperty("deleteSelected", true);
 		}
 		
 		return null;

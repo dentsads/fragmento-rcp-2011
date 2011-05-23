@@ -61,7 +61,7 @@
                name="FragmentoRCP.separator1">
          </separator>
          <command
-               commandId="fragmentorcp.commands.openOptionsCommand"
+               commandId="fragmentorcp.commands.toolbarRemainingCommand"
                icon="icons/toolbar_delete.png"
                label="delete"
                style="push"
@@ -75,6 +75,10 @@
                   </equals>
                </with>
             </visibleWhen>
+            <parameter
+                  name="FragmentoRCP.WizardParameter"
+                  value="TOOLBAR_DELETE">
+            </parameter>
          </command>
          <separator
                name="FragmentoRCP.separator2"
