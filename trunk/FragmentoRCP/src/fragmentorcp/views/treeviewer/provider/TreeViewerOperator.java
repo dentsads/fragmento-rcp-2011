@@ -25,12 +25,19 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 //import org.eclipse.ui.part.DrillDownAdapter;
 
+import eu.compas_ict.www.fragmentservice.FragmentServiceStub.ArtefactDescriptorType;
+import eu.compas_ict.www.fragmentservice.FragmentServiceStub.ArtefactDescriptorsType;
+import eu.compas_ict.www.fragmentservice.FragmentServiceStub.ArtefactSelectorType;
+import eu.compas_ict.www.fragmentservice.FragmentServiceStub.ArtefactsType;
+import eu.compas_ict.www.fragmentservice.FragmentServiceStub.BrowseArtefactsResponseMessage;
+import eu.compas_ict.www.fragmentservice.FragmentServiceStub.Lock_type0;
 import fragmentService.FragmentoAxis;
 import fragmentorcppresenter.models.repository.Artefact;
 import fragmentorcppresenter.models.repository.ArtefactCategory;
 import fragmentorcppresenter.models.repository.ArtefactTypes;
 import fragmentorcppresenter.models.repository.IPlaceHolder;
 import fragmentorcppresenter.models.repository.Relation;
+import fragmentorcppresenter.models.repository.RelationsCategory;
 
 public class TreeViewerOperator {
 	 
@@ -90,31 +97,21 @@ public class TreeViewerOperator {
 		
 		action_openEditor = new Action() {
 			public void run() {
-				ISelection selection = viewer.getSelection();
-				Object obj = ((IStructuredSelection)selection).getFirstElement();
-
-				File fileToOpen = new File("externalfile.xml");
 				
-				try {
-					FileUtils.writeStringToFile(fileToOpen, fragmento.checkoutArtifact(
-					fragmento.browseArtifact_byDescription(obj.toString()).getArtefactDescriptors().getArtefact()[0].getArtefactId()).getArtefact().
-							getExtraElement().toString());
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				if (fileToOpen.exists() && fileToOpen.isFile()) {
-				    IFileStore fileStore = EFS.getLocalFileSystem().getStore(fileToOpen.toURI());
-				    IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				 
-				    try {
-				        IDE.openEditorOnFileStore( page, fileStore );				       
-				    } catch ( PartInitException e ) {
-				        //Put your exception handler here if you wish to
-				    }
+				if (viewer.getSelection().isEmpty()) {
+					showErrorMessage("Please select an artefact to complete operation.");
 				} else {
-				    //Do something if the file does not exist
-				}
+					ISelection selection = viewer.getSelection();
+					Object obj = ((IStructuredSelection)selection).getFirstElement();
+					
+					if (obj instanceof Artefact) {
+						openFile(((Artefact) obj),System.getProperty("java.io.tmpdir"),String.valueOf(((Artefact)obj).getArtefactID()));						
+					} else {
+						showErrorMessage("Please select an artefact to complete operation.");
+					}
+					
+				}				
+				
 			}
 		};
 		
@@ -123,8 +120,8 @@ public class TreeViewerOperator {
 	public void hookDoubleClickAction() {
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
 			public void doubleClick(DoubleClickEvent event) {
-				doubleClickAction.run();
-				//action_openEditor.run();
+				//doubleClickAction.run();
+				action_openEditor.run();
 			}
 		});
 	}
@@ -149,6 +146,146 @@ public class TreeViewerOperator {
 				message);
 	}
 	
+	public void init() {
+		ArtefactCategory<ArtefactCategory<Artefact>> artefactsCategory = new ArtefactCategory<ArtefactCategory<Artefact>>();
+		ArtefactCategory<Artefact> subArtefactsCategory = new ArtefactCategory<Artefact>();
+		
+		RelationsCategory<RelationsCategory<Relation>> relationsCategory = new RelationsCategory<RelationsCategory<Relation>>();
+		RelationsCategory<Relation> subRelationsCategory = new RelationsCategory<Relation>();
+		
+		Artefact artefact = new Artefact();
+		Relation relation = new Relation();
+		
+		artefactsCategory.setName("Artefacts");
+		mock.getCategories().add(artefactsCategory);
+		
+		subArtefactsCategory.setName(ArtefactTypes.WSDL.toString());
+		artefactsCategory.getChildren().add(subArtefactsCategory);
+		
+		loadArtefacts(ArtefactTypes.WSDL);
+		
+		subArtefactsCategory = new ArtefactCategory<Artefact>();
+		subArtefactsCategory.setName(ArtefactTypes.ANNOTATION.toString());
+		artefactsCategory.getChildren().add(subArtefactsCategory);
+		
+		loadArtefacts(ArtefactTypes.ANNOTATION);
+		
+		subArtefactsCategory = new ArtefactCategory<Artefact>();
+		subArtefactsCategory.setName(ArtefactTypes.CONTAINER.toString());
+		artefactsCategory.getChildren().add(subArtefactsCategory);
+		
+		loadArtefacts(ArtefactTypes.CONTAINER);
+		
+		subArtefactsCategory = new ArtefactCategory<Artefact>();
+		subArtefactsCategory.setName(ArtefactTypes.DEPLOYMENT_DESCRIPTOR.toString());
+		artefactsCategory.getChildren().add(subArtefactsCategory);
+		
+		loadArtefacts(ArtefactTypes.DEPLOYMENT_DESCRIPTOR);
+		
+		subArtefactsCategory = new ArtefactCategory<Artefact>();
+		subArtefactsCategory.setName(ArtefactTypes.FRAGMENT.toString());
+		artefactsCategory.getChildren().add(subArtefactsCategory);
+		
+		loadArtefacts(ArtefactTypes.FRAGMENT);
+		
+		subArtefactsCategory = new ArtefactCategory<Artefact>();
+		subArtefactsCategory.setName(ArtefactTypes.MODELLER_DATA.toString());
+		artefactsCategory.getChildren().add(subArtefactsCategory);
+		
+		loadArtefacts(ArtefactTypes.MODELLER_DATA);
+		
+		subArtefactsCategory = new ArtefactCategory<Artefact>();
+		subArtefactsCategory.setName(ArtefactTypes.PROCESS.toString());
+		artefactsCategory.getChildren().add(subArtefactsCategory);
+		
+		loadArtefacts(ArtefactTypes.PROCESS);
+		
+		subArtefactsCategory = new ArtefactCategory<Artefact>();
+		subArtefactsCategory.setName(ArtefactTypes.TRANSFORMATION_RULE.toString());
+		artefactsCategory.getChildren().add(subArtefactsCategory);
+		
+		loadArtefacts(ArtefactTypes.TRANSFORMATION_RULE);
+		
+		subArtefactsCategory = new ArtefactCategory<Artefact>();
+		subArtefactsCategory.setName(ArtefactTypes.MODELLER_DATA.toString());
+		artefactsCategory.getChildren().add(subArtefactsCategory);
+		
+		loadArtefacts(ArtefactTypes.MODELLER_DATA);
+
+
+	}
+	
+	private void openFile(Artefact artefact, String dir, String fileName) {
+		String postfix=".xml";
+		
+		switch (artefact.getArtefactType()) {
+		case WSDL:
+			postfix = ".wsdl";
+			break;
+		default:
+			break;
+		}
+		
+		File fileToOpen = new File(dir,fileName + postfix);
+		try {						
+			FileUtils.writeStringToFile(fileToOpen, fragmento.retrieveArtifact(artefact.
+					getArtefactID()).getArtefact().getExtraElement().toString());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block					
+		}
+		
+		if (fileToOpen.exists() && fileToOpen.isFile()) {
+		    IFileStore fileStore = EFS.getLocalFileSystem().getStore(fileToOpen.toURI());
+		    IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		 
+		    try {
+		        IDE.openEditorOnFileStore( page, fileStore );				       
+		    } catch ( PartInitException e ) {
+		        //Put your exception handler here if you wish to
+		    }
+		} else {							
+		}
+	}
+	
+	private void loadArtefacts(ArtefactTypes type) {
+		BrowseArtefactsResponseMessage response  = fragmento.browseArtifact_byType(typeAdapter(type));
+
+		int id;
+		String desc;
+		boolean checkedOut;
+		try {
+			ArtefactDescriptorType[] artefacts = response.getArtefactDescriptors().getArtefact();
+			
+			if (artefacts != null)
+			for (int i = 0; i < artefacts.length; i++) {
+				id = (int) artefacts[i].getArtefactId();
+				if (artefacts[i].getDescription().contains("<!--")) {
+					desc = (String) artefacts[i].getDescription().subSequence(0,artefacts[i].getDescription().indexOf("<!--")).toString().trim();
+				} else {
+					desc = artefacts[i].getDescription();
+				}
+				checkedOut =isCheckedOut(id);
+				addArtefact(id, desc, type, checkedOut);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+	}
+	
+	private boolean isCheckedOut(int id) {
+		Lock_type0[] locks = fragmento.browseLocks().getLockDescriptors().getLock();
+		
+		if (locks != null)
+		for (int i = 0; i < locks.length; i++) {
+			if (((int)locks[i].getArtefactId()) == id) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	public void deleteSelected() {
 		   if (viewer.getSelection().isEmpty()) {
 		       showErrorMessage("Please selected an item to complete operation.");
@@ -167,15 +304,96 @@ public class TreeViewerOperator {
 		   }
 	}
 	
-	public void addArtefact(int id, String desc,ArtefactTypes type, String content, boolean checkedOut) {
+	public void checkoutSelected() {
+		       IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+		       Object selectedDomainObject = selection.getFirstElement();	    	   
+		       Artefact item = (Artefact)selectedDomainObject;
+		       
+		           if (isCheckedOut(item.getArtefactID())) {
+		        	   if (!item.isCheckedOut()) {
+		        		   showErrorMessage("Artefact is already checked out by someone else!");
+		        	   } else {
+		        		   showErrorMessage("Artefact is already checked out!");
+		        	   }
+		        	   item.setCheckedOut(true);
+		        	   viewer.refresh();
+		           } else {
+		        	   fragmento.checkoutArtifact(item.getArtefactID());
+		        	   openFile(item,System.getProperty("java.io.tmpdir"),String.valueOf(item.getArtefactID()));
+		        	   item.setCheckedOut(true);
+		        	   viewer.refresh();
+		           }
+		      
+		   
+	}
+	
+	public void checkinSelected(String payload, boolean keepRelations) {
+		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+	    Object selectedDomainObject = selection.getFirstElement();	    	   
+	    Artefact item = (Artefact)selectedDomainObject;
+	    
+	    if (!isCheckedOut(item.getArtefactID())) {
+     	   if (!item.isCheckedOut()) {
+     		   showErrorMessage("Artefact cannot be checked in, because the repository reference was not checked out!");
+     	   } else {
+     		   showErrorMessage("Artefact cannot be checked in!");
+     	   }
+     	   item.setCheckedOut(false);
+     	   viewer.refresh();
+        } else {
+     	   fragmento.checkinArtifact((long)(item.getArtefactID()), typeAdapter(item.getArtefactType()),
+     			   item.getArtefactDescription(), payload, keepRelations);
+     	   openFile(item,System.getProperty("java.io.tmpdir"),String.valueOf(item.getArtefactID()));
+     	   item.setCheckedOut(false);
+     	   viewer.refresh();
+        }
+	    
+	}
+	
+	private String typeAdapter(ArtefactTypes type) {
+		String typeString = "";
+		
+		switch (type) {
+		case ANNOTATION:
+			typeString = "Annotation";
+			break;
+		case CONTAINER:
+			typeString = "Container";
+			break;
+		case DEPLOYMENT_DESCRIPTOR:
+			typeString = "Deployment Descriptor";
+			break;
+		case FRAGMENT:
+			typeString = "Fragment";
+			break;
+		case MODELLER_DATA:
+			typeString = "Modeller Data";
+			break;
+		case PROCESS:
+			typeString = "Process";
+			break;
+		case TRANSFORMATION_RULE:
+			typeString = "Transformation Rule";
+			break;
+		case WSDL:
+			typeString = "WSDL";
+			break;
+		default:
+			break;
+		}
+		
+		return typeString;
+	}
+	
+	public void addArtefact(int id, String desc,ArtefactTypes type, boolean checkedOut) {
 		Artefact artefact = new Artefact();
 		artefact.setArtefactID(id);
 		artefact.setArtefactDescription(desc);
 		artefact.setArtefactType(type);
 		artefact.setCheckedOut(checkedOut);
-		artefact.setArtefactContent(content);		
 		TodoMockModel input = (TodoMockModel)viewer.getInput();
 		ArrayList<IPlaceHolder> categories = (ArrayList<IPlaceHolder>) input.getCategories();
+		@SuppressWarnings("unchecked")
 		ArtefactCategory<ArtefactCategory<Artefact>> artefactsCategory = (ArtefactCategory<ArtefactCategory<Artefact>>)categories.get(0);
 		Object[] subArray = artefactsCategory.getChildren().toArray();
 		for (int i = 0; i < subArray.length; i++) {
@@ -191,6 +409,7 @@ public class TreeViewerOperator {
 	public void removeArtefact(int id, ArtefactTypes type) {
 		TodoMockModel input = (TodoMockModel)viewer.getInput();
 		ArrayList<IPlaceHolder> categories = (ArrayList<IPlaceHolder>) input.getCategories();
+		@SuppressWarnings("unchecked")
 		ArtefactCategory<ArtefactCategory<Artefact>> artefactsCategory = (ArtefactCategory<ArtefactCategory<Artefact>>)categories.get(0);
 		
 		Object[] subArray = artefactsCategory.getChildren().toArray();
@@ -210,4 +429,5 @@ public class TreeViewerOperator {
 			}
 		}
 	}
+	
 }

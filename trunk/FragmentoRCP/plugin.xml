@@ -33,6 +33,26 @@
                   value="TOOLBAR_OPTIONS">
             </parameter>
          </command>
+         <command
+               commandId="fragmentorcp.commands.toolbarRemainingCommand"
+               icon="icons/refresh.png"
+               label="Refresh"
+               style="push"
+               tooltip="refresh">
+            <parameter
+                  name="FragmentoRCP.WizardParameter"
+                  value="TOOLBAR_REFRESH">
+            </parameter>
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="FragmentoRCP.active">
+                  <equals
+                        value="ENABLED">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
          <separator
                name="FragmentoRCP.separator1"
                visible="true">
@@ -154,7 +174,50 @@
             locationURI="popup:treePopupMenu">
          <command
                commandId="fragmentorcp.commands.toolbarRemainingCommand"
-               label="Delete"
+               label="check out"
+               style="push">
+            <parameter
+                  name="FragmentoRCP.WizardParameter"
+                  value="CHECKOUT">
+            </parameter>
+            <visibleWhen>
+               <with
+                     variable="selection">
+                  <iterate>
+                     <instanceof
+                           value="fragmentorcppresenter.models.repository.Artefact">
+                     </instanceof>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="fragmentorcp.commands.toolbarRemainingCommand"
+               label="check in"
+               style="push">
+            <parameter
+                  name="FragmentoRCP.WizardParameter"
+                  value="CHECKIN">
+            </parameter>
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate>
+                     <instanceof
+                           value="fragmentorcppresenter.models.repository.Artefact">
+                     </instanceof>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+         <separator
+               name="FragmentoRCP.separator1"
+               visible="true">
+         </separator>
+         <command
+               commandId="fragmentorcp.commands.toolbarRemainingCommand"
+               label="delete"
                style="push">
             <parameter
                   name="FragmentoRCP.WizardParameter"
@@ -163,7 +226,7 @@
          </command>
          <command
                commandId="fragmentorcp.commands.toolbarRemainingCommand"
-               label="Expand All"
+               label="expand all"
                style="push">
             <parameter
                   name="FragmentoRCP.WizardParameter"
