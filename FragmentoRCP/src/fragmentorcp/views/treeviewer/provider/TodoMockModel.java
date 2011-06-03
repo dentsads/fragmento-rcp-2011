@@ -24,56 +24,6 @@ public class TodoMockModel {
 		return categories;
 	}
 	
-	public void init() {
-		ArtefactCategory<ArtefactCategory<Artefact>> artefactsCategory = new ArtefactCategory<ArtefactCategory<Artefact>>();
-		ArtefactCategory<Artefact> subArtefactsCategory = new ArtefactCategory<Artefact>();
-		
-		RelationsCategory<RelationsCategory<Relation>> relationsCategory = new RelationsCategory<RelationsCategory<Relation>>();
-		RelationsCategory<Relation> subRelationsCategory = new RelationsCategory<Relation>();
-		
-		Artefact artefact = new Artefact();
-		Relation relation = new Relation();
-		
-		artefactsCategory.setName("Artefacts");
-		categories.add(artefactsCategory);
-		
-		
-		subArtefactsCategory.setName(ArtefactTypes.ANNOTATION.toString());
-		artefactsCategory.getChildren().add(subArtefactsCategory);
-		
-		artefact.setArtefactID(1);
-		artefact.setArtefactDescription("blub studi");
-		artefact.setArtefactType(ArtefactTypes.ANNOTATION);
-		artefact.setCheckedOut(false);
-		subArtefactsCategory.getChildren().add(artefact);
-		
-		subArtefactsCategory = new ArtefactCategory<Artefact>();
-		subArtefactsCategory.setName(ArtefactTypes.WSDL.toString());
-		artefactsCategory.getChildren().add(subArtefactsCategory);
-		
-		artefact = new Artefact();
-		artefact.setArtefactID(2);
-		artefact.setArtefactDescription("foo bar");
-		artefact.setArtefactType(ArtefactTypes.WSDL);
-		artefact.setCheckedOut(false);
-		subArtefactsCategory.getChildren().add(artefact);
-		
-		
-		
-		relationsCategory.setName("Relations");
-		categories.add(relationsCategory);
-		
-		subRelationsCategory.setName(RelationTypes.CONTAINER.toString());
-		relationsCategory.getChildren().add(subRelationsCategory);
-		
-		relation.setRelationID(3);
-		relation.setRelationDescription("ssl slsls");
-		relation.setFromID(1);
-		relation.setToID(2);
-		relation.setRelationType(RelationTypes.CONTAINER);
-		subRelationsCategory.getChildren().add(relation);
-	}
-	
 //	public void createArtefactCategory(ArtefactTypes type) {
 //		this.subArtefactsCategory = new ArtefactCategory<Artefact>();
 //		subArtefactsCategory.setName(type.toString());

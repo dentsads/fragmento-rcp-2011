@@ -6,6 +6,9 @@ public class RepositoryViewBean extends ModelAbstraction {
 	private boolean expandAll;
 	private boolean viewerRefresh;
 	private boolean deleteSelected;
+	private boolean checkoutSelected;
+	private boolean checkinSelected;
+	private boolean refresh;
 	
 	public RepositoryViewBean() {
 		
@@ -45,6 +48,33 @@ public class RepositoryViewBean extends ModelAbstraction {
 
 	public boolean isDeleteSelected() {
 		return deleteSelected;
+	}
+
+	public void setCheckoutSelected(boolean checkoutSelected) {
+		propertyChangeSupport.firePropertyChange("checkoutSelected", this.checkoutSelected,
+				this.checkoutSelected = checkoutSelected);
+	}
+
+	public boolean isCheckoutSelected() {
+		return checkoutSelected;
+	}
+
+	public void setCheckinSelected(boolean checkinSelected) {
+		propertyChangeSupport.firePropertyChange("checkinSelected", this.checkinSelected,
+				this.checkinSelected = checkinSelected);
+	}
+
+	public boolean isCheckinSelected() {
+		return checkinSelected;
+	}
+
+	public void setRefresh(boolean refresh) {
+		propertyChangeSupport.firePropertyChange("refresh", this.refresh,
+				this.refresh = refresh);
+	}
+
+	public boolean isRefresh() {
+		return refresh;
 	}
 	
 }

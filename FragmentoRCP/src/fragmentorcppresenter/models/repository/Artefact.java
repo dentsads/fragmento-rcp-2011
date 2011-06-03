@@ -4,7 +4,6 @@ public class Artefact {
 	private int artefactID;
 	private ArtefactTypes artefactType;
 	private String artefactDescription;
-	private String artefactContent;
 	private boolean checkedOut;
 	
 	public int getArtefactID() {
@@ -24,12 +23,6 @@ public class Artefact {
 	}
 	public void setArtefactDescription(String artefactDescription) {
 		this.artefactDescription = artefactDescription;
-	}
-	public String getArtefactContent() {
-		return artefactContent;
-	}
-	public void setArtefactContent(String artefactContent) {
-		this.artefactContent = artefactContent;
 	}
 	public boolean isCheckedOut() {
 		return checkedOut;
