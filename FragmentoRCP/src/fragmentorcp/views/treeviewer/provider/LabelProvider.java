@@ -8,6 +8,7 @@ import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
@@ -39,6 +40,7 @@ public class LabelProvider extends StyledCellLabelProvider {
 			text.append(category.getName());
 			cell.setImage(PlatformUI.getWorkbench().getSharedImages()
 					.getImage(ISharedImages.IMG_OBJ_FOLDER));
+			if (category.getName() != "Artefacts")
 			text.append(" ( " +category.getChildren().size() + " ) ", StyledString.COUNTER_STYLER);
 			//text.append(" ( " + "c" + " ) ", StyledString.DECORATIONS_STYLER);			
 		} else if (element instanceof Artefact) {
@@ -58,6 +60,7 @@ public class LabelProvider extends StyledCellLabelProvider {
 			text.append(category.getName());
 			cell.setImage(PlatformUI.getWorkbench().getSharedImages()
 					.getImage(ISharedImages.IMG_OBJ_FOLDER));
+			if (category.getName() != "Relations")
 			text.append(" ( " +category.getChildren().size() + " ) ", StyledString.COUNTER_STYLER);
 		} else if (element instanceof Relation) {
 			Relation relation = (Relation) element;
@@ -71,4 +74,41 @@ public class LabelProvider extends StyledCellLabelProvider {
 		cell.setStyleRanges(text.getStyleRanges());
 		super.update(cell);
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.ViewerLabelProvider#getTooltipText(java.lang.Object)
+	*/
+	@Override
+	 public String getToolTipText(Object element) {
+		if (element instanceof Relation) {
+			Relation relation = (Relation)element;
+			return "from ID " + relation.getFromID() + " -- " + "to ID " + relation.getToID();
+		}
+	     return null;
+	  }
+		
+	 /* (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.ViewerLabelProvider#getTooltipShift(java.lang.Object)
+	 */
+	@Override
+	 public Point getToolTipShift(Object object) {
+		return new Point(5,5);
+	 }
+		
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.ViewerLabelProvider#getTooltipDisplayDelayTime(java.lang.Object)
+	*/
+	@Override
+	 public int getToolTipDisplayDelayTime(Object object) {
+	   return 400;
+	 }
+		
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.ViewerLabelProvider#getTooltipTimeDisplayed(java.lang.Object)
+	*/
+	@Override
+	public int getToolTipTimeDisplayed(Object object) {
+		   return 5000;
+	}
+	
 }

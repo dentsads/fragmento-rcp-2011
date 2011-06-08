@@ -28,6 +28,8 @@ public class toolbarRemainingCommandHandler extends AbstractHandler {
 			this.presenter.setModelProperty("checkinSelected", true);
 		} else if (wizardParameter.equalsIgnoreCase("TOOLBAR_REFRESH")) {
 			this.presenter.setModelProperty("refresh", true);
+		} else if (wizardParameter.equalsIgnoreCase("DELETE_FROM_REPO")) {
+			this.presenter.setModelProperty("deleteFromRepoSelected", true);
 		}
 		
 		return null;

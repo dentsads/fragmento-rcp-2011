@@ -25,7 +25,7 @@
          <command
                commandId="fragmentorcp.commands.openOptionsCommand"
                icon="icons/toolbar_options.png"
-               label="Options"
+               label="options"
                style="push"
                tooltip="options">
             <parameter
@@ -36,7 +36,7 @@
          <command
                commandId="fragmentorcp.commands.toolbarRemainingCommand"
                icon="icons/refresh.png"
-               label="Refresh"
+               label="refresh"
                style="push"
                tooltip="refresh">
             <parameter
@@ -85,7 +85,7 @@
                icon="icons/toolbar_delete.png"
                label="delete"
                style="push"
-               tooltip="delete">
+               tooltip="delete from tree">
             <visibleWhen
                   checkEnabled="false">
                <with
@@ -217,13 +217,58 @@
          </separator>
          <command
                commandId="fragmentorcp.commands.toolbarRemainingCommand"
-               label="delete"
+               label="delete from tree"
                style="push">
             <parameter
                   name="FragmentoRCP.WizardParameter"
                   value="TOOLBAR_DELETE">
             </parameter>
+            <visibleWhen
+                  checkEnabled="false">
+               <or>
+                  <with
+                        variable="selection">
+                     <iterate>
+                        <instanceof
+                              value="fragmentorcppresenter.models.repository.Relation">
+                        </instanceof>
+                     </iterate>
+                  </with>
+                  <with
+                        variable="selection">
+                     <iterate>
+                        <instanceof
+                              value="fragmentorcppresenter.models.repository.Artefact">
+                        </instanceof>
+                     </iterate>
+                  </with>
+               </or>
+            </visibleWhen>
          </command>
+         <command
+               commandId="fragmentorcp.commands.toolbarRemainingCommand"
+               label="delete from repo"
+               style="push">
+            <parameter
+                  name="FragmentoRCP.WizardParameter"
+                  value="DELETE_FROM_REPO">
+            </parameter>
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate>
+                     <instanceof
+                           value="fragmentorcppresenter.models.repository.Relation">
+                     </instanceof>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+         <separator
+               name="FragmentoRCP.separator2"
+               visible="true">
+         </separator>
          <command
                commandId="fragmentorcp.commands.toolbarRemainingCommand"
                label="expand all"
@@ -231,6 +276,15 @@
             <parameter
                   name="FragmentoRCP.WizardParameter"
                   value="TOOLBAR_EXPAND_ALL">
+            </parameter>
+         </command>
+         <command
+               commandId="fragmentorcp.commands.toolbarRemainingCommand"
+               label="collapse all"
+               style="push">
+            <parameter
+                  name="FragmentoRCP.WizardParameter"
+                  value="TOOLBAR_COLLAPSE_ALL">
             </parameter>
          </command>
       </menuContribution>

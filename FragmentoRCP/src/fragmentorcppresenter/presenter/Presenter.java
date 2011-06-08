@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import fragmentorcp.views.treeviewer.provider.TreeViewerOperator;
 import fragmentorcppresenter.ifaces.IGuiModelPropertyChange;
 import fragmentorcppresenter.models.CreateNewItemBean;
 import fragmentorcppresenter.models.ModelAbstraction;
@@ -18,6 +19,8 @@ public class Presenter extends PresenterAbstraction<IGuiModelPropertyChange>{
 	private ModelAbstraction repostoryViewBean;
 	private ModelAbstraction searchWizardBean;
 	private ModelAbstraction createNewItemBean;
+	
+	private TreeViewerOperator operator;
 	
 	public Presenter() {	
 	}
@@ -58,6 +61,14 @@ public class Presenter extends PresenterAbstraction<IGuiModelPropertyChange>{
 		this.addModel(this.createNewItemBean);
 	}
 	
+	public void setOperator(TreeViewerOperator operator) {
+		this.operator = operator;
+	}
+
+	public TreeViewerOperator getOperator() {
+		return operator;
+	}
+
 	public boolean isValidUrl(String url) {
 		try {
 			HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();

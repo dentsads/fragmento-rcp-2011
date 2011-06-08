@@ -11,7 +11,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
@@ -31,7 +33,7 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 	public static final String ID = "FragmentoRCP.RepositoryView";
 	private TreeViewer viewer;	
 	private Presenter presenter;
-	private TreeViewerOperator operator;
+	//private TreeViewerOperator operator;
 	TodoMockModel mock = new TodoMockModel();
 	
 	public RepositoryView() {
@@ -48,21 +50,22 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 				| SWT.V_SCROLL);
 		//drillDownAdapter = new DrillDownAdapter(viewer);
 		viewer.setContentProvider(new ContentProvider());
+		ColumnViewerToolTipSupport.enableFor(viewer,ToolTip.NO_RECREATE);
 		viewer.setLabelProvider(new LabelProvider());
 		// Expand the tree 
 		viewer.setAutoExpandLevel(2);
 		// Provide the input to the ContentProvider
 		
 		viewer.setInput(mock);
-		this.operator = new TreeViewerOperator(viewer,mock);
+		this.presenter.setOperator(new TreeViewerOperator(viewer,mock));
 		
-		operator.init();
+		this.presenter.getOperator().init();
 		viewer.refresh();
 		
 		viewer.expandAll();
-		this.operator.makeActions();
+		this.presenter.getOperator().makeActions();
 		hookContextMenu();
-		this.operator.hookDoubleClickAction();
+		this.presenter.getOperator().hookDoubleClickAction();
 		getSite().setSelectionProvider(viewer);
 	}
 	
@@ -72,7 +75,7 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
 			public void menuAboutToShow(IMenuManager manager) {
-				operator.fillContextMenu(manager);
+				presenter.getOperator().fillContextMenu(manager);
 			}
 		});
 		Menu menu = menuMgr.createContextMenu(viewer.getControl());
@@ -104,18 +107,20 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 			}
 		} else if (event.getPropertyName().equals("deleteSelected")) {
 			if ((Boolean)event.getNewValue()) {
-				operator.deleteSelected();
+				this.presenter.getOperator().deleteSelected(false);
 				this.presenter.setModelProperty("deleteSelected", false);
 			}
 		} else if (event.getPropertyName().equals("checkoutSelected")) {
 			if ((Boolean)event.getNewValue()) {
-				operator.checkoutSelected();
+				this.presenter.getOperator().checkoutSelected();
 				this.presenter.setModelProperty("checkoutSelected", false);
 			}
 		} else if (event.getPropertyName().equals("checkinSelected")) {
 			if ((Boolean)event.getNewValue()) {
 				IEditorPart  editorPart =
 					getSite().getWorkbenchWindow().getActivePage().getActiveEditor();
+				
+				if (editorPart != null) {
 				 FileStoreEditorInput input = (FileStoreEditorInput)editorPart.getEditorInput();
 				 
 				 java.net.URI uri = input.getURI(); 
@@ -123,7 +128,7 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 				 try {
 					File file = location.toLocalFile(EFS.NONE, null);
 					String content = FileUtils.readFileToString(file);
-					operator.checkinSelected(content,true);
+					this.presenter.getOperator().checkinSelected(content,true);
 					this.presenter.setModelProperty("refresh", true);
 					//System.out.println(content);
 				} catch (CoreException e) {
@@ -134,15 +139,25 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 					e.printStackTrace();
 				} 
 				
+				} else {
+					this.presenter.getOperator().showErrorMessage("No active file opened on workbench in order to check in!");
+				}
+				
 				this.presenter.setModelProperty("checkinSelected", false);
 			}
 		} else if (event.getPropertyName().equals("refresh")) {
 			if ((Boolean)event.getNewValue()) {
 				mock.getCategories().clear();
-				operator.init();
+				this.presenter.getOperator().init();
 				viewer.expandAll();
 				viewer.refresh();
 				this.presenter.setModelProperty("refresh", false);
+			}
+		} else if (event.getPropertyName().equals("deleteFromRepoSelected")) {
+			if ((Boolean)event.getNewValue()) {
+				this.presenter.getOperator().deleteSelected(true);
+				viewer.refresh();
+				this.presenter.setModelProperty("deleteFromRepoSelected", false);
 			}
 		}
 	}
