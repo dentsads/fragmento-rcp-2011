@@ -25,18 +25,26 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 //import org.eclipse.ui.part.DrillDownAdapter;
 
+import eu.compas_ict.www.fragmentservice.FragmentServiceStub;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.ArtefactDescriptorType;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.ArtefactDescriptorsType;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.ArtefactSelectorType;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.ArtefactsType;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.BrowseArtefactsResponseMessage;
+import eu.compas_ict.www.fragmentservice.FragmentServiceStub.BrowseRelationsResponseMessage;
+import eu.compas_ict.www.fragmentservice.FragmentServiceStub.CreateArtefactResponseMessage;
+import eu.compas_ict.www.fragmentservice.FragmentServiceStub.CreateRelationResponseMessage;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.Lock_type0;
+import eu.compas_ict.www.fragmentservice.FragmentServiceStub.Relation_type2;
+import eu.compas_ict.www.fragmentservice.FragmentServiceStub.RelationsType;
+import eu.compas_ict.www.fragmentservice.FragmentServiceStub.RetrieveRelationResponseMessage;
 import fragmentService.FragmentoAxis;
 import fragmentorcppresenter.models.repository.Artefact;
 import fragmentorcppresenter.models.repository.ArtefactCategory;
 import fragmentorcppresenter.models.repository.ArtefactTypes;
 import fragmentorcppresenter.models.repository.IPlaceHolder;
 import fragmentorcppresenter.models.repository.Relation;
+import fragmentorcppresenter.models.repository.RelationTypes;
 import fragmentorcppresenter.models.repository.RelationsCategory;
 
 public class TreeViewerOperator {
@@ -48,6 +56,8 @@ public class TreeViewerOperator {
 	private Action doubleClickAction;
 	@SuppressWarnings("unused")
 	private Action action_openEditor;
+	private ArrayList<String> ArtefactList = new ArrayList<String>();
+	
 	
 	FragmentoAxis fragmento = new FragmentoAxis();
 	TodoMockModel mock;
@@ -139,7 +149,7 @@ public class TreeViewerOperator {
 			message);	
 	}
 	
-	private void showErrorMessage(String message) {
+	public void showErrorMessage(String message) {
 		MessageDialog.openError(
 				viewer.getControl().getShell(),
 				"Error",
@@ -153,9 +163,7 @@ public class TreeViewerOperator {
 		RelationsCategory<RelationsCategory<Relation>> relationsCategory = new RelationsCategory<RelationsCategory<Relation>>();
 		RelationsCategory<Relation> subRelationsCategory = new RelationsCategory<Relation>();
 		
-		Artefact artefact = new Artefact();
-		Relation relation = new Relation();
-		
+		this.getArtefactList().clear();
 		artefactsCategory.setName("Artefacts");
 		mock.getCategories().add(artefactsCategory);
 		
@@ -212,7 +220,67 @@ public class TreeViewerOperator {
 		
 		loadArtefacts(ArtefactTypes.MODELLER_DATA);
 
-
+		/////////// RELATIONS /////////////
+		
+		relationsCategory.setName("Relations");
+		mock.getCategories().add(relationsCategory);
+		
+		subRelationsCategory.setName(RelationTypes.ANNOTATION.toString());
+		relationsCategory.getChildren().add(subRelationsCategory);
+		
+		loadRelations(RelationTypes.ANNOTATION);
+		
+		subRelationsCategory = new RelationsCategory<Relation>();
+		subRelationsCategory.setName(RelationTypes.CONTAINER.toString());
+		relationsCategory.getChildren().add(subRelationsCategory);
+		
+		loadRelations(RelationTypes.CONTAINER);
+		
+		subRelationsCategory = new RelationsCategory<Relation>();
+		subRelationsCategory.setName(RelationTypes.DEPLOYMENT.toString());
+		relationsCategory.getChildren().add(subRelationsCategory);
+		
+		loadRelations(RelationTypes.DEPLOYMENT);
+		
+		subRelationsCategory = new RelationsCategory<Relation>();
+		subRelationsCategory.setName(RelationTypes.MODELLER_DATA.toString());
+		relationsCategory.getChildren().add(subRelationsCategory);
+		
+		loadRelations(RelationTypes.MODELLER_DATA);
+		
+		subRelationsCategory = new RelationsCategory<Relation>();
+		subRelationsCategory.setName(RelationTypes.TRANSFORMATION.toString());
+		relationsCategory.getChildren().add(subRelationsCategory);
+		
+		loadRelations(RelationTypes.TRANSFORMATION);
+		
+		subRelationsCategory = new RelationsCategory<Relation>();
+		subRelationsCategory.setName(RelationTypes.WSDL.toString());
+		relationsCategory.getChildren().add(subRelationsCategory);
+		
+		loadRelations(RelationTypes.WSDL);
+	}
+	
+	public void createNewArtefact(String type, String desc, String payload) {		
+		
+		CreateArtefactResponseMessage artefact  = fragmento.createArtifact(type, desc, payload);
+		if (artefact == null) {
+			this.showErrorMessage("Content is no valid format!");
+		} else {
+			this.addArtefact((int)artefact.getArtefactId(), desc, artefactInverseAdapter(type), false);
+			viewer.refresh();
+		}
+	}
+	
+	public void createNewRelation(String type, String desc, int fromId, int toId) {
+		CreateRelationResponseMessage relation = fragmento.createRelation(desc, fromId, toId, this.relationInverseAdapter(type));
+		
+		if (relation == null) {
+			this.showErrorMessage("Either source ID or target ID doesn't exist anymore!");
+		} else {
+			this.addRelation((int)relation.getRelationId(), desc, relationInverseAdapter2(type), fromId, toId);
+			viewer.refresh();
+		}
 	}
 	
 	private void openFile(Artefact artefact, String dir, String fileName) {
@@ -230,8 +298,7 @@ public class TreeViewerOperator {
 		try {						
 			FileUtils.writeStringToFile(fileToOpen, fragmento.retrieveArtifact(artefact.
 					getArtefactID()).getArtefact().getExtraElement().toString());
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block					
+		} catch (IOException e1) {				
 		}
 		
 		if (fileToOpen.exists() && fileToOpen.isFile()) {
@@ -248,7 +315,7 @@ public class TreeViewerOperator {
 	}
 	
 	private void loadArtefacts(ArtefactTypes type) {
-		BrowseArtefactsResponseMessage response  = fragmento.browseArtifact_byType(typeAdapter(type));
+		BrowseArtefactsResponseMessage response  = fragmento.browseArtifact_byType(artefactAdapter(type));
 
 		int id;
 		String desc;
@@ -269,10 +336,43 @@ public class TreeViewerOperator {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			// TODO: handle exception
 		}
 	}
 	
+	private void loadRelations(RelationTypes type) {
+		BrowseRelationsResponseMessage response  = fragmento.browseRelation_byType(relationAdapter(type));
+
+		int id;
+		String desc;
+		int fromId;
+		int toId;
+		try {
+			Relation_type2[] relations = response.getRelations().getRelation();
+			if (relations != null)
+			for (int i = 0; i < relations.length; i++) {
+				id = (int) relations[i].getRelationId();
+				if (relations[i].getDescription().contains("<!--")) {
+					desc = (String) relations[i].getDescription().subSequence(0,relations[i].getDescription().indexOf("<!--")).toString().trim();
+				} else {
+					desc = relations[i].getDescription();
+				}
+				fromId = (int)relations[i].getFrom();
+				toId = (int)relations[i].getTo();
+				addRelation(id, desc, type, fromId,toId);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setArtefactList(ArrayList<String> artefactList) {
+		ArtefactList = artefactList;
+	}
+
+	public ArrayList<String> getArtefactList() {
+		return ArtefactList;
+	}
+
 	private boolean isCheckedOut(int id) {
 		Lock_type0[] locks = fragmento.browseLocks().getLockDescriptors().getLock();
 		
@@ -286,7 +386,7 @@ public class TreeViewerOperator {
 		return false;
 	}
 	
-	public void deleteSelected() {
+	public void deleteSelected(boolean fromRepo) {
 		   if (viewer.getSelection().isEmpty()) {
 		       showErrorMessage("Please selected an item to complete operation.");
 		   } else {
@@ -297,7 +397,15 @@ public class TreeViewerOperator {
 		           removeArtefact(item.getArtefactID(),item.getArtefactType());
 		       } else if (selectedDomainObject instanceof Relation){
 		    	   Relation item = (Relation)selectedDomainObject;
-		    	   showMessage("Attention", "This functionality is coming soon.");
+		    	   if (fromRepo) {
+		    		   //if (relationExists(item.getRelationID())) {
+		    			   fragmento.deleteRelation((long)item.getRelationID());
+		    			//   showMessage("relation exists");
+		    		   //} else {
+		    		//	   showMessage("Relation was already deleted from the repository!");
+		    		  // }
+		    	   }
+		    	   removeRelation(item.getRelationID(),item.getRelationType());
 		       } else {;
 				showErrorMessage("Please select an item instead of a category!");
 			}
@@ -341,7 +449,7 @@ public class TreeViewerOperator {
      	   item.setCheckedOut(false);
      	   viewer.refresh();
         } else {
-     	   fragmento.checkinArtifact((long)(item.getArtefactID()), typeAdapter(item.getArtefactType()),
+     	   fragmento.checkinArtifact((long)(item.getArtefactID()), artefactAdapter(item.getArtefactType()),
      			   item.getArtefactDescription(), payload, keepRelations);
      	   openFile(item,System.getProperty("java.io.tmpdir"),String.valueOf(item.getArtefactID()));
      	   item.setCheckedOut(false);
@@ -350,7 +458,7 @@ public class TreeViewerOperator {
 	    
 	}
 	
-	private String typeAdapter(ArtefactTypes type) {
+	private String artefactAdapter(ArtefactTypes type) {
 		String typeString = "";
 		
 		switch (type) {
@@ -385,9 +493,103 @@ public class TreeViewerOperator {
 		return typeString;
 	}
 	
+	private ArtefactTypes artefactInverseAdapter(String type) {
+		ArtefactTypes typeString = ArtefactTypes.ANNOTATION;
+		
+		if (type == "Annotation") {
+			typeString = ArtefactTypes.ANNOTATION;
+		} else if (type == "Container") {
+			typeString = ArtefactTypes.CONTAINER;
+		} else if (type == "Deployment Descriptor") {
+			typeString = ArtefactTypes.DEPLOYMENT_DESCRIPTOR;
+		} else if (type == "Fragment") {
+			typeString = ArtefactTypes.FRAGMENT;
+		} else if (type == "Modeller Data") {
+			typeString = ArtefactTypes.MODELLER_DATA;
+		} else if (type == "Process") {
+			typeString = ArtefactTypes.PROCESS;
+		} else if (type == "Transformation Rule") {
+			typeString = ArtefactTypes.TRANSFORMATION_RULE;
+		} else if (type == "WSDL") {
+			typeString = ArtefactTypes.WSDL;
+		}
+		
+		return typeString;
+	}
+	
+	private FragmentServiceStub.RelationTypeSchemaType relationInverseAdapter(String type) {
+		FragmentServiceStub.RelationTypeSchemaType typeString = FragmentServiceStub.RelationTypeSchemaType.annotation;
+		
+		if (type == "annotation") {
+			typeString = FragmentServiceStub.RelationTypeSchemaType.annotation;
+		} else if (type == "container") {
+			typeString = FragmentServiceStub.RelationTypeSchemaType.container;
+		} else if (type == "deployment") {
+			typeString = FragmentServiceStub.RelationTypeSchemaType.deployment;
+		} else if (type == "modeller") {
+			typeString = FragmentServiceStub.RelationTypeSchemaType.modeller;
+		} else if (type == "transformation") {
+			typeString = FragmentServiceStub.RelationTypeSchemaType.transformation;
+		}  else if (type == "wsdl") {
+			typeString = FragmentServiceStub.RelationTypeSchemaType.wsdl;
+		}
+		
+		return typeString;
+	}
+	
+	private RelationTypes relationInverseAdapter2(String type) {
+		RelationTypes typeString = RelationTypes.ANNOTATION;
+		
+		if (type == "annotation") {
+			typeString = RelationTypes.ANNOTATION;
+		} else if (type == "container") {
+			typeString = RelationTypes.CONTAINER;
+		} else if (type == "deployment") {
+			typeString = RelationTypes.DEPLOYMENT;
+		} else if (type == "modeller") {
+			typeString = RelationTypes.MODELLER_DATA;
+		} else if (type == "transformation") {
+			typeString = RelationTypes.TRANSFORMATION;
+		}  else if (type == "wsdl") {
+			typeString = RelationTypes.WSDL;
+		}
+		
+		return typeString;
+	}
+	
+	private String relationAdapter(RelationTypes type) {
+		String typeString = "";
+		
+		switch (type) {
+		case ANNOTATION:
+			typeString = "annotation";
+			break;
+		case CONTAINER:
+			typeString = "container";
+			break;
+		case DEPLOYMENT:
+			typeString = "deployment";
+			break;
+		case MODELLER_DATA:
+			typeString = "modeller";
+			break;
+		case TRANSFORMATION:
+			typeString = "transformation";
+			break;
+		case WSDL:
+			typeString = "wsdl";
+			break;
+		default:
+			break;
+		}
+		
+		return typeString;
+	}
+	
 	public void addArtefact(int id, String desc,ArtefactTypes type, boolean checkedOut) {
 		Artefact artefact = new Artefact();
 		artefact.setArtefactID(id);
+		this.getArtefactList().add(String.valueOf(id));
 		artefact.setArtefactDescription(desc);
 		artefact.setArtefactType(type);
 		artefact.setCheckedOut(checkedOut);
@@ -401,6 +603,29 @@ public class TreeViewerOperator {
 			ArtefactCategory<Artefact> sub = (ArtefactCategory<Artefact>)subArray[i]; 
 			if (sub.getName() == type.toString()) {
 				sub.getChildren().add(artefact);
+				viewer.refresh();
+			}
+		}
+	}
+	
+	public void addRelation(int id, String desc,RelationTypes type, int fromId, int toId) {
+		Relation relation = new Relation();
+		relation.setRelationID(id);
+		relation.setRelationDescription(desc);
+		relation.setRelationType(type);
+		relation.setFromID(fromId);
+		relation.setToID(toId);
+		
+		TodoMockModel input = (TodoMockModel)viewer.getInput();
+		ArrayList<IPlaceHolder> categories = (ArrayList<IPlaceHolder>) input.getCategories();
+		@SuppressWarnings("unchecked")
+		RelationsCategory<RelationsCategory<Relation>> relationsCategory = (RelationsCategory<RelationsCategory<Relation>>)categories.get(1);
+		Object[] subArray = relationsCategory.getChildren().toArray();
+		for (int i = 0; i < subArray.length; i++) {
+			@SuppressWarnings("unchecked")
+			RelationsCategory<Relation> sub = (RelationsCategory<Relation>)subArray[i]; 
+			if (sub.getName() == type.toString()) {
+				sub.getChildren().add(relation);
 				viewer.refresh();
 			}
 		}
@@ -422,6 +647,30 @@ public class TreeViewerOperator {
 				for (int j = 0; j < subArt.length; j++) {
 					Artefact sub2 = (Artefact)subArt[j];
 					if (sub2.getArtefactID() == id) {
+						sub.getChildren().remove(sub2);
+						viewer.refresh();
+					}
+				}
+			}
+		}
+	}
+	
+	public void removeRelation(int id, RelationTypes type) {
+		TodoMockModel input = (TodoMockModel)viewer.getInput();
+		ArrayList<IPlaceHolder> categories = (ArrayList<IPlaceHolder>) input.getCategories();
+		@SuppressWarnings("unchecked")
+		RelationsCategory<RelationsCategory<Relation>> relationsCategory = (RelationsCategory<RelationsCategory<Relation>>)categories.get(1);
+		
+		Object[] subArray = relationsCategory.getChildren().toArray();
+		for (int i = 0; i < subArray.length; i++) {
+			@SuppressWarnings("unchecked")
+			RelationsCategory<Relation> sub = (RelationsCategory<Relation>)subArray[i]; 
+			if (sub.getName() == type.toString()) {
+				
+				Object[] subArt = sub.getChildren().toArray();
+				for (int j = 0; j < subArt.length; j++) {
+					Relation sub2 = (Relation)subArt[j];
+					if (sub2.getRelationID() == id) {
 						sub.getChildren().remove(sub2);
 						viewer.refresh();
 					}
