@@ -1,6 +1,7 @@
 package fragmentorcp.wizards.pages;
 
 import java.beans.PropertyChangeEvent;
+import java.util.Calendar;
 
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
@@ -72,6 +73,7 @@ public class SearchWizardPage1 extends GuiModelPropertyChange_IWizardPage  {
 	
 	private Presenter presenter;
 	private Button btnSearch;
+	private Button btnSearch_1;
 	
 	public SearchWizardPage1(String pageName) {
 		super(pageName);
@@ -266,10 +268,6 @@ public class SearchWizardPage1 extends GuiModelPropertyChange_IWizardPage  {
         btnSearch.setText("Search");
         btnSearch.setEnabled(false);
         
-        Label lblNewLabel_1 = new Label(composite_1, SWT.NONE);
-        lblNewLabel_1.setBounds(203, 691, 249, 15);
-        lblNewLabel_1.setText("New Label");
-        
         //////////////////// RELATIONS SEARCH////////////////////////
         
         TabItem tbtmRelationSearch = new TabItem(tabFolder, SWT.NONE);
@@ -287,16 +285,22 @@ public class SearchWizardPage1 extends GuiModelPropertyChange_IWizardPage  {
             public void widgetSelected(SelectionEvent e) {
                if (combo_3.getText().equals(combo_3.getItems()[0])) {
             	   comboItemEnabler(0,1);
+            	   btnSearch_1.setEnabled(true);
                } else if (combo_3.getText().equals(combo_3.getItems()[1])) {
             	   comboItemEnabler(1,1);
+            	   btnSearch_1.setEnabled(true);
                } else if (combo_3.getText().equals(combo_3.getItems()[2])) {
             	   comboItemEnabler(2,1);
+            	   btnSearch_1.setEnabled(true);
                } else if (combo_3.getText().equals(combo_3.getItems()[3])) {
             	   comboItemEnabler(3,1);
+            	   btnSearch_1.setEnabled(true);
                } else if (combo_3.getText().equals(combo_3.getItems()[4])) {
             	   comboItemEnabler(4,1);
+            	   btnSearch_1.setEnabled(true);
                } else if (combo_3.getText().equals(combo_3.getItems()[5])) {
             	   comboItemEnabler(5,1);
+            	   btnSearch_1.setEnabled(true);
                }
             }
            });
@@ -404,17 +408,20 @@ public class SearchWizardPage1 extends GuiModelPropertyChange_IWizardPage  {
         label_13.setBounds(10, 41, 184, 15);
         
         combo_5 = new Combo(group_5, SWT.READ_ONLY);
-        combo_5.setItems(new String[] {"Annotation", "Container", "Deployment Descriptor", "Fragment", "Modeller Data", "Process", "Transformation Rule", "WSDL"});
+        combo_5.setItems(new String[] {"annotation", "container", "wsdl", "deployment", "modeller", "transformation"});
         combo_5.setEnabled(false);
         combo_5.setBounds(200, 34, 187, 27);
         
-        Button btnSearch_1 = new Button(composite_2, SWT.NONE);
+        btnSearch_1 = new Button(composite_2, SWT.NONE);
+        btnSearch_1.addSelectionListener(new SelectionAdapter() {
+        	@Override
+        	public void widgetSelected(SelectionEvent e) {
+        		presenter.setModelProperty("btnSearch_1", true);
+        	}
+        });
+        btnSearch_1.setEnabled(false);
         btnSearch_1.setBounds(458, 687, 84, 27);
         btnSearch_1.setText("Search");
-        
-        Label lblNewLabel_2 = new Label(composite_2, SWT.NONE);
-        lblNewLabel_2.setBounds(246, 699, 206, 15);
-        lblNewLabel_2.setText("New Label");
 
 	}
 	
@@ -535,14 +542,50 @@ public class SearchWizardPage1 extends GuiModelPropertyChange_IWizardPage  {
 				if (combo.getText().equals(combo.getItems()[0])) {
 					 this.presenter.getOperator().browseArtefactDescription(text.getText());
 	               } else if (combo.getText().equals(combo.getItems()[1])) {
+	            	   this.presenter.getOperator().browseArtefactContent(text_1.getText());
 	               } else if (combo.getText().equals(combo.getItems()[2])) {
 	            	   this.presenter.getOperator().browseArtefactType(combo_1.getText());	   
-	               } else if (combo.getText().equals(combo.getItems()[3])) {         	   
+	               } else if (combo.getText().equals(combo.getItems()[3])) {
+	            	   Calendar from = Calendar.getInstance();
+	            	   Calendar to = Calendar.getInstance();
+	            	   from.set(dateTime.getYear(), dateTime.getMonth(), dateTime.getDay());
+	            	   to.set(dateTime_1.getYear(), dateTime_1.getMonth(), dateTime_1.getDay());
+	            	   this.presenter.getOperator().browseArtefactDate(from,to);	
 	               } else if (combo.getText().equals(combo.getItems()[4])) {
+	            	   Calendar from = Calendar.getInstance();
+	            	   Calendar to = Calendar.getInstance();
+	            	   from.set(dateTime_2.getYear(), dateTime_2.getMonth(), dateTime_2.getDay());
+	            	   to.set(dateTime_3.getYear(), dateTime_3.getMonth(), dateTime_3.getDay());
+	            	   this.presenter.getOperator().browseArtefactDateType(from,to, combo_2.getText());
 	               } else if (combo.getText().equals(combo.getItems()[5])) {
 	               }
 				this.setPageComplete(true);
 				this.presenter.setModelProperty("btnSearch", false);
+			}
+		} else if (event.getPropertyName().equals("btnSearch_1")) {
+			if ((Boolean)event.getNewValue()) {
+				if (combo_3.getText().equals(combo_3.getItems()[0])) {
+					 this.presenter.getOperator().browseRelationType(combo_4.getText());
+	               } else if (combo_3.getText().equals(combo_3.getItems()[1])) {
+	            	   this.presenter.getOperator().browseRelationSourceId(text_2.getText());
+	               } else if (combo_3.getText().equals(combo_3.getItems()[2])) {
+	            	   this.presenter.getOperator().browseRelationTargetId(text_3.getText());	   
+	               } else if (combo_3.getText().equals(combo_3.getItems()[3])) {
+	            	   Calendar from = Calendar.getInstance();
+	            	   Calendar to = Calendar.getInstance();
+	            	   from.set(dateTime_4.getYear(), dateTime_4.getMonth(), dateTime_4.getDay());
+	            	   to.set(dateTime_5.getYear(), dateTime_5.getMonth(), dateTime_5.getDay());
+	            	   this.presenter.getOperator().browseRelationDate(from,to);	
+	               } else if (combo_3.getText().equals(combo_3.getItems()[4])) {
+	            	   Calendar from = Calendar.getInstance();
+	            	   Calendar to = Calendar.getInstance();
+	            	   from.set(dateTime_6.getYear(), dateTime_6.getMonth(), dateTime_6.getDay());
+	            	   to.set(dateTime_7.getYear(), dateTime_7.getMonth(), dateTime_7.getDay());
+	            	   this.presenter.getOperator().browseRelationDateType(from,to, combo_5.getText());
+	               } else if (combo_3.getText().equals(combo_3.getItems()[5])) {
+	               }
+				this.setPageComplete(true);
+				this.presenter.setModelProperty("btnSearch_1", false);
 			}
 		} 
 		

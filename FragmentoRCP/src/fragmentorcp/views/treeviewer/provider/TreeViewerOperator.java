@@ -3,6 +3,7 @@ package fragmentorcp.views.treeviewer.provider;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.core.filesystem.EFS;
@@ -331,6 +332,303 @@ public class TreeViewerOperator {
 					e.printStackTrace();
 				}
 			}
+		}
+	}
+	
+	public void browseArtefactContent(String content) {
+		if (content.equals("")) {
+			this.showMessage("Attention", "Content field must not be empty!");
+		} else {
+			BrowseArtefactsResponseMessage response = fragmento.browseArtifact_byContent(content);
+			if (response.getArtefactDescriptors().getArtefact() == null) {
+				this.showMessage("Attention","No artefacts found for this search pattern.");
+			} else {
+				this.getMock().getCategories().clear();
+				
+				Artefact artefact = new Artefact();				
+				try {
+					ArtefactDescriptorType[] artefacts = response.getArtefactDescriptors().getArtefact();
+					
+					
+					if (artefacts != null)
+					for (int i = 0; i < artefacts.length; i++) {
+						artefact = new Artefact();
+						artefact.setArtefactType(this.artefactInverseAdapter(artefacts[i].getType()));
+						artefact.setArtefactID((int) artefacts[i].getArtefactId());
+						if (artefacts[i].getDescription().contains("<!--")) {
+							artefact.setArtefactDescription((String) artefacts[i].getDescription().subSequence(0,artefacts[i].getDescription().indexOf("<!--")).toString().trim());
+						} else {
+							artefact.setArtefactDescription(artefacts[i].getDescription());
+						}
+						artefact.setCheckedOut(isCheckedOut(artefact.getArtefactID()));
+						this.getMock().getCategories().add(artefact);
+						viewer.refresh();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void browseArtefactDate(Calendar from, Calendar to) {
+		if (from.after(to)) {
+			this.showMessage("Attention", "START date cannot come after END date");
+		} else {
+			BrowseArtefactsResponseMessage response = fragmento.browseArtifact_byDate(from, to);
+			if (response.getArtefactDescriptors().getArtefact() == null) {
+				this.showMessage("Attention","No artefacts found for this search pattern.");
+			} else {
+				this.getMock().getCategories().clear();
+				
+				Artefact artefact = new Artefact();				
+				try {
+					ArtefactDescriptorType[] artefacts = response.getArtefactDescriptors().getArtefact();
+					
+					
+					if (artefacts != null)
+					for (int i = 0; i < artefacts.length; i++) {
+						artefact = new Artefact();
+						artefact.setArtefactType(this.artefactInverseAdapter(artefacts[i].getType()));
+						artefact.setArtefactID((int) artefacts[i].getArtefactId());
+						if (artefacts[i].getDescription().contains("<!--")) {
+							artefact.setArtefactDescription((String) artefacts[i].getDescription().subSequence(0,artefacts[i].getDescription().indexOf("<!--")).toString().trim());
+						} else {
+							artefact.setArtefactDescription(artefacts[i].getDescription());
+						}
+						artefact.setCheckedOut(isCheckedOut(artefact.getArtefactID()));
+						this.getMock().getCategories().add(artefact);
+						viewer.refresh();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void browseArtefactDateType(Calendar from, Calendar to, String type) {
+		if (from.after(to)) {
+			this.showMessage("Attention", "START date cannot come after END date");
+		} else if(type.equals("")) {
+			this.showMessage("Attention", "Type field must not be empty!");
+		} else {
+			BrowseArtefactsResponseMessage response = fragmento.browseArtifact_byDateType(from, to, type);
+			if (response.getArtefactDescriptors().getArtefact() == null) {
+				this.showMessage("Attention","No artefacts found for this search pattern.");
+			} else {
+				this.getMock().getCategories().clear();
+				
+				Artefact artefact = new Artefact();				
+				try {
+					ArtefactDescriptorType[] artefacts = response.getArtefactDescriptors().getArtefact();
+					
+					
+					if (artefacts != null)
+					for (int i = 0; i < artefacts.length; i++) {
+						artefact = new Artefact();
+						artefact.setArtefactType(this.artefactInverseAdapter(artefacts[i].getType()));
+						artefact.setArtefactID((int) artefacts[i].getArtefactId());
+						if (artefacts[i].getDescription().contains("<!--")) {
+							artefact.setArtefactDescription((String) artefacts[i].getDescription().subSequence(0,artefacts[i].getDescription().indexOf("<!--")).toString().trim());
+						} else {
+							artefact.setArtefactDescription(artefacts[i].getDescription());
+						}
+						artefact.setCheckedOut(isCheckedOut(artefact.getArtefactID()));
+						this.getMock().getCategories().add(artefact);
+						viewer.refresh();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void browseRelationType(String type) {
+		if (type == "") {
+			this.showMessage("Attention", "Type field must not be empty!");
+		} else {
+		BrowseRelationsResponseMessage response = fragmento.browseRelation_byType(type);
+		if (response.getRelations().getRelation() == null) {
+			this.showMessage("Attention","No relations found for this search pattern.");
+		} else {
+			this.getMock().getCategories().clear();
+			
+			Relation relation = new Relation();				
+			try {
+				Relation_type2[] relations = response.getRelations().getRelation();
+				
+				
+				if (relations != null)
+				for (int i = 0; i < relations.length; i++) {
+					relation = new Relation();
+					relation.setRelationType(this.relationInverseAdapter2(type));
+					relation.setRelationID((int)relations[i].getRelationId());
+					if (relations[i].getDescription().contains("<!--")) {
+						relation.setRelationDescription((String) relations[i].getDescription().subSequence(0,relations[i].getDescription().indexOf("<!--")).toString().trim());
+					} else {
+						relation.setRelationDescription(relations[i].getDescription());
+					}
+					relation.setFromID((int)relations[i].getFrom());
+					relation.setToID((int)relations[i].getTo());
+					this.getMock().getCategories().add(relation);
+					viewer.refresh();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		}
+	}
+	
+	public void browseRelationSourceId(String source) {
+		if (source.equals("")) {
+			this.showMessage("Attention", "Source Id field must not be empty!");
+		} else {
+		BrowseRelationsResponseMessage response = fragmento.browseRelation_bySourceId(Long.valueOf(source).longValue());
+		if (response.getRelations().getRelation() == null) {
+			this.showMessage("Attention","No relations found for this search pattern.");
+		} else {
+			this.getMock().getCategories().clear();
+			
+			Relation relation = new Relation();				
+			try {
+				Relation_type2[] relations = response.getRelations().getRelation();
+				
+				
+				if (relations != null)
+				for (int i = 0; i < relations.length; i++) {
+					relation = new Relation();
+					relation.setRelationType(this.relationInverseAdapter2(relations[i].getType().toString()));
+					relation.setRelationID((int)relations[i].getRelationId());
+					if (relations[i].getDescription().contains("<!--")) {
+						relation.setRelationDescription((String) relations[i].getDescription().subSequence(0,relations[i].getDescription().indexOf("<!--")).toString().trim());
+					} else {
+						relation.setRelationDescription(relations[i].getDescription());
+					}
+					relation.setFromID((int)relations[i].getFrom());
+					relation.setToID((int)relations[i].getTo());
+					this.getMock().getCategories().add(relation);
+					viewer.refresh();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		}
+	}
+	
+	public void browseRelationTargetId(String target) {
+		if (target.equals("")) {
+			this.showMessage("Attention", "Target Id field must not be empty!");
+		} else {
+		BrowseRelationsResponseMessage response = fragmento.browseRelation_byTargetId(Long.valueOf(target).longValue());
+		if (response.getRelations().getRelation() == null) {
+			this.showMessage("Attention","No relations found for this search pattern.");
+		} else {
+			this.getMock().getCategories().clear();
+			
+			Relation relation = new Relation();				
+			try {
+				Relation_type2[] relations = response.getRelations().getRelation();
+				
+				
+				if (relations != null)
+				for (int i = 0; i < relations.length; i++) {
+					relation = new Relation();
+					relation.setRelationType(this.relationInverseAdapter2(relations[i].getType().toString()));
+					relation.setRelationID((int)relations[i].getRelationId());
+					if (relations[i].getDescription().contains("<!--")) {
+						relation.setRelationDescription((String) relations[i].getDescription().subSequence(0,relations[i].getDescription().indexOf("<!--")).toString().trim());
+					} else {
+						relation.setRelationDescription(relations[i].getDescription());
+					}
+					relation.setFromID((int)relations[i].getFrom());
+					relation.setToID((int)relations[i].getTo());
+					this.getMock().getCategories().add(relation);
+					viewer.refresh();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		}
+	}
+	
+	public void browseRelationDate(Calendar from, Calendar to) {
+		if (from.after(to)) {
+			this.showMessage("Attention", "START date cannot come after END date");
+		} else {
+		BrowseRelationsResponseMessage response = fragmento.browseRelation_byDate(from, to);
+		if (response.getRelations().getRelation() == null) {
+			this.showMessage("Attention","No relations found for this search pattern.");
+		} else {
+			this.getMock().getCategories().clear();
+			
+			Relation relation = new Relation();				
+			try {
+				Relation_type2[] relations = response.getRelations().getRelation();
+				
+				
+				if (relations != null)
+				for (int i = 0; i < relations.length; i++) {
+					relation = new Relation();
+					relation.setRelationType(this.relationInverseAdapter2(relations[i].getType().toString()));
+					relation.setRelationID((int)relations[i].getRelationId());
+					if (relations[i].getDescription().contains("<!--")) {
+						relation.setRelationDescription((String) relations[i].getDescription().subSequence(0,relations[i].getDescription().indexOf("<!--")).toString().trim());
+					} else {
+						relation.setRelationDescription(relations[i].getDescription());
+					}
+					relation.setFromID((int)relations[i].getFrom());
+					relation.setToID((int)relations[i].getTo());
+					this.getMock().getCategories().add(relation);
+					viewer.refresh();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		}
+	}
+	
+	public void browseRelationDateType(Calendar from, Calendar to, String type) {
+		if (from.after(to)) {
+			this.showMessage("Attention", "START date cannot come after END date");
+		} else if(type.equals("")) {
+			this.showMessage("Attention", "Type field must not be empty!");
+		} else {
+		BrowseRelationsResponseMessage response = fragmento.browseRelation_byDateType(from, to, type);
+		if (response.getRelations().getRelation() == null) {
+			this.showMessage("Attention","No relations found for this search pattern.");
+		} else {
+			this.getMock().getCategories().clear();
+			
+			Relation relation = new Relation();				
+			try {
+				Relation_type2[] relations = response.getRelations().getRelation();
+				
+				
+				if (relations != null)
+				for (int i = 0; i < relations.length; i++) {
+					relation = new Relation();
+					relation.setRelationType(this.relationInverseAdapter2(relations[i].getType().toString()));
+					relation.setRelationID((int)relations[i].getRelationId());
+					if (relations[i].getDescription().contains("<!--")) {
+						relation.setRelationDescription((String) relations[i].getDescription().subSequence(0,relations[i].getDescription().indexOf("<!--")).toString().trim());
+					} else {
+						relation.setRelationDescription(relations[i].getDescription());
+					}
+					relation.setFromID((int)relations[i].getFrom());
+					relation.setToID((int)relations[i].getTo());
+					this.getMock().getCategories().add(relation);
+					viewer.refresh();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		}
 	}
 	

@@ -1,6 +1,6 @@
 package fragmentorcppresenter.models.repository;
 
-public class Relation {
+public class Relation implements IPlaceHolder {
 	private int relationID;
 	private RelationTypes relationType;
 	private String relationDescription;
