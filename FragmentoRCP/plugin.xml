@@ -9,12 +9,12 @@
             class="fragmentorcp.views.RepositoryView"
             icon="icons/favicon.ico"
             id="FragmentoRCP.RepositoryView"
-            name="Repository View"
+            name="%view.name"
             restorable="true">
       </view>
       <category
             id="FragmentoRCP.FragmentoCategory"
-            name="Fragmento">
+            name="%category.name">
       </category>
    </extension>
    <extension
@@ -25,9 +25,9 @@
          <command
                commandId="fragmentorcp.commands.openOptionsCommand"
                icon="icons/toolbar_options.png"
-               label="options"
+               label="%command.label"
                style="push"
-               tooltip="options">
+               tooltip="%command.tooltip">
             <parameter
                   name="FragmentoRCP.WizardParameter"
                   value="TOOLBAR_OPTIONS">
@@ -36,9 +36,9 @@
          <command
                commandId="fragmentorcp.commands.toolbarRemainingCommand"
                icon="icons/refresh.png"
-               label="refresh"
+               label="%command.label.0"
                style="push"
-               tooltip="refresh">
+               tooltip="%command.tooltip.0">
             <parameter
                   name="FragmentoRCP.WizardParameter"
                   value="TOOLBAR_REFRESH">
@@ -60,9 +60,9 @@
          <command
                commandId="fragmentorcp.commands.openOptionsCommand"
                icon="icons/toolbar_plus.png"
-               label="createNewItem"
+               label="%command.label.1"
                style="push"
-               tooltip="create new item">
+               tooltip="%command.tooltip.1">
             <visibleWhen
                   checkEnabled="false">
                <with
@@ -83,9 +83,9 @@
          <command
                commandId="fragmentorcp.commands.toolbarRemainingCommand"
                icon="icons/toolbar_delete.png"
-               label="delete"
+               label="%command.label.2"
                style="push"
-               tooltip="delete from tree">
+               tooltip="%command.tooltip.2">
             <visibleWhen
                   checkEnabled="false">
                <with
@@ -107,9 +107,9 @@
          <command
                commandId="fragmentorcp.commands.openOptionsCommand"
                icon="icons/toolbar_search.png"
-               label="search"
+               label="%command.label.3"
                style="push"
-               tooltip="search">
+               tooltip="%command.tooltip.3">
             <visibleWhen
                   checkEnabled="false">
                <with
@@ -131,9 +131,9 @@
          <command
                commandId="fragmentorcp.commands.toolbarRemainingCommand"
                icon="icons/toolbar_expand.gif"
-               label="expandAll"
+               label="%command.label.4"
                style="push"
-               tooltip="expand all">
+               tooltip="%command.tooltip.4">
             <visibleWhen
                   checkEnabled="false">
                <with
@@ -151,9 +151,9 @@
          <command
                commandId="fragmentorcp.commands.toolbarRemainingCommand"
                icon="icons/toolbar_collapse.gif"
-               label="collapseAll"
+               label="%command.label.5"
                style="push"
-               tooltip="collapse all">
+               tooltip="%command.tooltip.5">
             <visibleWhen
                   checkEnabled="false">
                <with
@@ -174,7 +174,7 @@
             locationURI="popup:treePopupMenu">
          <command
                commandId="fragmentorcp.commands.toolbarRemainingCommand"
-               label="check out"
+               label="%command.label.6"
                style="push">
             <parameter
                   name="FragmentoRCP.WizardParameter"
@@ -193,7 +193,7 @@
          </command>
          <command
                commandId="fragmentorcp.commands.toolbarRemainingCommand"
-               label="check in"
+               label="%command.label.7"
                style="push">
             <parameter
                   name="FragmentoRCP.WizardParameter"
@@ -217,7 +217,7 @@
          </separator>
          <command
                commandId="fragmentorcp.commands.toolbarRemainingCommand"
-               label="delete from tree"
+               label="%command.label.8"
                style="push">
             <parameter
                   name="FragmentoRCP.WizardParameter"
@@ -247,7 +247,7 @@
          </command>
          <command
                commandId="fragmentorcp.commands.toolbarRemainingCommand"
-               label="delete from repo"
+               label="%command.label.9"
                style="push">
             <parameter
                   name="FragmentoRCP.WizardParameter"
@@ -271,7 +271,7 @@
          </separator>
          <command
                commandId="fragmentorcp.commands.toolbarRemainingCommand"
-               label="expand all"
+               label="%command.label.10"
                style="push">
             <parameter
                   name="FragmentoRCP.WizardParameter"
@@ -280,7 +280,7 @@
          </command>
          <command
                commandId="fragmentorcp.commands.toolbarRemainingCommand"
-               label="collapse all"
+               label="%command.label.11"
                style="push">
             <parameter
                   name="FragmentoRCP.WizardParameter"
@@ -294,20 +294,25 @@
       <command
             defaultHandler="fragmentorcp.commands.openOptionsCommandHandler"
             id="fragmentorcp.commands.openOptionsCommand"
-            name="openOptionsCommand">
+            name="%command.name">
          <commandParameter
                id="FragmentoRCP.WizardParameter"
-               name="Wizard selection parameter">
+               name="%commandParameter.name">
          </commandParameter>
       </command>
       <command
             defaultHandler="fragmentorcp.commands.toolbarRemainingCommandHandler"
             id="fragmentorcp.commands.toolbarRemainingCommand"
-            name="toolbarRemainingCommand">
+            name="%command.name.0">
          <commandParameter
                id="FragmentoRCP.WizardParameter"
-               name="Wizard selection parameter">
+               name="%commandParameter.name.0">
          </commandParameter>
+      </command>
+      <command
+            defaultHandler="fragmentorcp.commands.enableToolbarHandler"
+            id="fragmentorcp.commands.enableToolbar"
+            name="enable toolbar">
       </command>
    </extension>
    <extension
@@ -318,13 +323,16 @@
       <handler
             commandId="fragmentorcp.commands.toolbarRemainingCommand">
       </handler>
+      <handler
+            commandId="fragmentorcp.commands.enableToolbar">
+      </handler>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
             class="fragmentorcp.preferences.servicePreference"
             id="FragmentoRCP.servicePreference"
-            name="Service Preference">
+            name="%page.name">
       </page>
    </extension>
    <extension
@@ -332,27 +340,27 @@
       <wizard
             class="fragmentorcp.wizards.CreateWizard"
             id="FragmentoRCP.CreateWizard"
-            name="Create new wizard">
+            name="%wizard.name">
       </wizard>
       <wizard
             class="fragmentorcp.wizards.pages.OpenOptionsPage"
             id="FragmentoRCP.OpenOptionsPage"
-            name="openOptions Page 1">
+            name="%wizard.name.0">
       </wizard>
       <wizard
             class="fragmentorcp.wizards.pages.OpenOptionsPage2"
             id="FragmentoRCP.OpenOptionsPage2"
-            name="openOptions Page 2">
+            name="%wizard.name.1">
       </wizard>
       <wizard
             class="fragmentorcp.wizards.pages.CreateNewItemPage"
             id="FragmentoRCP.CreateNewItem"
-            name="create new item">
+            name="%wizard.name.2">
       </wizard>
       <wizard
             class="fragmentorcp.wizards.pages.SerachWizardPage1"
             id="FragmentoRCP.SearchWizardPage1"
-            name="Search Wizard Page 1">
+            name="%wizard.name.3">
       </wizard>
    </extension>
    <extension

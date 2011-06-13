@@ -1,11 +1,11 @@
 package fragmentorcppresenter.ifaces;
 
-import org.eclipse.core.databinding.observable.value.IObservableValue;
+//import org.eclipse.core.databinding.observable.value.IObservableValue;
 
 public interface IOptionsWizardContainer {
-	IObservableValue getTxtserviceUriObservable();
-
-	IObservableValue getBtnApplyObservable();
-	
-	IObservableValue getBtnRetrieveAllAvailableObservable();
+//	IObservableValue getTxtserviceUriObservable();
+//
+//	IObservableValue getBtnApplyObservable();
+//	
+//	IObservableValue getBtnRetrieveAllAvailableObservable();
 }

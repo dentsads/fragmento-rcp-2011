@@ -1,20 +1,20 @@
 package fragmentorcppresenter.models;
 
-import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.beans.BeansObservables;
+//import org.eclipse.core.databinding.DataBindingContext;
+//import org.eclipse.core.databinding.beans.BeansObservables;
 
-import fragmentorcppresenter.ifaces.IOptionsWizardContainer;
+//import fragmentorcppresenter.ifaces.IOptionsWizardContainer;
 
 
 public class OptionsWizardBean extends ModelAbstraction{
 	
-	private IOptionsWizardContainer viewContainer;
-	
-	public OptionsWizardBean(IOptionsWizardContainer container) {
-		super();
-		this.viewContainer = container;
-		//this.bindValues();
-	}
+//	private IOptionsWizardContainer viewContainer;
+//	
+//	public OptionsWizardBean(IOptionsWizardContainer container) {
+//		super();
+//		this.viewContainer = container;
+//		this.bindValues();
+//	}
 	
 	public OptionsWizardBean() {
 	}
@@ -24,6 +24,7 @@ public class OptionsWizardBean extends ModelAbstraction{
 	private boolean btnRetrieveAllAvailable;
 	private boolean finished = false;
 	private boolean canceled = false;
+	private boolean btnRetrieveNow;
 	
 	public void setTxtserviceUri(String txtserviceUri) {
 		propertyChangeSupport.firePropertyChange("txtserviceUri", this.txtserviceUri,
@@ -71,17 +72,24 @@ public class OptionsWizardBean extends ModelAbstraction{
 		propertyChangeSupport.firePropertyChange("canceled", this.canceled,
 				this.canceled = canceled);
 	}
-
-	@SuppressWarnings("unused")
-	private void bindValues() {
-		
-		DataBindingContext bindingContext = new DataBindingContext();
-		bindingContext.bindValue(this.viewContainer.getTxtserviceUriObservable(), BeansObservables.observeValue(this,
-		"txtserviceUri"), null, null);
-		bindingContext.bindValue(this.viewContainer.getBtnApplyObservable(), BeansObservables
-		.observeValue(this, "btnApply"), null, null);
-		bindingContext.bindValue(this.viewContainer.getBtnRetrieveAllAvailableObservable(), BeansObservables
-				.observeValue(this, "btnRetrieveAllAvailable"), null, null);
+	public void setBtnRetrieveNow(boolean btnRetrieveNow) {
+		propertyChangeSupport.firePropertyChange("btnRetrieveNow", this.btnRetrieveNow,
+				this.btnRetrieveNow = btnRetrieveNow);
 	}
+	public boolean isBtnRetrieveNow() {
+		return btnRetrieveNow;
+	}
+
+//	@SuppressWarnings("unused")
+//	private void bindValues() {
+//		
+//		DataBindingContext bindingContext = new DataBindingContext();
+//		bindingContext.bindValue(this.viewContainer.getTxtserviceUriObservable(), BeansObservables.observeValue(this,
+//		"txtserviceUri"), null, null);
+//		bindingContext.bindValue(this.viewContainer.getBtnApplyObservable(), BeansObservables
+//		.observeValue(this, "btnApply"), null, null);
+//		bindingContext.bindValue(this.viewContainer.getBtnRetrieveAllAvailableObservable(), BeansObservables
+//				.observeValue(this, "btnRetrieveAllAvailable"), null, null);
+//	}
 
 }

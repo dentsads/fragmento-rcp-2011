@@ -1,16 +1,9 @@
 package fragmentorcp.views.treeviewer.provider;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
-import fragmentorcppresenter.models.repository.Artefact;
-import fragmentorcppresenter.models.repository.ArtefactCategory;
-import fragmentorcppresenter.models.repository.ArtefactTypes;
 import fragmentorcppresenter.models.repository.IPlaceHolder;
-import fragmentorcppresenter.models.repository.Relation;
-import fragmentorcppresenter.models.repository.RelationTypes;
-import fragmentorcppresenter.models.repository.RelationsCategory;
+
 
 public class TodoMockModel {
 	

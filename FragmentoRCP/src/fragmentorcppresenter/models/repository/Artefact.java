@@ -1,6 +1,6 @@
 package fragmentorcppresenter.models.repository;
 
-public class Artefact {
+public class Artefact implements IPlaceHolder {
 	private int artefactID;
 	private ArtefactTypes artefactType;
 	private String artefactDescription;

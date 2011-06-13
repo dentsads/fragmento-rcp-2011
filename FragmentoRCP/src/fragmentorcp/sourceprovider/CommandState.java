@@ -11,7 +11,7 @@ public class CommandState extends AbstractSourceProvider {
 	public final static String MY_STATE = "FragmentoRCP.active";
 	public final static String ENABLED = "ENABLED";
 	public final static String DISENABLED = "DISENABLED";
-	private boolean enabled = true;
+	private boolean enabled = false;
 	
 	public CommandState() {
 	}
@@ -40,5 +40,9 @@ public class CommandState extends AbstractSourceProvider {
 		enabled = !enabled ;
 		String value = enabled ? ENABLED : DISENABLED;
 		fireSourceChanged(ISources.WORKBENCH, MY_STATE, value);
+	}
+	
+	public void enable() {
+		fireSourceChanged(ISources.WORKBENCH, MY_STATE, ENABLED);
 	}
 }

@@ -1,5 +1,6 @@
 package fragmentorcp.commands;
 
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,27 +10,36 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.ui.services.ISourceProviderService;
 
+import fragmentorcp.Activator;
+import fragmentorcp.sourceprovider.CommandState;
 import fragmentorcp.wizards.CreateWizard;
 import fragmentorcp.wizards.pages.CreateNewItemPage;
 import fragmentorcp.wizards.pages.OpenOptionsPage;
 import fragmentorcp.wizards.pages.SearchWizardPage1;
+import fragmentorcppresenter.ifaces.IGuiModelPropertyChange;
+import fragmentorcppresenter.presenter.Presenter;
 
-public class openOptionsCommandHandler extends AbstractHandler {
+public class openOptionsCommandHandler extends AbstractHandler implements IGuiModelPropertyChange {
+	private ExecutionEvent event;
+	ISourceProviderService sourceProviderService;
+	private Presenter presenter;
+	
+	public openOptionsCommandHandler() {
+		this.presenter = Activator.getDefault().getPresenter();
+        this.presenter.addView(this);
+	}
 	
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		
-//		ISourceProviderService sourceProviderService = (ISourceProviderService) HandlerUtil
-//		.getActiveWorkbenchWindow(event).getService(
-//				ISourceProviderService.class);
-//        // Now get my service
-//        CommandState commandStateService = (CommandState) sourceProviderService
-//			.getSourceProvider(CommandState.MY_STATE);
-//        commandStateService.toogleEnabled();
-		
+		this.event= event;
 		String wizardParameter = event.getParameter("FragmentoRCP.WizardParameter");
 		List<IWizardPage> pages = new ArrayList<IWizardPage>();
+		
+		this.sourceProviderService = (ISourceProviderService) HandlerUtil
+		.getActiveWorkbenchWindow(event).getService(
+				ISourceProviderService.class);
 		
 		if (wizardParameter.equalsIgnoreCase("TOOLBAR_OPTIONS")) {
 			pages.add(new OpenOptionsPage("Repository options"));
@@ -46,5 +56,19 @@ public class openOptionsCommandHandler extends AbstractHandler {
         dialog.open();
         
 		return null;
+	}
+
+	@Override
+	public void modelPropertyChange(PropertyChangeEvent event) {
+		if (event.getPropertyName().equals("btnRetrieveNow")) {
+			if ((Boolean)event.getNewValue()) {
+				CommandState commandStateService = (CommandState) sourceProviderService
+				.getSourceProvider(CommandState.MY_STATE);
+
+					commandStateService.enable();
+						
+				this.presenter.setModelProperty("btnRetrieveNow", false);
+			}			
+		}		
 	}
 }

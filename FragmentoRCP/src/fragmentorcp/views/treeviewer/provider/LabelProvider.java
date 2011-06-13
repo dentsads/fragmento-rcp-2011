@@ -7,7 +7,6 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.ViewerCell;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.ISharedImages;
@@ -20,6 +19,7 @@ import fragmentorcppresenter.models.repository.ArtefactCategory;
 import fragmentorcppresenter.models.repository.Relation;
 import fragmentorcppresenter.models.repository.RelationsCategory;
 
+@SuppressWarnings("restriction")
 public class LabelProvider extends StyledCellLabelProvider {
 	
 	final String FOREGROUND_COLOR = "red_foreground_color";

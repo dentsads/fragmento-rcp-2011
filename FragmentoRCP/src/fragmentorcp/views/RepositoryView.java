@@ -59,10 +59,6 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 		viewer.setInput(mock);
 		this.presenter.setOperator(new TreeViewerOperator(viewer,mock));
 		
-		this.presenter.getOperator().init();
-		viewer.refresh();
-		
-		viewer.expandAll();
 		this.presenter.getOperator().makeActions();
 		hookContextMenu();
 		this.presenter.getOperator().hookDoubleClickAction();
@@ -95,7 +91,17 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 				viewer.expandAll();
 				this.presenter.setModelProperty("collapseAll", false);
 			}			
-		} else if (event.getPropertyName().equals("collapseAll")) {
+		} else if (event.getPropertyName().equals("btnRetrieveNow")) {
+			if ((Boolean)event.getNewValue()) {
+				mock.getCategories().clear();
+				this.presenter.getOperator().init();
+				viewer.refresh();
+				
+				viewer.expandAll();
+				this.presenter.setModelProperty("btnRetrieveNow", false);
+			}
+		} 
+		else if (event.getPropertyName().equals("collapseAll")) {
 			if ((Boolean)event.getNewValue()) {
 				viewer.collapseAll();
 				this.presenter.setModelProperty("expandAll", false);
