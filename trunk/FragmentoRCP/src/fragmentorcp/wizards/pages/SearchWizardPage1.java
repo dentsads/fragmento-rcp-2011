@@ -18,6 +18,9 @@ import org.eclipse.swt.widgets.DateTime;
 import fragmentorcp.Activator;
 import fragmentorcppresenter.ifaces.GuiModelPropertyChange_IWizardPage;
 import fragmentorcppresenter.presenter.Presenter;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.ModifyEvent;
 
 public class SearchWizardPage1 extends GuiModelPropertyChange_IWizardPage  {
 	private Text text;
@@ -68,6 +71,7 @@ public class SearchWizardPage1 extends GuiModelPropertyChange_IWizardPage  {
 	private Combo combo_5;
 	
 	private Presenter presenter;
+	private Button btnSearch;
 	
 	public SearchWizardPage1(String pageName) {
 		super(pageName);
@@ -90,7 +94,7 @@ public class SearchWizardPage1 extends GuiModelPropertyChange_IWizardPage  {
         composite.setLayout(null);
         
         TabFolder tabFolder = new TabFolder(composite, SWT.NONE);
-        tabFolder.setBounds(0, 0, 582, 738);
+        tabFolder.setBounds(0, 0, 582, 772);
         
         TabItem tbtmNewItem = new TabItem(tabFolder, SWT.NONE);
         tbtmNewItem.setText("Artefacts Search");
@@ -108,17 +112,23 @@ public class SearchWizardPage1 extends GuiModelPropertyChange_IWizardPage  {
         combo.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                if (combo.getText().equals(combo.getItems()[0])) {
-            	   comboItemEnabler(0,0);
+            	   comboItemEnabler(0,0); 
+            	   btnSearch.setEnabled(true);
                } else if (combo.getText().equals(combo.getItems()[1])) {
             	   comboItemEnabler(1,0);
+            	   btnSearch.setEnabled(true);
                } else if (combo.getText().equals(combo.getItems()[2])) {
             	   comboItemEnabler(2,0);
+            	   btnSearch.setEnabled(true);
                } else if (combo.getText().equals(combo.getItems()[3])) {
             	   comboItemEnabler(3,0);
+            	   btnSearch.setEnabled(true);
                } else if (combo.getText().equals(combo.getItems()[4])) {
             	   comboItemEnabler(4,0);
+            	   btnSearch.setEnabled(true);
                } else if (combo.getText().equals(combo.getItems()[5])) {
             	   comboItemEnabler(5,0);
+            	   btnSearch.setEnabled(true);
                }
             }
            });
@@ -142,6 +152,11 @@ public class SearchWizardPage1 extends GuiModelPropertyChange_IWizardPage  {
         lblSearchForContained.setText("Search for contained String:");
         
         text = new Text(grpSearchInThe, SWT.BORDER);
+        text.addModifyListener(new ModifyListener() {
+        	public void modifyText(ModifyEvent e) {
+        		presenter.setModelProperty("text", text.getText());
+        	}
+        });
         text.setEnabled(false);
         text.setBounds(200, 30, 310, 25);
         
@@ -156,6 +171,11 @@ public class SearchWizardPage1 extends GuiModelPropertyChange_IWizardPage  {
         label.setBounds(10, 34, 184, 15);
         
         text_1 = new Text(grpSearchInThe_1, SWT.BORDER);
+        text_1.addModifyListener(new ModifyListener() {
+        	public void modifyText(ModifyEvent e) {
+        		presenter.setModelProperty("text_1", text_1.getText());
+        	}
+        });
         text_1.setEnabled(false);
         text_1.setBounds(200, 30, 310, 25);
         
@@ -170,6 +190,12 @@ public class SearchWizardPage1 extends GuiModelPropertyChange_IWizardPage  {
         lblSearchForType.setBounds(10, 34, 184, 15);
         
         combo_1 = new Combo(grpSearchForType, SWT.NONE | SWT.READ_ONLY);
+        combo_1.addSelectionListener(new SelectionAdapter() {
+        	@Override
+        	public void widgetSelected(SelectionEvent e) {
+        		presenter.setModelProperty("combo_1", combo_1.getText());
+        	}
+        });
         combo_1.setEnabled(false);
         combo_1.setItems(new String[] {"Annotation", "Container", "Deployment Descriptor", "Fragment", "Modeller Data", "Process", "Transformation Rule", "WSDL"});
         combo_1.setBounds(200, 27, 187, 27);
@@ -192,7 +218,6 @@ public class SearchWizardPage1 extends GuiModelPropertyChange_IWizardPage  {
         dateTime = new DateTime(grpSearchByDate, SWT.BORDER);
         dateTime.setEnabled(false);
         dateTime.setBounds(200, 27, 108, 29);
-        
         dateTime_1 = new DateTime(grpSearchByDate, SWT.BORDER);
         dateTime_1.setEnabled(false);
         dateTime_1.setBounds(200, 62, 108, 29);
@@ -229,6 +254,21 @@ public class SearchWizardPage1 extends GuiModelPropertyChange_IWizardPage  {
         combo_2.setEnabled(false);
         combo_2.setItems(new String[] {"Annotation", "Container", "Deployment Descriptor", "Fragment", "Modeller Data", "Process", "Transformation Rule", "WSDL"});
         combo_2.setBounds(200, 34, 187, 27);
+        
+        btnSearch = new Button(composite_1, SWT.NONE);
+        btnSearch.addSelectionListener(new SelectionAdapter() {
+        	@Override
+        	public void widgetSelected(SelectionEvent e) {
+        		presenter.setModelProperty("btnSearch", true);
+        	}
+        });
+        btnSearch.setBounds(458, 691, 84, 27);
+        btnSearch.setText("Search");
+        btnSearch.setEnabled(false);
+        
+        Label lblNewLabel_1 = new Label(composite_1, SWT.NONE);
+        lblNewLabel_1.setBounds(203, 691, 249, 15);
+        lblNewLabel_1.setText("New Label");
         
         //////////////////// RELATIONS SEARCH////////////////////////
         
@@ -280,7 +320,7 @@ public class SearchWizardPage1 extends GuiModelPropertyChange_IWizardPage  {
         label_6.setBounds(10, 34, 184, 15);
         
         combo_4 = new Combo(group_1, SWT.READ_ONLY);
-        combo_4.setItems(new String[] {"Annotation", "Container", "WSDL", "Deployment", "Modeller Data", "Transformation"});
+        combo_4.setItems(new String[] {"annotation", "container", "wsdl", "deployment", "modeller", "transformation"});
         combo_4.setEnabled(false);
         combo_4.setBounds(200, 27, 187, 27);
         
@@ -367,6 +407,14 @@ public class SearchWizardPage1 extends GuiModelPropertyChange_IWizardPage  {
         combo_5.setItems(new String[] {"Annotation", "Container", "Deployment Descriptor", "Fragment", "Modeller Data", "Process", "Transformation Rule", "WSDL"});
         combo_5.setEnabled(false);
         combo_5.setBounds(200, 34, 187, 27);
+        
+        Button btnSearch_1 = new Button(composite_2, SWT.NONE);
+        btnSearch_1.setBounds(458, 687, 84, 27);
+        btnSearch_1.setText("Search");
+        
+        Label lblNewLabel_2 = new Label(composite_2, SWT.NONE);
+        lblNewLabel_2.setBounds(246, 699, 206, 15);
+        lblNewLabel_2.setText("New Label");
 
 	}
 	
@@ -482,6 +530,20 @@ public class SearchWizardPage1 extends GuiModelPropertyChange_IWizardPage  {
 			this.presenter.removeModel(this.presenter.getSearchWizardBean());
 			this.presenter.removeView(this);			
 			dispose();	
+		} else if (event.getPropertyName().equals("btnSearch")) {
+			if ((Boolean)event.getNewValue()) {
+				if (combo.getText().equals(combo.getItems()[0])) {
+					 this.presenter.getOperator().browseArtefactDescription(text.getText());
+	               } else if (combo.getText().equals(combo.getItems()[1])) {
+	               } else if (combo.getText().equals(combo.getItems()[2])) {
+	            	   this.presenter.getOperator().browseArtefactType(combo_1.getText());	   
+	               } else if (combo.getText().equals(combo.getItems()[3])) {         	   
+	               } else if (combo.getText().equals(combo.getItems()[4])) {
+	               } else if (combo.getText().equals(combo.getItems()[5])) {
+	               }
+				this.setPageComplete(true);
+				this.presenter.setModelProperty("btnSearch", false);
+			}
 		} 
 		
 	}

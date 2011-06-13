@@ -5,12 +5,8 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.eclipse.core.filesystem.EFS;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.TrayDialog;
-import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -19,7 +15,6 @@ import fragmentorcp.Activator;
 import fragmentorcppresenter.ifaces.GuiModelPropertyChange_IWizardPage;
 import fragmentorcppresenter.presenter.Presenter;
 
-import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -307,10 +302,7 @@ public class CreateNewItemPage extends GuiModelPropertyChange_IWizardPage {
 					 try {
 							File file = new File(text_1.getText());
 							content = FileUtils.readFileToString(file);
-							
-							//System.out.println(content);
 						}  catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} 
 					this.presenter.getOperator().createNewArtefact(combo.getText(), text.getText(), content);

@@ -15,7 +15,7 @@ public class FragmentoAxis {
 	/**
 	 * This String provides the corresponding service URI
 	 */
-	private String serviceURI = "http://localhost:8080/Repository/services/FragmentService";
+	private String serviceURI = "";
 
 	public String getServiceURI() {
 		return serviceURI;

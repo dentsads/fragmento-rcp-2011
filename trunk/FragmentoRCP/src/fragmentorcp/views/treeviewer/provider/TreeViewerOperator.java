@@ -3,7 +3,6 @@ package fragmentorcp.views.treeviewer.provider;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.core.filesystem.EFS;
@@ -27,17 +26,12 @@ import org.eclipse.ui.ide.IDE;
 
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.ArtefactDescriptorType;
-import eu.compas_ict.www.fragmentservice.FragmentServiceStub.ArtefactDescriptorsType;
-import eu.compas_ict.www.fragmentservice.FragmentServiceStub.ArtefactSelectorType;
-import eu.compas_ict.www.fragmentservice.FragmentServiceStub.ArtefactsType;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.BrowseArtefactsResponseMessage;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.BrowseRelationsResponseMessage;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.CreateArtefactResponseMessage;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.CreateRelationResponseMessage;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.Lock_type0;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.Relation_type2;
-import eu.compas_ict.www.fragmentservice.FragmentServiceStub.RelationsType;
-import eu.compas_ict.www.fragmentservice.FragmentServiceStub.RetrieveRelationResponseMessage;
 import fragmentService.FragmentoAxis;
 import fragmentorcppresenter.models.repository.Artefact;
 import fragmentorcppresenter.models.repository.ArtefactCategory;
@@ -53,8 +47,7 @@ public class TreeViewerOperator {
 	private Action action1;
 	private Action action2;
 	//private DrillDownAdapter drillDownAdapter;
-	private Action doubleClickAction;
-	@SuppressWarnings("unused")
+	//	private Action doubleClickAction;
 	private Action action_openEditor;
 	private ArrayList<String> ArtefactList = new ArrayList<String>();
 	
@@ -97,13 +90,13 @@ public class TreeViewerOperator {
 		action2.setToolTipText("Action 2 tooltip");
 		action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 				getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-		doubleClickAction = new Action() {
-			public void run() {
-				ISelection selection = viewer.getSelection();
-				Object obj = ((IStructuredSelection)selection).getFirstElement();
-				showMessage("Double-click detected on "+obj.toString());
-			}
-		};
+//		doubleClickAction = new Action() {
+//			public void run() {
+//				ISelection selection = viewer.getSelection();
+//				Object obj = ((IStructuredSelection)selection).getFirstElement();
+//				showMessage("Double-click detected on "+obj.toString());
+//			}
+//		};
 		
 		action_openEditor = new Action() {
 			public void run() {
@@ -259,6 +252,86 @@ public class TreeViewerOperator {
 		relationsCategory.getChildren().add(subRelationsCategory);
 		
 		loadRelations(RelationTypes.WSDL);
+	}
+	
+	public TodoMockModel getMock() {
+		return mock;
+	}
+
+	public FragmentoAxis getFragmento() {
+		return fragmento;
+	}
+	
+	public void browseArtefactType(String type) {
+		if (type == "") {
+			this.showMessage("Attention", "Type field must not be empty!");
+		} else {
+		BrowseArtefactsResponseMessage response = fragmento.browseArtifact_byType(type);
+		if (response.getArtefactDescriptors().getArtefact() == null) {
+			this.showMessage("Attention","No artefacts found for this type.");
+		} else {
+			this.getMock().getCategories().clear();
+			
+			Artefact artefact = new Artefact();				
+			try {
+				ArtefactDescriptorType[] artefacts = response.getArtefactDescriptors().getArtefact();
+				
+				
+				if (artefacts != null)
+				for (int i = 0; i < artefacts.length; i++) {
+					artefact = new Artefact();
+					artefact.setArtefactType(this.artefactInverseAdapter(type));
+					artefact.setArtefactID((int) artefacts[i].getArtefactId());
+					if (artefacts[i].getDescription().contains("<!--")) {
+						artefact.setArtefactDescription((String) artefacts[i].getDescription().subSequence(0,artefacts[i].getDescription().indexOf("<!--")).toString().trim());
+					} else {
+						artefact.setArtefactDescription(artefacts[i].getDescription());
+					}
+					artefact.setCheckedOut(isCheckedOut(artefact.getArtefactID()));
+					this.getMock().getCategories().add(artefact);
+					viewer.refresh();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		}
+	}
+	
+	public void browseArtefactDescription(String description) {
+		if (description.equals("")) {
+			this.showMessage("Attention", "Description field must not be empty!");
+		} else {
+			BrowseArtefactsResponseMessage response = fragmento.browseArtifact_byDescription(description);
+			if (response.getArtefactDescriptors().getArtefact() == null) {
+				this.showMessage("Attention","No artefacts found for this search pattern.");
+			} else {
+				this.getMock().getCategories().clear();
+				
+				Artefact artefact = new Artefact();				
+				try {
+					ArtefactDescriptorType[] artefacts = response.getArtefactDescriptors().getArtefact();
+					
+					
+					if (artefacts != null)
+					for (int i = 0; i < artefacts.length; i++) {
+						artefact = new Artefact();
+						artefact.setArtefactType(this.artefactInverseAdapter(artefacts[i].getType()));
+						artefact.setArtefactID((int) artefacts[i].getArtefactId());
+						if (artefacts[i].getDescription().contains("<!--")) {
+							artefact.setArtefactDescription((String) artefacts[i].getDescription().subSequence(0,artefacts[i].getDescription().indexOf("<!--")).toString().trim());
+						} else {
+							artefact.setArtefactDescription(artefacts[i].getDescription());
+						}
+						artefact.setCheckedOut(isCheckedOut(artefact.getArtefactID()));
+						this.getMock().getCategories().add(artefact);
+						viewer.refresh();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	public void createNewArtefact(String type, String desc, String payload) {		
