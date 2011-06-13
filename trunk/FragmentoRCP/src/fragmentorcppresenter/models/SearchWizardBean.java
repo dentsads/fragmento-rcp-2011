@@ -14,6 +14,7 @@ public class SearchWizardBean extends ModelAbstraction {
 	private Calendar dateTime_2;
 	private Calendar dateTime_3;
 	private boolean btnSearch;
+	private boolean btnSearch_1;
 	
 	
 	public boolean isFinished() {
@@ -104,6 +105,15 @@ public class SearchWizardBean extends ModelAbstraction {
 	public void setBtnSearch(boolean btnSearch) {
 		propertyChangeSupport.firePropertyChange("btnSearch", this.btnSearch,
 				this.btnSearch = btnSearch);
+	}
+
+	public void setBtnSearch_1(boolean btnSearch_1) {
+		propertyChangeSupport.firePropertyChange("btnSearch_1", this.btnSearch_1,
+				this.btnSearch_1 = btnSearch_1);
+	}
+
+	public boolean isBtnSearch_1() {
+		return btnSearch_1;
 	}
 
 	public boolean isFinishedOpenOptions() {
