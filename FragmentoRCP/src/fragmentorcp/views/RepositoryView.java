@@ -134,7 +134,7 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 				 try {
 					File file = location.toLocalFile(EFS.NONE, null);
 					String content = FileUtils.readFileToString(file);
-					this.presenter.getOperator().checkinSelected(content,true);
+					this.presenter.getOperator().checkinSelected(content);
 					this.presenter.setModelProperty("refresh", true);
 					//System.out.println(content);
 				} catch (CoreException e) {
@@ -165,7 +165,17 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 				viewer.refresh();
 				this.presenter.setModelProperty("deleteFromRepoSelected", false);
 			}
+		} else if (event.getPropertyName().equals("releaseLock")) {
+			if ((Boolean)event.getNewValue()) {
+				this.presenter.getOperator().releaseLockSelected();
+				viewer.refresh();
+				this.presenter.setModelProperty("releaseLock", false);
+			}
+		} else if (event.getPropertyName().equals("checkoutPath")) {
+			this.presenter.getOperator().setCheckoutPath((String)event.getNewValue());
+		} else if (event.getPropertyName().equals("keepRelations")) {
+			this.presenter.getOperator().setKeepRelations((Boolean)event.getNewValue());
 		}
-	}
+	} 
 	
 }

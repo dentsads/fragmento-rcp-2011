@@ -32,7 +32,7 @@ public class OpenOptionsPage extends GuiModelPropertyChange_IWizardPage implemen
 //	private IObservableValue txtserviceUriObservable;
 //	private IObservableValue btnApplyObservable;
 //	private IObservableValue btnRetrieveAllAvailableObservable;
-	private Button btnRetrieveAllAvailable;
+//	private Button btnRetrieveAllAvailable;
 	private Group grpRetrievalOptions;
 	private Button btnRetrieveNow;
 	
@@ -55,6 +55,9 @@ public class OpenOptionsPage extends GuiModelPropertyChange_IWizardPage implemen
         this.presenter.setNewOptionsWizardBean();
         
         this.setPageComplete(this.presenter.getOperator().getMock().getCategories().isEmpty() ? false : true);
+        
+        this.presenter.setModelProperty("finished", false);
+        this.presenter.setModelProperty("canceled", false);
 	}
 
 	@Override
@@ -125,32 +128,39 @@ public class OpenOptionsPage extends GuiModelPropertyChange_IWizardPage implemen
          grpRetrievalOptions.setEnabled(initiallyEnabled);
          // this.btnApplyObservable = SWTObservables.observeEnabled(this.btnApply);
               
-          btnRetrieveAllAvailable = new Button(grpRetrievalOptions, SWT.CHECK);
-          btnRetrieveAllAvailable.setBounds(43, 26, 359, 22);
-          btnRetrieveAllAvailable.addSelectionListener(new SelectionAdapter() {
-          	@Override
-          	public void widgetSelected(SelectionEvent e) {
-          		if (btnRetrieveAllAvailable.getSelection()) {
-          			presenter.setModelProperty("btnRetrieveAllAvailable",(boolean)true);
-				} else {
-					presenter.setModelProperty("btnRetrieveAllAvailable",(boolean)false);
-				}
-          	}
-          });
-          btnRetrieveAllAvailable.setEnabled(initiallyEnabled);
-          btnRetrieveAllAvailable.setSelection(true);
-          btnRetrieveAllAvailable.setText("Retrieve all available repository items for initialization");
+//          btnRetrieveAllAvailable = new Button(grpRetrievalOptions, SWT.CHECK);
+//          btnRetrieveAllAvailable.setBounds(43, 26, 359, 22);
+//          btnRetrieveAllAvailable.addSelectionListener(new SelectionAdapter() {
+//          	@Override
+//          	public void widgetSelected(SelectionEvent e) {
+//          		if (btnRetrieveAllAvailable.getSelection()) {
+//          			presenter.setModelProperty("btnRetrieveAllAvailable",(boolean)true);
+//				} else {
+//					presenter.setModelProperty("btnRetrieveAllAvailable",(boolean)false);
+//				}
+//          	}
+//          });
+//          btnRetrieveAllAvailable.setEnabled(initiallyEnabled);
+//          btnRetrieveAllAvailable.setSelection(true);
+//          btnRetrieveAllAvailable.setText("Retrieve all available repository items for initialization");
           
           btnKeepRelationsFor = new Button(grpRetrievalOptions, SWT.CHECK);
+          btnKeepRelationsFor.addSelectionListener(new SelectionAdapter() {
+          	@Override
+          	public void widgetSelected(SelectionEvent e) {
+          		presenter.setModelProperty("keepRelations",((Button)e.widget).getSelection());
+          	}
+          });
           btnKeepRelationsFor.setText("keep relations for checked in artefacts");
-          btnKeepRelationsFor.setSelection(true);
           btnKeepRelationsFor.setEnabled(initiallyEnabled);
           btnKeepRelationsFor.setBounds(43, 54, 359, 22);
+          btnKeepRelationsFor.setSelection(this.presenter.getOperator().isKeepRelations());
           
           text = new Text(grpRetrievalOptions, SWT.BORDER);
           text.setEnabled(initiallyEnabled);
           text.setEditable(false);
           text.setBounds(43, 127, 336, 25);
+          text.setText(this.presenter.getOperator().getCheckoutPath());
           
           lblNewLabel = new Label(grpRetrievalOptions, SWT.NONE);
           lblNewLabel.setEnabled(initiallyEnabled);
@@ -169,13 +179,14 @@ public class OpenOptionsPage extends GuiModelPropertyChange_IWizardPage implemen
           		DirectoryDialog dialog = new DirectoryDialog(parent.getShell());
           	    dialog.setFilterPath("");
           	    text.setText(dialog.open());
+          	    presenter.setModelProperty("checkoutPath",text.getText());
           	}
           });
           btnNewButton.setEnabled(initiallyEnabled);
           btnNewButton.setBounds(400, 125, 84, 27);
           btnNewButton.setText("Browse");
          
-         this.getWizard().performFinish();
+         //this.getWizard().performFinish();
 	}	
 	
 //	@Override
@@ -227,7 +238,7 @@ public class OpenOptionsPage extends GuiModelPropertyChange_IWizardPage implemen
 		} else if (event.getPropertyName().equals("btnRetrieveNow")) {
 			if ((Boolean)event.getNewValue()) {
 	  	      grpRetrievalOptions.setEnabled(true);
-	  	      btnRetrieveAllAvailable.setEnabled(true);
+	  	      //btnRetrieveAllAvailable.setEnabled(true);
 	  	      text.setEnabled(true);
 	  	      lblNewLabel.setEnabled(true);
 	  	      label.setEnabled(true);
@@ -237,10 +248,12 @@ public class OpenOptionsPage extends GuiModelPropertyChange_IWizardPage implemen
 
 			}
 		}
-		else if (event.getPropertyName().equals("finished") || event.getPropertyName().equals("canceled")) {	
-			this.presenter.removeModel(this.presenter.getOptionsWizardBean());
-			this.presenter.removeView(this);			
-			dispose();	
+		else if (event.getPropertyName().equals("finished") || event.getPropertyName().equals("canceled")) {
+			if ((Boolean)event.getNewValue()) {
+				this.presenter.removeModel(this.presenter.getOptionsWizardBean());
+				this.presenter.removeView(this);			
+				dispose();	
+			}
 		} 
 		
 	}

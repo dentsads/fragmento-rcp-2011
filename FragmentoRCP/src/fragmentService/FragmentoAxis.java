@@ -389,7 +389,7 @@ public class FragmentoAxis {
 		try {
 			FragmentServiceStub.ReleaseLocksRequestMessage req = new FragmentServiceStub.ReleaseLocksRequestMessage();
 			FragmentServiceStub.LockDescriptorsType type = new FragmentServiceStub.LockDescriptorsType();
-			type.setLock(browseLocks().getLockDescriptors().getLock());
+			type.setLock(locks);
 			req.setLockDescriptors(type);
 			return new FragmentServiceStub(serviceURI).releaseLocks(req);
 		} catch (Exception e) {

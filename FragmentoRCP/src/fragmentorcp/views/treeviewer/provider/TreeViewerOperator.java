@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.core.filesystem.EFS;
@@ -33,6 +34,7 @@ import eu.compas_ict.www.fragmentservice.FragmentServiceStub.CreateArtefactRespo
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.CreateRelationResponseMessage;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.Lock_type0;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.Relation_type2;
+import eu.compas_ict.www.fragmentservice.FragmentServiceStub.UpdateRelationResponseMessage;
 import fragmentService.FragmentoAxis;
 import fragmentorcppresenter.models.repository.Artefact;
 import fragmentorcppresenter.models.repository.ArtefactCategory;
@@ -51,7 +53,8 @@ public class TreeViewerOperator {
 	//	private Action doubleClickAction;
 	private Action action_openEditor;
 	private ArrayList<String> ArtefactList = new ArrayList<String>();
-	
+	private boolean keepRelations = false;
+	private String checkoutPath = System.getProperty("java.io.tmpdir");
 	
 	FragmentoAxis fragmento = new FragmentoAxis();
 	TodoMockModel mock;
@@ -255,12 +258,32 @@ public class TreeViewerOperator {
 		loadRelations(RelationTypes.WSDL);
 	}
 	
+	public void setCheckoutPath(String checkoutPath) {
+		this.checkoutPath = checkoutPath;
+	}
+
+	public String getCheckoutPath() {
+		return checkoutPath;
+	}
+
+	public void setKeepRelations(boolean keepRelations) {
+		this.keepRelations = keepRelations;
+	}
+
+	public boolean isKeepRelations() {
+		return keepRelations;
+	}
+
 	public TodoMockModel getMock() {
 		return mock;
 	}
 
 	public FragmentoAxis getFragmento() {
 		return fragmento;
+	}
+	
+	public TreeViewer getViewer() {
+		return viewer;
 	}
 	
 	public void browseArtefactType(String type) {
@@ -743,7 +766,34 @@ public class TreeViewerOperator {
 	public ArrayList<String> getArtefactList() {
 		return ArtefactList;
 	}
-
+	
+	public void releaseLockSelected() {
+		 if (viewer.getSelection().isEmpty()) {
+		       showErrorMessage("Please selected an item to complete operation.");
+		   } else {
+		       IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+		       Object selectedDomainObject = selection.getFirstElement();
+		       if (selectedDomainObject instanceof Artefact) {		    	   
+		           Artefact item = (Artefact)selectedDomainObject;
+		           if (item.isCheckedOut()) {
+		        	   List<FragmentServiceStub.Lock_type0> lockList = new ArrayList<FragmentServiceStub.Lock_type0>();
+		       		FragmentServiceStub.Lock_type0[] locks = fragmento.browseLocks().getLockDescriptors().getLock();
+		       		for (int i = 0; i < locks.length; i++) {
+		       			if (locks[i].getArtefactId() == (long)item.getArtefactID()) {					
+		       				lockList.add(locks[i]);
+		       			}
+		       		}
+		       		fragmento.releaseLocks((Lock_type0[]) lockList.toArray(new Lock_type0[0]));
+		       		item.setCheckedOut(false);
+		           } else {
+		        	   showErrorMessage("Artefact is not checked out!");
+		           }
+		       } else {
+				showErrorMessage("Please select an artefact!");
+			}
+		   }
+	}
+	
 	private boolean isCheckedOut(int id) {
 		Lock_type0[] locks = fragmento.browseLocks().getLockDescriptors().getLock();
 		
@@ -798,7 +848,8 @@ public class TreeViewerOperator {
 		        	   viewer.refresh();
 		           } else {
 		        	   fragmento.checkoutArtifact(item.getArtefactID());
-		        	   openFile(item,System.getProperty("java.io.tmpdir"),String.valueOf(item.getArtefactID()));
+		        	   openFile(item,this.getCheckoutPath(),String.valueOf(item.getArtefactID()));
+		        	   //openFile(item,System.getProperty("java.io.tmpdir"),String.valueOf(item.getArtefactID()));
 		        	   item.setCheckedOut(true);
 		        	   viewer.refresh();
 		           }
@@ -806,7 +857,7 @@ public class TreeViewerOperator {
 		   
 	}
 	
-	public void checkinSelected(String payload, boolean keepRelations) {
+	public void checkinSelected(String payload) {
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 	    Object selectedDomainObject = selection.getFirstElement();	    	   
 	    Artefact item = (Artefact)selectedDomainObject;
@@ -821,15 +872,16 @@ public class TreeViewerOperator {
      	   viewer.refresh();
         } else {
      	   fragmento.checkinArtifact((long)(item.getArtefactID()), artefactAdapter(item.getArtefactType()),
-     			   item.getArtefactDescription(), payload, keepRelations);
-     	   openFile(item,System.getProperty("java.io.tmpdir"),String.valueOf(item.getArtefactID()));
+     			   item.getArtefactDescription(), payload, this.isKeepRelations());
+     	  openFile(item,this.getCheckoutPath(),String.valueOf(item.getArtefactID()));
+     	   //openFile(item,System.getProperty("java.io.tmpdir"),String.valueOf(item.getArtefactID()));
      	   item.setCheckedOut(false);
      	   viewer.refresh();
         }
 	    
 	}
 	
-	private String artefactAdapter(ArtefactTypes type) {
+	public String artefactAdapter(ArtefactTypes type) {
 		String typeString = "";
 		
 		switch (type) {
@@ -864,7 +916,7 @@ public class TreeViewerOperator {
 		return typeString;
 	}
 	
-	private ArtefactTypes artefactInverseAdapter(String type) {
+	public ArtefactTypes artefactInverseAdapter(String type) {
 		ArtefactTypes typeString = ArtefactTypes.ANNOTATION;
 		
 		if (type == "Annotation") {
@@ -888,7 +940,7 @@ public class TreeViewerOperator {
 		return typeString;
 	}
 	
-	private FragmentServiceStub.RelationTypeSchemaType relationInverseAdapter(String type) {
+	public FragmentServiceStub.RelationTypeSchemaType relationInverseAdapter(String type) {
 		FragmentServiceStub.RelationTypeSchemaType typeString = FragmentServiceStub.RelationTypeSchemaType.annotation;
 		
 		if (type == "annotation") {
@@ -908,7 +960,7 @@ public class TreeViewerOperator {
 		return typeString;
 	}
 	
-	private RelationTypes relationInverseAdapter2(String type) {
+	public RelationTypes relationInverseAdapter2(String type) {
 		RelationTypes typeString = RelationTypes.ANNOTATION;
 		
 		if (type == "annotation") {
@@ -928,7 +980,7 @@ public class TreeViewerOperator {
 		return typeString;
 	}
 	
-	private String relationAdapter(RelationTypes type) {
+	public String relationAdapter(RelationTypes type) {
 		String typeString = "";
 		
 		switch (type) {
@@ -1049,5 +1101,34 @@ public class TreeViewerOperator {
 			}
 		}
 	}
+	
+	public void updateRelation(Relation relation, String type, String desc, int fromId, int toId) {
+		
+		UpdateRelationResponseMessage update = fragmento.updateRelation((long)relation.getRelationID(), desc, fromId, toId, this.relationInverseAdapter(type));
+		
+		if (update == null) {
+			this.showErrorMessage("Either source ID, target ID or relation doesn't exist anymore in the repository!");
+			viewer.refresh();
+		} else {
+			
+			relation.setFromID(fromId);
+			relation.setToID(toId);
+			relation.setRelationDescription(desc);
+			relation.setRelationType(this.relationInverseAdapter2(type));
+			
+			viewer.update(relation, null);
+			viewer.refresh();
+		}
+	}
+	
+//	public void exists(Object object) {
+//		if (object instanceof Artefact) {
+//			Artefact artefact = (Artefact)object;
+//			
+//			
+//		} else if (object instanceof Relation) {
+//			Relation relation = (Relation)object;
+//		}
+//	}
 	
 }

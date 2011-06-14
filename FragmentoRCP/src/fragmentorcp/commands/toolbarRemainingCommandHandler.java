@@ -30,6 +30,8 @@ public class toolbarRemainingCommandHandler extends AbstractHandler {
 			this.presenter.setModelProperty("refresh", true);
 		} else if (wizardParameter.equalsIgnoreCase("DELETE_FROM_REPO")) {
 			this.presenter.setModelProperty("deleteFromRepoSelected", true);
+		} else if (wizardParameter.equalsIgnoreCase("RELEASE_LOCK")) {
+			this.presenter.setModelProperty("releaseLock", true);
 		}
 		
 		return null;
