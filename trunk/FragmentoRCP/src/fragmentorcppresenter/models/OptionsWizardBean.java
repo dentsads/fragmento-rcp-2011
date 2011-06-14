@@ -55,11 +55,11 @@ public class OptionsWizardBean extends ModelAbstraction{
 		return btnRetrieveAllAvailable;
 	}
 	
-	public boolean isFinishedOpenOptions() {
+	public boolean isFinished() {
 		return finished;
 	}
 
-	public void setFinishedOpenOptions(boolean finished) {
+	public void setFinished(boolean finished) {
 		propertyChangeSupport.firePropertyChange("finished", this.finished,
 				this.finished = finished);
 	}

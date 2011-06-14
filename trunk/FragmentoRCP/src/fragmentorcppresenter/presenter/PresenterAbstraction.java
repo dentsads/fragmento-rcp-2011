@@ -21,23 +21,23 @@ public abstract class PresenterAbstraction<T extends IGuiModelPropertyChange> im
     public void addModel(ModelAbstraction model) {
         registeredModels.add(model);
         model.addPropertyChangeListener(this);
-//        System.out.println("model added");
+//        System.out.println(model.getClass().getSimpleName() + " added");
     }
 
     public void removeModel(ModelAbstraction model) {
         registeredModels.remove(model);
         model.removePropertyChangeListener(this);
-//        System.out.println("model removed");
+//        System.out.println(model.getClass().getSimpleName() + " removed");
     }
 
     public void addView(T view) {
         registeredViews.add(view);
-//        System.out.println("view added");
+//        System.out.println(view.getClass().getSimpleName() + " added");
     }
 
     public void removeView(T view) {
         registeredViews.remove(view);
-//        System.out.println("view removed");
+//        System.out.println(view.getClass().getSimpleName() + " removed");
     }
     
 	@Override

@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Text;
 
 import fragmentorcp.Activator;
 import fragmentorcppresenter.ifaces.GuiModelPropertyChange_IWizardPage;
+import fragmentorcppresenter.models.repository.Relation;
 import fragmentorcppresenter.presenter.Presenter;
 
 import org.eclipse.swt.widgets.FileDialog;
@@ -44,6 +45,11 @@ public class CreateNewItemPage extends GuiModelPropertyChange_IWizardPage {
 	private Combo combo_1;
 	private Button btnCreateRelation;
 	
+	private boolean updateRelation= false;
+	private Relation relation;
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public CreateNewItemPage(String pageName) {
 		super(pageName);
 		
@@ -56,9 +62,28 @@ public class CreateNewItemPage extends GuiModelPropertyChange_IWizardPage {
         this.presenter = Activator.getDefault().getPresenter();
         this.presenter.addView(this);
         this.presenter.setNewCreateNewItemBean();
-	}
-
-
+        this.presenter.setModelProperty("finished", false);
+        this.presenter.setModelProperty("canceled", false);
+	}	
+	
+	public CreateNewItemPage(String pageName, Relation relation) {
+		super(pageName);
+		this.updateRelation = true;
+		this.relation = relation;
+		
+		setTitle("Update relation");
+        setDescription("Please enter update information");
+        
+        this.setPageComplete(true);
+        TrayDialog.setDialogHelpAvailable(false);
+        
+        this.presenter = Activator.getDefault().getPresenter();
+        this.presenter.addView(this);
+        this.presenter.setNewCreateNewItemBean();
+        this.presenter.setModelProperty("finished", false);
+        this.presenter.setModelProperty("canceled", false);
+	}	
+	
 	@Override
 	public void createControl(final Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
@@ -66,13 +91,14 @@ public class CreateNewItemPage extends GuiModelPropertyChange_IWizardPage {
          composite.setLayout(null);
          
          TabFolder tabFolder = new TabFolder(composite, SWT.NONE);
-         tabFolder.setBounds(0, 0, 582, 519);
+         tabFolder.setBounds(0, 0, 582, 519);                   
          
          TabItem tbtmCreateArtefact = new TabItem(tabFolder, SWT.NONE);
          tbtmCreateArtefact.setText("Create Artefact");
          
          Composite composite_1 = new Composite(tabFolder, SWT.NONE);
          tbtmCreateArtefact.setControl(composite_1);
+                
          
          Group grpType = new Group(composite_1, SWT.NONE);
          grpType.setText("Type");
@@ -187,8 +213,8 @@ public class CreateNewItemPage extends GuiModelPropertyChange_IWizardPage {
          tbtmCreateRelation.setText("Create Relation");
          
          Composite composite_2 = new Composite(tabFolder, SWT.NONE);
-         tbtmCreateRelation.setControl(composite_2);
-         
+         tbtmCreateRelation.setControl(composite_2);                 
+                         
          Group group = new Group(composite_2, SWT.NONE);
          group.setText("Type");
          group.setBounds(22, 10, 519, 74);
@@ -206,6 +232,10 @@ public class CreateNewItemPage extends GuiModelPropertyChange_IWizardPage {
          });
          combo_1.setItems(new String[] {"annotation", "container", "deployment", "modeller", "transformation", "wsdl"});
          combo_1.setBounds(100, 25, 194, 27);
+         if (updateRelation) {
+			combo_1.setText(this.presenter.getOperator().relationAdapter(this.relation.getRelationType()));
+		}
+         
          
          Group grpSourcetarget = new Group(composite_2, SWT.NONE);
          grpSourcetarget.setText("Source/Target");
@@ -229,6 +259,10 @@ public class CreateNewItemPage extends GuiModelPropertyChange_IWizardPage {
          	}
          });
          text_3.setBounds(121, 44, 120, 25);
+         if (updateRelation) {
+        	 text_3.setText(String.valueOf(this.relation.getFromID()));
+ 		}
+         
          
          text_4 = new Combo(grpSourcetarget, SWT.READ_ONLY);
          text_4.setVisibleItemCount(10);
@@ -240,6 +274,10 @@ public class CreateNewItemPage extends GuiModelPropertyChange_IWizardPage {
          	}
          });
          text_4.setBounds(357, 44, 120, 27);
+         if (updateRelation) {
+        	 text_4.setText(String.valueOf(this.relation.getToID()));
+ 		}
+         
          
          Group group_1 = new Group(composite_2, SWT.NONE);
          group_1.setText("Description");
@@ -256,19 +294,48 @@ public class CreateNewItemPage extends GuiModelPropertyChange_IWizardPage {
          	}
          });
          text_5.setBounds(97, 44, 375, 25);
+         if (updateRelation) {
+        	 text_5.setText(this.relation.getRelationDescription());
+ 		}
+         
          
          btnCreateRelation = new Button(composite_2, SWT.NONE);
          btnCreateRelation.addSelectionListener(new SelectionAdapter() {
          	@Override
          	public void widgetSelected(SelectionEvent e) {
-         		presenter.setModelProperty("buttonPushed2",true);
+         		if (updateRelation) {
+         			presenter.setModelProperty("updateRelation",true);
+				} else {
+					presenter.setModelProperty("buttonPushed2",true);
+				}			
          	}
          });
-         btnCreateRelation.setEnabled(false);
+         
+         if (updateRelation) {
+        	 btnCreateRelation.setEnabled(true);
+ 		} else {
+ 			btnCreateRelation.setEnabled(false);
+		}
          btnCreateRelation.setBounds(350, 346, 150, 27);
-         btnCreateRelation.setText("Create Relation");
+         
+         if (updateRelation) {
+        	 btnCreateRelation.setText("Update Relation");
+		} else {
+			btnCreateRelation.setText("Create Relation");
+		}
 
-         this.getWizard().performFinish();
+         
+         TabItem tbtmUpdateRelation = new TabItem(tabFolder, SWT.NONE);;
+         tbtmUpdateRelation.setText("Update Relation");
+         tbtmUpdateRelation.setControl(composite_2);
+         
+         if (updateRelation) {
+        	 tbtmCreateArtefact.dispose();
+        	 tbtmCreateRelation.dispose();
+		} else {
+			tbtmUpdateRelation.dispose();
+		}
+
 	}
 
 
@@ -284,10 +351,12 @@ public class CreateNewItemPage extends GuiModelPropertyChange_IWizardPage {
 				btnBrowse.setEnabled(false);
 				text_2.setEnabled(true);
 			}
-		} else if (event.getPropertyName().equals("finished") || event.getPropertyName().equals("canceled")) {	
-			this.presenter.removeModel(this.presenter.getCreateNewItemBean());
-			this.presenter.removeView(this);			
-			dispose();	
+		} else if (event.getPropertyName().equals("finished") || event.getPropertyName().equals("canceled")) {
+			if ((Boolean)event.getNewValue()) {
+				this.presenter.removeModel(this.presenter.getCreateNewItemBean());
+				this.presenter.removeView(this);			
+				dispose();
+			}
 		} else if (event.getPropertyName().equals("buttonEnable")) {	
 			if ((Boolean)event.getNewValue()) {
 				this.btnNewButton.setEnabled(true);
@@ -320,15 +389,24 @@ public class CreateNewItemPage extends GuiModelPropertyChange_IWizardPage {
 				this.btnCreateRelation.setEnabled(false);
 			}
 		} else if (event.getPropertyName().equals("buttonPushed2")) {	
-			if ((Boolean)event.getNewValue()) {
-				
-				this.presenter.getOperator().createNewRelation(combo_1.getText(),
-						text_5.getText(),Integer.parseInt(text_3.getText()), Integer.parseInt(text_4.getText()));
-				this.btnCreateRelation.setEnabled(false);
-				this.setPageComplete(true);
+			if ((Boolean)event.getNewValue()) {				
+					this.presenter.getOperator().createNewRelation(combo_1.getText(),
+							text_5.getText(),Integer.parseInt(text_3.getText()), Integer.parseInt(text_4.getText()));
+					this.btnCreateRelation.setEnabled(false);
+					this.setPageComplete(true);
+								
 				this.presenter.setModelProperty("buttonPushed2", false);
 			} 
-		}
+		} else if (event.getPropertyName().equals("updateRelation")) {	
+			if ((Boolean)event.getNewValue()) {								
+					this.presenter.getOperator().updateRelation(this.relation, combo_1.getText(),
+							text_5.getText(),Integer.parseInt(text_3.getText()), Integer.parseInt(text_4.getText()));
+					this.btnCreateRelation.setEnabled(false);
+					this.setPageComplete(true);
+				
+				this.presenter.setModelProperty("updateRelation", false);
+			} 
+		} 
 		
 	}
 }

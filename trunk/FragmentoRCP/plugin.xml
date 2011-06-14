@@ -211,6 +211,46 @@
                </with>
             </visibleWhen>
          </command>
+         <command
+               commandId="fragmentorcp.commands.toolbarRemainingCommand"
+               label="%command.label.12"
+               style="push">
+            <parameter
+                  name="FragmentoRCP.WizardParameter"
+                  value="RELEASE_LOCK">
+            </parameter>
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate>
+                     <instanceof
+                           value="fragmentorcppresenter.models.repository.Artefact">
+                     </instanceof>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="fragmentorcp.commands.openOptionsCommand"
+               label="%command.label.13"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate>
+                     <instanceof
+                           value="fragmentorcppresenter.models.repository.Relation">
+                     </instanceof>
+                  </iterate>
+               </with>
+            </visibleWhen>
+            <parameter
+                  name="FragmentoRCP.WizardParameter"
+                  value="UPDATE_RELATION">
+            </parameter>
+         </command>
          <separator
                name="FragmentoRCP.separator1"
                visible="true">
@@ -312,7 +352,7 @@
       <command
             defaultHandler="fragmentorcp.commands.enableToolbarHandler"
             id="fragmentorcp.commands.enableToolbar"
-            name="enable toolbar">
+            name="%command.name.1">
       </command>
    </extension>
    <extension
@@ -328,14 +368,6 @@
       </handler>
    </extension>
    <extension
-         point="org.eclipse.ui.preferencePages">
-      <page
-            class="fragmentorcp.preferences.servicePreference"
-            id="FragmentoRCP.servicePreference"
-            name="%page.name">
-      </page>
-   </extension>
-   <extension
          point="org.eclipse.ui.newWizards">
       <wizard
             class="fragmentorcp.wizards.CreateWizard"
@@ -346,19 +378,14 @@
             class="fragmentorcp.wizards.pages.OpenOptionsPage"
             id="FragmentoRCP.OpenOptionsPage"
             name="%wizard.name.0">
-      </wizard>
-      <wizard
-            class="fragmentorcp.wizards.pages.OpenOptionsPage2"
-            id="FragmentoRCP.OpenOptionsPage2"
-            name="%wizard.name.1">
-      </wizard>
+      </wizard>      
       <wizard
             class="fragmentorcp.wizards.pages.CreateNewItemPage"
             id="FragmentoRCP.CreateNewItem"
             name="%wizard.name.2">
       </wizard>
       <wizard
-            class="fragmentorcp.wizards.pages.SerachWizardPage1"
+            class="fragmentorcp.wizards.pages.SearchWizardPage1"
             id="FragmentoRCP.SearchWizardPage1"
             name="%wizard.name.3">
       </wizard>

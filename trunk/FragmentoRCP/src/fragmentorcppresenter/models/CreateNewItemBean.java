@@ -17,6 +17,7 @@ public class CreateNewItemBean extends ModelAbstraction {
 	private String description2;
 	private boolean buttonEnable2;
 	private boolean buttonPushed2;
+	private boolean updateRelation;
 	
 	public void setLocalBrowseButtonSelected(boolean localBrowseButtonSelected) {
 		propertyChangeSupport.firePropertyChange("localBrowseButtonSelected", this.localBrowseButtonSelected,
@@ -31,11 +32,11 @@ public class CreateNewItemBean extends ModelAbstraction {
 		return localBrowseButtonSelected;
 	}
 	
-	public boolean isFinishedOpenOptions() {
+	public boolean isFinished() {
 		return finished;
 	}
 
-	public void setFinishedOpenOptions(boolean finished) {
+	public void setFinished(boolean finished) {
 		propertyChangeSupport.firePropertyChange("finished", this.finished,
 				this.finished = finished);
 	}
@@ -174,6 +175,15 @@ public class CreateNewItemBean extends ModelAbstraction {
 
 	public boolean isButtonPushed2() {
 		return buttonPushed2;
+	}	
+
+	public void setUpdateRelation(boolean updateRelation) {
+		propertyChangeSupport.firePropertyChange("updateRelation", this.updateRelation,
+				this.updateRelation = updateRelation);
+	}
+
+	public boolean isUpdateRelation() {
+		return updateRelation;
 	}
 
 	public boolean isCanceled() {

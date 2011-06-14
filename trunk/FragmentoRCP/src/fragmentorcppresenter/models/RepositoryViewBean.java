@@ -10,6 +10,9 @@ public class RepositoryViewBean extends ModelAbstraction {
 	private boolean checkoutSelected;
 	private boolean checkinSelected;
 	private boolean refresh;
+	private boolean releaseLock;
+	private String checkoutPath;
+	private boolean keepRelations;
 	
 	public RepositoryViewBean() {
 		
@@ -85,6 +88,33 @@ public class RepositoryViewBean extends ModelAbstraction {
 
 	public boolean isRefresh() {
 		return refresh;
+	}
+
+	public void setReleaseLock(boolean releaseLock) {
+		propertyChangeSupport.firePropertyChange("releaseLock", this.releaseLock,
+				this.releaseLock = releaseLock);
+	}
+
+	public boolean isReleaseLock() {
+		return releaseLock;
+	}
+
+	public void setCheckoutPath(String checkoutPath) {
+		propertyChangeSupport.firePropertyChange("checkoutPath", this.checkoutPath,
+				this.checkoutPath = checkoutPath);
+	}
+
+	public String getCheckoutPath() {
+		return checkoutPath;
+	}
+
+	public void setKeepRelations(boolean keepRelations) {
+		propertyChangeSupport.firePropertyChange("keepRelations", this.keepRelations,
+				this.keepRelations = keepRelations);
+	}
+
+	public boolean isKeepRelations() {
+		return keepRelations;
 	}
 	
 }
