@@ -2,6 +2,7 @@ package fragmentorcp.views.treeviewer.provider;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -9,20 +10,32 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IEditorDescriptor;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.ListDialog;
+import org.eclipse.ui.ide.FileStoreEditorInput;
 import org.eclipse.ui.ide.IDE;
 //import org.eclipse.ui.part.DrillDownAdapter;
 
@@ -164,7 +177,6 @@ public class TreeViewerOperator {
 	public void hookDoubleClickAction() {
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
 			public void doubleClick(DoubleClickEvent event) {
-				// doubleClickAction.run();
 				action_openEditor.run();
 			}
 		});
@@ -210,110 +222,173 @@ public class TreeViewerOperator {
 	 * in the remote repository.
 	 */
 	public void init() {
-		ArtefactCategory<ArtefactCategory<Artefact>> artefactsCategory = new ArtefactCategory<ArtefactCategory<Artefact>>();
-		ArtefactCategory<Artefact> subArtefactsCategory = new ArtefactCategory<Artefact>();
 
-		RelationsCategory<RelationsCategory<Relation>> relationsCategory = new RelationsCategory<RelationsCategory<Relation>>();
-		RelationsCategory<Relation> subRelationsCategory = new RelationsCategory<Relation>();
+		ProgressMonitorDialog dialog = new ProgressMonitorDialog(this.viewer
+				.getControl().getShell());
+		try {
+			dialog.run(false, true, new IRunnableWithProgress() {
+				public void run(IProgressMonitor monitor) {
+					monitor.beginTask(
+							"Fragmento repository items are being loaded", 100);
 
-		this.getArtefactList().clear();
-		artefactsCategory.setName("Artefacts");
-		mock.getCategories().add(artefactsCategory);
+					ArtefactCategory<ArtefactCategory<Artefact>> artefactsCategory = new ArtefactCategory<ArtefactCategory<Artefact>>();
+					ArtefactCategory<Artefact> subArtefactsCategory = new ArtefactCategory<Artefact>();
 
-		subArtefactsCategory.setName(ArtefactTypes.WSDL.toString());
-		artefactsCategory.getChildren().add(subArtefactsCategory);
+					RelationsCategory<RelationsCategory<Relation>> relationsCategory = new RelationsCategory<RelationsCategory<Relation>>();
+					RelationsCategory<Relation> subRelationsCategory = new RelationsCategory<Relation>();
 
-		loadArtefacts(ArtefactTypes.WSDL);
+					monitor.worked(5);
 
-		subArtefactsCategory = new ArtefactCategory<Artefact>();
-		subArtefactsCategory.setName(ArtefactTypes.ANNOTATION.toString());
-		artefactsCategory.getChildren().add(subArtefactsCategory);
+					getArtefactList().clear();
+					artefactsCategory.setName("Artefacts");
+					mock.getCategories().add(artefactsCategory);
 
-		loadArtefacts(ArtefactTypes.ANNOTATION);
+					subArtefactsCategory.setName(ArtefactTypes.WSDL.toString());
+					artefactsCategory.getChildren().add(subArtefactsCategory);
 
-		subArtefactsCategory = new ArtefactCategory<Artefact>();
-		subArtefactsCategory.setName(ArtefactTypes.CONTAINER.toString());
-		artefactsCategory.getChildren().add(subArtefactsCategory);
+					loadArtefacts(ArtefactTypes.WSDL);
 
-		loadArtefacts(ArtefactTypes.CONTAINER);
+					monitor.worked(5);
 
-		subArtefactsCategory = new ArtefactCategory<Artefact>();
-		subArtefactsCategory.setName(ArtefactTypes.DEPLOYMENT_DESCRIPTOR
-				.toString());
-		artefactsCategory.getChildren().add(subArtefactsCategory);
+					subArtefactsCategory = new ArtefactCategory<Artefact>();
+					subArtefactsCategory.setName(ArtefactTypes.ANNOTATION
+							.toString());
+					artefactsCategory.getChildren().add(subArtefactsCategory);
 
-		loadArtefacts(ArtefactTypes.DEPLOYMENT_DESCRIPTOR);
+					loadArtefacts(ArtefactTypes.ANNOTATION);
 
-		subArtefactsCategory = new ArtefactCategory<Artefact>();
-		subArtefactsCategory.setName(ArtefactTypes.FRAGMENT.toString());
-		artefactsCategory.getChildren().add(subArtefactsCategory);
+					monitor.worked(5);
 
-		loadArtefacts(ArtefactTypes.FRAGMENT);
+					subArtefactsCategory = new ArtefactCategory<Artefact>();
+					subArtefactsCategory.setName(ArtefactTypes.CONTAINER
+							.toString());
+					artefactsCategory.getChildren().add(subArtefactsCategory);
 
-		subArtefactsCategory = new ArtefactCategory<Artefact>();
-		subArtefactsCategory.setName(ArtefactTypes.MODELLER_DATA.toString());
-		artefactsCategory.getChildren().add(subArtefactsCategory);
+					loadArtefacts(ArtefactTypes.CONTAINER);
 
-		loadArtefacts(ArtefactTypes.MODELLER_DATA);
+					monitor.worked(5);
 
-		subArtefactsCategory = new ArtefactCategory<Artefact>();
-		subArtefactsCategory.setName(ArtefactTypes.PROCESS.toString());
-		artefactsCategory.getChildren().add(subArtefactsCategory);
+					subArtefactsCategory = new ArtefactCategory<Artefact>();
+					subArtefactsCategory
+							.setName(ArtefactTypes.DEPLOYMENT_DESCRIPTOR
+									.toString());
+					artefactsCategory.getChildren().add(subArtefactsCategory);
 
-		loadArtefacts(ArtefactTypes.PROCESS);
+					loadArtefacts(ArtefactTypes.DEPLOYMENT_DESCRIPTOR);
 
-		subArtefactsCategory = new ArtefactCategory<Artefact>();
-		subArtefactsCategory.setName(ArtefactTypes.TRANSFORMATION_RULE
-				.toString());
-		artefactsCategory.getChildren().add(subArtefactsCategory);
+					subArtefactsCategory = new ArtefactCategory<Artefact>();
+					subArtefactsCategory.setName(ArtefactTypes.FRAGMENT
+							.toString());
+					artefactsCategory.getChildren().add(subArtefactsCategory);
 
-		loadArtefacts(ArtefactTypes.TRANSFORMATION_RULE);
+					loadArtefacts(ArtefactTypes.FRAGMENT);
 
-		subArtefactsCategory = new ArtefactCategory<Artefact>();
-		subArtefactsCategory.setName(ArtefactTypes.MODELLER_DATA.toString());
-		artefactsCategory.getChildren().add(subArtefactsCategory);
+					monitor.worked(5);
 
-		loadArtefacts(ArtefactTypes.MODELLER_DATA);
+					subArtefactsCategory = new ArtefactCategory<Artefact>();
+					subArtefactsCategory.setName(ArtefactTypes.MODELLER_DATA
+							.toString());
+					artefactsCategory.getChildren().add(subArtefactsCategory);
 
-		// ///////// RELATIONS /////////////
+					loadArtefacts(ArtefactTypes.MODELLER_DATA);
 
-		relationsCategory.setName("Relations");
-		mock.getCategories().add(relationsCategory);
+					monitor.worked(5);
 
-		subRelationsCategory.setName(RelationTypes.ANNOTATION.toString());
-		relationsCategory.getChildren().add(subRelationsCategory);
+					subArtefactsCategory = new ArtefactCategory<Artefact>();
+					subArtefactsCategory.setName(ArtefactTypes.PROCESS
+							.toString());
+					artefactsCategory.getChildren().add(subArtefactsCategory);
 
-		loadRelations(RelationTypes.ANNOTATION);
+					loadArtefacts(ArtefactTypes.PROCESS);
 
-		subRelationsCategory = new RelationsCategory<Relation>();
-		subRelationsCategory.setName(RelationTypes.CONTAINER.toString());
-		relationsCategory.getChildren().add(subRelationsCategory);
+					monitor.worked(5);
 
-		loadRelations(RelationTypes.CONTAINER);
+					subArtefactsCategory = new ArtefactCategory<Artefact>();
+					subArtefactsCategory
+							.setName(ArtefactTypes.TRANSFORMATION_RULE
+									.toString());
+					artefactsCategory.getChildren().add(subArtefactsCategory);
 
-		subRelationsCategory = new RelationsCategory<Relation>();
-		subRelationsCategory.setName(RelationTypes.DEPLOYMENT.toString());
-		relationsCategory.getChildren().add(subRelationsCategory);
+					loadArtefacts(ArtefactTypes.TRANSFORMATION_RULE);
 
-		loadRelations(RelationTypes.DEPLOYMENT);
+					monitor.worked(5);
 
-		subRelationsCategory = new RelationsCategory<Relation>();
-		subRelationsCategory.setName(RelationTypes.MODELLER_DATA.toString());
-		relationsCategory.getChildren().add(subRelationsCategory);
+					subArtefactsCategory = new ArtefactCategory<Artefact>();
+					subArtefactsCategory.setName(ArtefactTypes.MODELLER_DATA
+							.toString());
+					artefactsCategory.getChildren().add(subArtefactsCategory);
 
-		loadRelations(RelationTypes.MODELLER_DATA);
+					loadArtefacts(ArtefactTypes.MODELLER_DATA);
 
-		subRelationsCategory = new RelationsCategory<Relation>();
-		subRelationsCategory.setName(RelationTypes.TRANSFORMATION.toString());
-		relationsCategory.getChildren().add(subRelationsCategory);
+					monitor.worked(5);
 
-		loadRelations(RelationTypes.TRANSFORMATION);
+					// ///////// RELATIONS /////////////
 
-		subRelationsCategory = new RelationsCategory<Relation>();
-		subRelationsCategory.setName(RelationTypes.WSDL.toString());
-		relationsCategory.getChildren().add(subRelationsCategory);
+					relationsCategory.setName("Relations");
+					mock.getCategories().add(relationsCategory);
 
-		loadRelations(RelationTypes.WSDL);
+					monitor.worked(5);
+
+					subRelationsCategory.setName(RelationTypes.ANNOTATION
+							.toString());
+					relationsCategory.getChildren().add(subRelationsCategory);
+
+					loadRelations(RelationTypes.ANNOTATION);
+
+					monitor.worked(5);
+
+					subRelationsCategory = new RelationsCategory<Relation>();
+					subRelationsCategory.setName(RelationTypes.CONTAINER
+							.toString());
+					relationsCategory.getChildren().add(subRelationsCategory);
+
+					loadRelations(RelationTypes.CONTAINER);
+
+					monitor.worked(5);
+
+					subRelationsCategory = new RelationsCategory<Relation>();
+					subRelationsCategory.setName(RelationTypes.DEPLOYMENT
+							.toString());
+					relationsCategory.getChildren().add(subRelationsCategory);
+
+					loadRelations(RelationTypes.DEPLOYMENT);
+
+					monitor.worked(5);
+
+					subRelationsCategory = new RelationsCategory<Relation>();
+					subRelationsCategory.setName(RelationTypes.MODELLER_DATA
+							.toString());
+					relationsCategory.getChildren().add(subRelationsCategory);
+
+					loadRelations(RelationTypes.MODELLER_DATA);
+
+					monitor.worked(10);
+
+					subRelationsCategory = new RelationsCategory<Relation>();
+					subRelationsCategory.setName(RelationTypes.TRANSFORMATION
+							.toString());
+					relationsCategory.getChildren().add(subRelationsCategory);
+
+					loadRelations(RelationTypes.TRANSFORMATION);
+
+					monitor.worked(10);
+
+					subRelationsCategory = new RelationsCategory<Relation>();
+					subRelationsCategory.setName(RelationTypes.WSDL.toString());
+					relationsCategory.getChildren().add(subRelationsCategory);
+
+					loadRelations(RelationTypes.WSDL);
+
+					monitor.worked(15);
+
+					monitor.done();
+				}
+			});
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -1032,14 +1107,65 @@ public class TreeViewerOperator {
 					fileToOpen.toURI());
 			IWorkbenchPage page = PlatformUI.getWorkbench()
 					.getActiveWorkbenchWindow().getActivePage();
+			FileStoreEditorInput fileStoreEditorInput = new FileStoreEditorInput(
+					fileStore);
+
+			ListDialog listDialog = new ListDialog(this.viewer.getTree()
+					.getShell());
+			listDialog.setTitle("Editor Selection Menu");
+			listDialog.setMessage("Available Editors");
+			listDialog.setContentProvider(ArrayContentProvider.getInstance());
+			listDialog.setLabelProvider(new ListLabelProvider());
+			listDialog.setInput(PlatformUI.getWorkbench().getEditorRegistry()
+					.getEditors(fileToOpen.getName()));
 
 			try {
-				IDE.openEditorOnFileStore(page, fileStore);
+				if (listDialog.open() == Dialog.OK) {
+					IDE.openEditor(page, (IEditorInput) fileStoreEditorInput,
+							((IEditorDescriptor) listDialog.getResult()[0])
+									.getId());
+				}
+				// IDE.openEditorOnFileStore(page, fileStore);
+
+				// IDE.openEditor(page, (IEditorInput)fileStoreEditorInput,
+				// PlatformUI.getWorkbench().
+				// getEditorRegistry().getEditors("dummy.bpel")[0].getId());
 			} catch (PartInitException e) {
 				// Put your exception handler here if you wish to
 			}
 		} else {
 		}
+	}
+
+	class ListLabelProvider implements ILabelProvider {
+
+		@Override
+		public Image getImage(Object element) {
+			return null;
+		}
+
+		@Override
+		public String getText(Object element) {
+			return ((IEditorDescriptor) element).getLabel();
+		}
+
+		@Override
+		public void addListener(ILabelProviderListener listener) {
+		}
+
+		@Override
+		public void dispose() {
+		}
+
+		@Override
+		public boolean isLabelProperty(Object element, String property) {
+			return false;
+		}
+
+		@Override
+		public void removeListener(ILabelProviderListener listener) {
+		}
+
 	}
 
 	/**
@@ -1279,9 +1405,8 @@ public class TreeViewerOperator {
 					artefactAdapter(item.getArtefactType()),
 					item.getArtefactDescription(), payload,
 					this.isKeepRelations());
-			openFile(item, this.getCheckoutPath(),
-					String.valueOf(item.getArtefactID()));
-			// openFile(item,System.getProperty("java.io.tmpdir"),String.valueOf(item.getArtefactID()));
+			// openFile(item, this.getCheckoutPath(),
+			// String.valueOf(item.getArtefactID()));
 			item.setCheckedOut(false);
 			viewer.refresh();
 		}
