@@ -3,14 +3,18 @@ package fragmentorcp.views;
 import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.ToolTip;
@@ -29,19 +33,19 @@ import fragmentorcppresenter.ifaces.GuiModelPropertyChange_IViewPart;
 import fragmentorcppresenter.presenter.Presenter;
 
 /**
- * The Class RepositoryView is the main plugin view
- * which handles the toolbar item and the JFace TreeViewer.
- *
+ * The Class RepositoryView is the main plugin view which handles the toolbar
+ * item and the JFace TreeViewer.
+ * 
  * @author Dimitrios Dentsas
  */
 public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 
 	/** The Constant ID. */
 	public static final String ID = "FragmentoRCP.RepositoryView";
-	
+
 	/** The viewer. */
 	private TreeViewer viewer;
-	
+
 	/** The presenter. */
 	private Presenter presenter;
 	// private TreeViewerOperator operator;
@@ -58,8 +62,12 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 		this.presenter.setNewRepostoryViewBean();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
@@ -98,7 +106,9 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 		getSite().registerContextMenu("treePopupMenu", menuMgr, viewer);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
 	@Override
@@ -106,8 +116,11 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 		viewer.getControl().setFocus();
 	}
 
-	/* (non-Javadoc)
-	 * @see fragmentorcppresenter.ifaces.GuiModelPropertyChange_IViewPart#modelPropertyChange(java.beans.PropertyChangeEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fragmentorcppresenter.ifaces.GuiModelPropertyChange_IViewPart#
+	 * modelPropertyChange(java.beans.PropertyChangeEvent)
 	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent event) {
@@ -119,7 +132,8 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 		} else if (event.getPropertyName().equals("btnRetrieveNow")) {
 			if ((Boolean) event.getNewValue()) {
 				mock.getCategories().clear();
-				this.presenter.getOperator().init();
+				presenter.getOperator().init();
+
 				viewer.refresh();
 
 				viewer.expandAll();
@@ -183,7 +197,7 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 		} else if (event.getPropertyName().equals("refresh")) {
 			if ((Boolean) event.getNewValue()) {
 				mock.getCategories().clear();
-				this.presenter.getOperator().init();
+				presenter.getOperator().init();
 				viewer.expandAll();
 				viewer.refresh();
 				this.presenter.setModelProperty("refresh", false);
