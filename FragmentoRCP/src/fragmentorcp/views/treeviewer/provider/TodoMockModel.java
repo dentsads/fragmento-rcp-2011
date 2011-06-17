@@ -4,33 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 import fragmentorcppresenter.models.repository.IPlaceHolder;
 
-
+/**
+ * The Class TodoMockModel is badly named but kept for stability purposes It
+ * provides the global TreeViewer category list.
+ * 
+ * @author Dimitrios Dentsas
+ */
 public class TodoMockModel {
-	
+
+	/**
+	 * Instantiates a new todo mock model.
+	 */
 	public TodoMockModel() {
 	}
-	
+
+	/** The categories. */
 	List<IPlaceHolder> categories = new ArrayList<IPlaceHolder>();
-	
+
+	/**
+	 * Gets the categories.
+	 * 
+	 * @return the categories
+	 */
 	public List<IPlaceHolder> getCategories() {
-	
+
 		return categories;
 	}
-	
-//	public void createArtefactCategory(ArtefactTypes type) {
-//		this.subArtefactsCategory = new ArtefactCategory<Artefact>();
-//		subArtefactsCategory.setName(type.toString());
-//		
-//		int size = this.artefactsCategory.getChildren().size();
-//		
-//		for (int i = 0; i < size; i++) {
-//			if (i==size && this.artefactsCategory.getChildren().get(i).getName() != type.toString()) {
-//				this.subArtefactsCategory = new ArtefactCategory<Artefact>();
-//				subArtefactsCategory.setName(type.toString());
-//				this.artefactsCategory.getChildren().add(subArtefactsCategory);
-//			}
-//		}
-//	}
-	
-	
+
 }

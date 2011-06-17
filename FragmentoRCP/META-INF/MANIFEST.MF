@@ -107,7 +107,8 @@ Bundle-ClassPath: lib/activation-1.1.jar,
  lib/XmlSchema-1.4.2.jar,
  lib/xmlsec-1.4.1.jar,
  lib/xom-1.0.jar,
- src/
+ src/,
+ bin/
 Export-Package: .,
  BPEL,
  Rules,

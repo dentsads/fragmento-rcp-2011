@@ -7,15 +7,25 @@ import org.eclipse.core.commands.ExecutionException;
 import fragmentorcp.Activator;
 import fragmentorcppresenter.presenter.Presenter;
 
+/**
+ * The Class toolbarRemainingCommandHandler.
+ *
+ * @author Dimitrios Dentsas
+ */
 public class toolbarRemainingCommandHandler extends AbstractHandler {
-	
+
+	/** The presenter. */
 	private Presenter presenter = Activator.getDefault().getPresenter();
-	
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		
-		String wizardParameter = event.getParameter("FragmentoRCP.WizardParameter");
-		
+
+		String wizardParameter = event
+				.getParameter("FragmentoRCP.WizardParameter");
+
 		if (wizardParameter.equalsIgnoreCase("TOOLBAR_EXPAND_ALL")) {
 			this.presenter.setModelProperty("expandAll", true);
 		} else if (wizardParameter.equalsIgnoreCase("TOOLBAR_COLLAPSE_ALL")) {
@@ -33,7 +43,7 @@ public class toolbarRemainingCommandHandler extends AbstractHandler {
 		} else if (wizardParameter.equalsIgnoreCase("RELEASE_LOCK")) {
 			this.presenter.setModelProperty("releaseLock", true);
 		}
-		
+
 		return null;
 	}
 

@@ -20,73 +20,111 @@ import fragmentorcp.wizards.pages.CreateNewItemPage;
 import fragmentorcp.wizards.pages.OpenOptionsPage;
 import fragmentorcp.wizards.pages.SearchWizardPage1;
 import fragmentorcppresenter.ifaces.IGuiModelPropertyChange;
-import fragmentorcppresenter.models.repository.Artefact;
 import fragmentorcppresenter.models.repository.Relation;
 import fragmentorcppresenter.presenter.Presenter;
 
-public class openOptionsCommandHandler extends AbstractHandler implements IGuiModelPropertyChange {
+/**
+ * The Class openOptionsCommandHandler.
+ * 
+ * @author Dimitrios Dentsas
+ */
+public class openOptionsCommandHandler extends AbstractHandler implements
+		IGuiModelPropertyChange {
+
+	/** The event. */
+	@SuppressWarnings("unused")
 	private ExecutionEvent event;
+
+	/** The source provider service. */
 	ISourceProviderService sourceProviderService;
+
+	/** The presenter. */
 	private Presenter presenter;
-	
+
+	/**
+	 * Instantiates a new open options command handler.
+	 */
 	public openOptionsCommandHandler() {
 		this.presenter = Activator.getDefault().getPresenter();
-        this.presenter.addView(this);
+		this.presenter.addView(this);
 	}
-	
+
+	/*
+	 * depending on what toolbar and contextmenu items were clicked according
+	 * conditionals are activated and handled
+	 * 
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
+	 * .ExecutionEvent)
+	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		this.event= event;
-		String wizardParameter = event.getParameter("FragmentoRCP.WizardParameter");
+		this.event = event;
+		String wizardParameter = event
+				.getParameter("FragmentoRCP.WizardParameter");
 		List<IWizardPage> pages = new ArrayList<IWizardPage>();
-		
+
 		this.sourceProviderService = (ISourceProviderService) HandlerUtil
-		.getActiveWorkbenchWindow(event).getService(
-				ISourceProviderService.class);
-		
+				.getActiveWorkbenchWindow(event).getService(
+						ISourceProviderService.class);
+
 		if (wizardParameter.equalsIgnoreCase("TOOLBAR_OPTIONS")) {
 			pages.add(new OpenOptionsPage("Repository options"));
-			//pages.add(new OpenOptionsPage2("2"));
+			// pages.add(new OpenOptionsPage2("2"));
 		} else if (wizardParameter.equalsIgnoreCase("TOOLBAR_CREATE_NEW_ITEM")) {
 			pages.add(new CreateNewItemPage("1"));
 		} else if (wizardParameter.equalsIgnoreCase("UPDATE_RELATION")) {
-			
-			if (this.presenter.getOperator().getViewer().getSelection().isEmpty()) {
-			       this.presenter.getOperator().showErrorMessage("Please selected an item to complete operation.");
-			   } else {
-			       IStructuredSelection selection = (IStructuredSelection) this.presenter.getOperator().getViewer().getSelection();
-			       Object selectedDomainObject = selection.getFirstElement();
-			       if (selectedDomainObject instanceof Relation){
-			    	   Relation item = (Relation)selectedDomainObject;
-			    	   pages.add(new CreateNewItemPage("2", item));
-			       } else {
-			    	   this.presenter.getOperator().showErrorMessage("Please select a relation to complete operation.");
-			       }
-			   } 
-			
+
+			if (this.presenter.getOperator().getViewer().getSelection()
+					.isEmpty()) {
+				this.presenter.getOperator().showErrorMessage(
+						"Please selected an item to complete operation.");
+			} else {
+				IStructuredSelection selection = (IStructuredSelection) this.presenter
+						.getOperator().getViewer().getSelection();
+				Object selectedDomainObject = selection.getFirstElement();
+				if (selectedDomainObject instanceof Relation) {
+					Relation item = (Relation) selectedDomainObject;
+					pages.add(new CreateNewItemPage("2", item));
+				} else {
+					this.presenter.getOperator().showErrorMessage(
+							"Please select a relation to complete operation.");
+				}
+			}
+
 		} else if (wizardParameter.equalsIgnoreCase("TOOLBAR_SEARCH")) {
 			pages.add(new SearchWizardPage1("1"));
 		}
 
 		CreateWizard wizard = new CreateWizard(pages);
-        WizardDialog dialog = new WizardDialog(HandlerUtil.getActiveWorkbenchWindow(event).getShell(), wizard);
-        dialog.create();
-        dialog.open();
-        
+		WizardDialog dialog = new WizardDialog(HandlerUtil
+				.getActiveWorkbenchWindow(event).getShell(), wizard);
+		dialog.create();
+		dialog.open();
+
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fragmentorcppresenter.ifaces.IGuiModelPropertyChange#modelPropertyChange
+	 * (java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent event) {
 		if (event.getPropertyName().equals("btnRetrieveNow")) {
-			if ((Boolean)event.getNewValue()) {
+			if ((Boolean) event.getNewValue()) {
 				CommandState commandStateService = (CommandState) sourceProviderService
-				.getSourceProvider(CommandState.MY_STATE);
+						.getSourceProvider(CommandState.MY_STATE);
 
-					commandStateService.enable();
-						
+				commandStateService.enable();
+
 				this.presenter.setModelProperty("btnRetrieveNow", false);
-			}			
-		}		
+			}
+		}
 	}
 }

@@ -6,22 +6,48 @@ import java.util.Map;
 import org.eclipse.ui.AbstractSourceProvider;
 import org.eclipse.ui.ISources;
 
+/**
+ * The Class CommandState takes the current predefined visibility state of the
+ * view toolbar, manages it and provides methods for changing it.
+ * 
+ * @author Dimitrios Dentsas
+ */
 public class CommandState extends AbstractSourceProvider {
-	
+
+	/** The Constant MY_STATE. */
 	public final static String MY_STATE = "FragmentoRCP.active";
+
+	/** The Constant ENABLED. */
 	public final static String ENABLED = "ENABLED";
+
+	/** The Constant DISENABLED. */
 	public final static String DISENABLED = "DISENABLED";
+
+	/** The enabled. */
 	private boolean enabled = false;
-	
+
+	/**
+	 * Instantiates a new command state.
+	 */
 	public CommandState() {
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.ISourceProvider#dispose()
+	 */
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
 
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.ISourceProvider#getCurrentState()
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Map getCurrentState() {
@@ -31,17 +57,28 @@ public class CommandState extends AbstractSourceProvider {
 		return map;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.ISourceProvider#getProvidedSourceNames()
+	 */
 	@Override
 	public String[] getProvidedSourceNames() {
 		return new String[] { MY_STATE };
 	}
 
+	/**
+	 * Toggles the state from enabled to disabled and vice versa.
+	 */
 	public void toogleEnabled() {
-		enabled = !enabled ;
+		enabled = !enabled;
 		String value = enabled ? ENABLED : DISENABLED;
 		fireSourceChanged(ISources.WORKBENCH, MY_STATE, value);
 	}
-	
+
+	/**
+	 * Enable.
+	 */
 	public void enable() {
 		fireSourceChanged(ISources.WORKBENCH, MY_STATE, ENABLED);
 	}

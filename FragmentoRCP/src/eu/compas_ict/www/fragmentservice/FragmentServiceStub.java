@@ -1,11 +1,10 @@
-
 /**
  * FragmentServiceStub.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.5.4  Built on : Dec 19, 2010 (08:18:42 CET)
  */
-        package eu.compas_ict.www.fragmentservice;
+package eu.compas_ict.www.fragmentservice;
 
         
 
@@ -19,9 +18,12 @@
         protected org.apache.axis2.description.AxisOperation[] _operations;
 
         //hashmaps to keep the fault mapping
-        private java.util.HashMap faultExceptionNameMap = new java.util.HashMap();
-        private java.util.HashMap faultExceptionClassNameMap = new java.util.HashMap();
-        private java.util.HashMap faultMessageMap = new java.util.HashMap();
+        @SuppressWarnings("rawtypes")
+		private java.util.HashMap faultExceptionNameMap = new java.util.HashMap();
+        @SuppressWarnings("rawtypes")
+		private java.util.HashMap faultExceptionClassNameMap = new java.util.HashMap();
+        @SuppressWarnings("rawtypes")
+		private java.util.HashMap faultMessageMap = new java.util.HashMap();
 
         private static int counter = 0;
 

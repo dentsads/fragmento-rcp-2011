@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="bin/"/>
 	<classpathentry exported="true" kind="lib" path="lib/activation-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/annogen-0.1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/ant-1.7.0.jar"/>

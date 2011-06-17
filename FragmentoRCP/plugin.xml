@@ -400,5 +400,17 @@
          </variable>
       </sourceProvider>
    </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.eclipse.equinox.p2.director.app.application"
+            name="%product.name">
+         <property
+               name="appName"
+               value="FragmentoRCP Plugin">
+         </property>
+      </product>
+   </extension>
 
 </plugin>
