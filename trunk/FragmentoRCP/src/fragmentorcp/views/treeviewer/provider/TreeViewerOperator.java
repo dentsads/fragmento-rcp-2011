@@ -46,17 +46,22 @@ import eu.compas_ict.www.fragmentservice.FragmentServiceStub.BrowseRelationsResp
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.CreateArtefactResponseMessage;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.CreateRelationResponseMessage;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.Lock_type0;
+import eu.compas_ict.www.fragmentservice.FragmentServiceStub.Relation_type0;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.Relation_type2;
+import eu.compas_ict.www.fragmentservice.FragmentServiceStub.RetrieveArtefactBundleResponseMessage;
+import eu.compas_ict.www.fragmentservice.FragmentServiceStub.RetrieveArtefactHistoryResponseMessage;
 import eu.compas_ict.www.fragmentservice.FragmentServiceStub.UpdateRelationResponseMessage;
 import fragmentService.FragmentoAxis;
 import fragmentorcppresenter.models.repository.Artefact;
 import fragmentorcppresenter.models.repository.ArtefactCategory;
+import fragmentorcppresenter.models.repository.ArtefactHistoryBundle;
 import fragmentorcppresenter.models.repository.ArtefactTypes;
 import fragmentorcppresenter.models.repository.IPlaceHolder;
 import fragmentorcppresenter.models.repository.Relation;
 import fragmentorcppresenter.models.repository.RelationTypes;
 import fragmentorcppresenter.models.repository.RelationsCategory;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TreeViewerOperator provides an aggregation of essential custom
  * lookup methods and operations for the TreeViewer.
@@ -160,6 +165,11 @@ public class TreeViewerOperator {
 								((Artefact) obj),
 								System.getProperty("java.io.tmpdir"),
 								String.valueOf(((Artefact) obj).getArtefactID()));
+					} else if (obj instanceof ArtefactHistoryBundle) {
+						openFile(
+								((ArtefactHistoryBundle) obj),
+								System.getProperty("java.io.tmpdir"),
+								String.valueOf(((ArtefactHistoryBundle) obj).getArtefactID()));
 					} else {
 						showErrorMessage("Please select an artefact to complete operation.");
 					}
@@ -311,16 +321,7 @@ public class TreeViewerOperator {
 
 					loadArtefacts(ArtefactTypes.TRANSFORMATION_RULE);
 
-					monitor.worked(5);
-
-					subArtefactsCategory = new ArtefactCategory<Artefact>();
-					subArtefactsCategory.setName(ArtefactTypes.MODELLER_DATA
-							.toString());
-					artefactsCategory.getChildren().add(subArtefactsCategory);
-
-					loadArtefacts(ArtefactTypes.MODELLER_DATA);
-
-					monitor.worked(5);
+					monitor.worked(10);
 
 					// ///////// RELATIONS /////////////
 
@@ -486,18 +487,8 @@ public class TreeViewerOperator {
 									.artefactInverseAdapter(type));
 							artefact.setArtefactID((int) artefacts[i]
 									.getArtefactId());
-							if (artefacts[i].getDescription().contains("<!--")) {
-								artefact.setArtefactDescription((String) artefacts[i]
-										.getDescription()
-										.subSequence(
-												0,
-												artefacts[i].getDescription()
-														.indexOf("<!--"))
-										.toString().trim());
-							} else {
-								artefact.setArtefactDescription(artefacts[i]
-										.getDescription());
-							}
+							artefact.setArtefactDescription(this.trimString(artefacts[i]
+							                  										.getDescription()));
 							artefact.setCheckedOut(isCheckedOut(artefact
 									.getArtefactID()));
 							this.getMock().getCategories().add(artefact);
@@ -542,18 +533,8 @@ public class TreeViewerOperator {
 											.getType()));
 							artefact.setArtefactID((int) artefacts[i]
 									.getArtefactId());
-							if (artefacts[i].getDescription().contains("<!--")) {
-								artefact.setArtefactDescription((String) artefacts[i]
-										.getDescription()
-										.subSequence(
-												0,
-												artefacts[i].getDescription()
-														.indexOf("<!--"))
-										.toString().trim());
-							} else {
-								artefact.setArtefactDescription(artefacts[i]
-										.getDescription());
-							}
+							artefact.setArtefactDescription(this.trimString(artefacts[i]
+							                  										.getDescription()));
 							artefact.setCheckedOut(isCheckedOut(artefact
 									.getArtefactID()));
 							this.getMock().getCategories().add(artefact);
@@ -597,18 +578,8 @@ public class TreeViewerOperator {
 											.getType()));
 							artefact.setArtefactID((int) artefacts[i]
 									.getArtefactId());
-							if (artefacts[i].getDescription().contains("<!--")) {
-								artefact.setArtefactDescription((String) artefacts[i]
-										.getDescription()
-										.subSequence(
-												0,
-												artefacts[i].getDescription()
-														.indexOf("<!--"))
-										.toString().trim());
-							} else {
-								artefact.setArtefactDescription(artefacts[i]
-										.getDescription());
-							}
+							artefact.setArtefactDescription(this.trimString(artefacts[i]
+							                  										.getDescription()));
 							artefact.setCheckedOut(isCheckedOut(artefact
 									.getArtefactID()));
 							this.getMock().getCategories().add(artefact);
@@ -655,18 +626,8 @@ public class TreeViewerOperator {
 											.getType()));
 							artefact.setArtefactID((int) artefacts[i]
 									.getArtefactId());
-							if (artefacts[i].getDescription().contains("<!--")) {
-								artefact.setArtefactDescription((String) artefacts[i]
-										.getDescription()
-										.subSequence(
-												0,
-												artefacts[i].getDescription()
-														.indexOf("<!--"))
-										.toString().trim());
-							} else {
-								artefact.setArtefactDescription(artefacts[i]
-										.getDescription());
-							}
+							artefact.setArtefactDescription(this.trimString(artefacts[i]
+							                  										.getDescription()));
 							artefact.setCheckedOut(isCheckedOut(artefact
 									.getArtefactID()));
 							this.getMock().getCategories().add(artefact);
@@ -717,18 +678,8 @@ public class TreeViewerOperator {
 											.getType()));
 							artefact.setArtefactID((int) artefacts[i]
 									.getArtefactId());
-							if (artefacts[i].getDescription().contains("<!--")) {
-								artefact.setArtefactDescription((String) artefacts[i]
-										.getDescription()
-										.subSequence(
-												0,
-												artefacts[i].getDescription()
-														.indexOf("<!--"))
-										.toString().trim());
-							} else {
-								artefact.setArtefactDescription(artefacts[i]
-										.getDescription());
-							}
+							artefact.setArtefactDescription(this.trimString(artefacts[i]
+										.getDescription()));
 							artefact.setCheckedOut(isCheckedOut(artefact
 									.getArtefactID()));
 							this.getMock().getCategories().add(artefact);
@@ -771,18 +722,8 @@ public class TreeViewerOperator {
 									.relationInverseAdapter2(type));
 							relation.setRelationID((int) relations[i]
 									.getRelationId());
-							if (relations[i].getDescription().contains("<!--")) {
-								relation.setRelationDescription((String) relations[i]
-										.getDescription()
-										.subSequence(
-												0,
-												relations[i].getDescription()
-														.indexOf("<!--"))
-										.toString().trim());
-							} else {
-								relation.setRelationDescription(relations[i]
-										.getDescription());
-							}
+							relation.setRelationDescription(this.trimString(relations[i]
+										.getDescription()));
 							relation.setFromID((int) relations[i].getFrom());
 							relation.setToID((int) relations[i].getTo());
 							this.getMock().getCategories().add(relation);
@@ -826,18 +767,8 @@ public class TreeViewerOperator {
 											.getType().toString()));
 							relation.setRelationID((int) relations[i]
 									.getRelationId());
-							if (relations[i].getDescription().contains("<!--")) {
-								relation.setRelationDescription((String) relations[i]
-										.getDescription()
-										.subSequence(
-												0,
-												relations[i].getDescription()
-														.indexOf("<!--"))
-										.toString().trim());
-							} else {
-								relation.setRelationDescription(relations[i]
-										.getDescription());
-							}
+							relation.setRelationDescription(this.trimString(relations[i]
+										.getDescription()));
 							relation.setFromID((int) relations[i].getFrom());
 							relation.setToID((int) relations[i].getTo());
 							this.getMock().getCategories().add(relation);
@@ -881,18 +812,8 @@ public class TreeViewerOperator {
 											.getType().toString()));
 							relation.setRelationID((int) relations[i]
 									.getRelationId());
-							if (relations[i].getDescription().contains("<!--")) {
-								relation.setRelationDescription((String) relations[i]
-										.getDescription()
-										.subSequence(
-												0,
-												relations[i].getDescription()
-														.indexOf("<!--"))
-										.toString().trim());
-							} else {
-								relation.setRelationDescription(relations[i]
-										.getDescription());
-							}
+							relation.setRelationDescription(this.trimString(relations[i]
+							                  										.getDescription()));
 							relation.setFromID((int) relations[i].getFrom());
 							relation.setToID((int) relations[i].getTo());
 							this.getMock().getCategories().add(relation);
@@ -939,18 +860,8 @@ public class TreeViewerOperator {
 											.getType().toString()));
 							relation.setRelationID((int) relations[i]
 									.getRelationId());
-							if (relations[i].getDescription().contains("<!--")) {
-								relation.setRelationDescription((String) relations[i]
-										.getDescription()
-										.subSequence(
-												0,
-												relations[i].getDescription()
-														.indexOf("<!--"))
-										.toString().trim());
-							} else {
-								relation.setRelationDescription(relations[i]
-										.getDescription());
-							}
+							relation.setRelationDescription(this.trimString(relations[i]
+										.getDescription()));
 							relation.setFromID((int) relations[i].getFrom());
 							relation.setToID((int) relations[i].getTo());
 							this.getMock().getCategories().add(relation);
@@ -1001,18 +912,9 @@ public class TreeViewerOperator {
 											.getType().toString()));
 							relation.setRelationID((int) relations[i]
 									.getRelationId());
-							if (relations[i].getDescription().contains("<!--")) {
-								relation.setRelationDescription((String) relations[i]
-										.getDescription()
-										.subSequence(
-												0,
-												relations[i].getDescription()
-														.indexOf("<!--"))
-										.toString().trim());
-							} else {
-								relation.setRelationDescription(relations[i]
-										.getDescription());
-							}
+							
+							relation.setRelationDescription(this.trimString(relations[i]
+										.getDescription()));
 							relation.setFromID((int) relations[i].getFrom());
 							relation.setToID((int) relations[i].getTo());
 							this.getMock().getCategories().add(relation);
@@ -1024,7 +926,41 @@ public class TreeViewerOperator {
 			}
 		}
 	}
-
+	
+	
+	/**
+	 * Retrieve artefact bundle.
+	 */
+	public void retrieveArtefactBundle() {
+		
+		IStructuredSelection selection = (IStructuredSelection) viewer
+		.getSelection();
+		Object selectedDomainObject = selection.getFirstElement();
+		
+		int id=0;
+		if (selectedDomainObject instanceof Artefact) {
+			Artefact art = (Artefact)selectedDomainObject;
+			id = art.getArtefactID();
+		} else if (selectedDomainObject instanceof ArtefactHistoryBundle) {
+			ArtefactHistoryBundle art = (ArtefactHistoryBundle)selectedDomainObject;
+			id = art.getArtefactID();
+		}
+		
+		RetrieveArtefactBundleResponseMessage bundle = fragmento.retrieveArtifactBundle((long)id);				
+		
+		if (bundle != null && bundle.getArtefactBundle().getRelation()!= null) {
+			Relation_type0[] reltype = bundle.getArtefactBundle().getRelation();
+			for (int i = 0; i < reltype.length; i++) {
+				this.addArtefactContainer((int)(reltype[i].getArtefactId()),"BUNDLE SOURCE ID: "+ id + " - " + this.trimString(reltype[i].getDescription()) 
+						,this.artefactInverseAdapter(reltype[i].getType()), false);
+				this.addRelationContainer((int)(reltype[i].getRelationId()),"BUNDLE SOURCE ID: "+ id + " - " +this.trimString(reltype[i].getRelationdescription())
+						, this.relationInverseAdapter2(reltype[i].getRelationtype()),(int)reltype[i].getArtefactId() ,id);
+			}
+		} else {
+			this.showMessage("There is no bundle information available for this item!");
+		}
+	}
+	
 	/**
 	 * Creates the new artefact.
 	 * 
@@ -1072,7 +1008,7 @@ public class TreeViewerOperator {
 			viewer.refresh();
 		}
 	}
-
+	
 	/**
 	 * Open and store file.
 	 * 
@@ -1089,6 +1025,9 @@ public class TreeViewerOperator {
 		switch (artefact.getArtefactType()) {
 		case WSDL:
 			postfix = ".wsdl";
+			break;
+		case FRAGMENT:
+			postfix = ".bpel";
 			break;
 		default:
 			break;
@@ -1136,32 +1075,122 @@ public class TreeViewerOperator {
 		} else {
 		}
 	}
+	
+	/**
+	 * Open and store file.
+	 * 
+	 * @param artefact
+	 *            the artefact
+	 * @param dir
+	 *            the directory
+	 * @param fileName
+	 *            the file name
+	 */
+	private void openFile(ArtefactHistoryBundle artefact, String dir, String fileName) {
+		String postfix = ".xml";
 
+		switch (artefact.getArtefactType()) {
+		case WSDL:
+			postfix = ".wsdl";
+			break;
+		case FRAGMENT:
+			postfix = ".bpel";
+			break;
+		default:
+			break;
+		}
+
+		File fileToOpen = new File(dir, fileName + postfix);
+		try {
+			FileUtils.writeStringToFile(fileToOpen,
+					fragmento.retrieveArtifact(artefact.getArtefactID())
+							.getArtefact().getExtraElement().toString());
+		} catch (IOException e1) {
+		}
+
+		if (fileToOpen.exists() && fileToOpen.isFile()) {
+			IFileStore fileStore = EFS.getLocalFileSystem().getStore(
+					fileToOpen.toURI());
+			IWorkbenchPage page = PlatformUI.getWorkbench()
+					.getActiveWorkbenchWindow().getActivePage();
+			FileStoreEditorInput fileStoreEditorInput = new FileStoreEditorInput(
+					fileStore);
+
+			ListDialog listDialog = new ListDialog(this.viewer.getTree()
+					.getShell());
+			listDialog.setTitle("Editor Selection Menu");
+			listDialog.setMessage("Available Editors");
+			listDialog.setContentProvider(ArrayContentProvider.getInstance());
+			listDialog.setLabelProvider(new ListLabelProvider());
+			listDialog.setInput(PlatformUI.getWorkbench().getEditorRegistry()
+					.getEditors(fileToOpen.getName()));
+
+			try {
+				if (listDialog.open() == Dialog.OK) {
+					IDE.openEditor(page, (IEditorInput) fileStoreEditorInput,
+							((IEditorDescriptor) listDialog.getResult()[0])
+									.getId());
+				}
+				// IDE.openEditorOnFileStore(page, fileStore);
+
+				// IDE.openEditor(page, (IEditorInput)fileStoreEditorInput,
+				// PlatformUI.getWorkbench().
+				// getEditorRegistry().getEditors("dummy.bpel")[0].getId());
+			} catch (PartInitException e) {
+				// Put your exception handler here if you wish to
+			}
+		} else {
+		}
+	}
+	
+	/**
+	 * The Class ListLabelProvider.
+	 *
+	 * @author Dimitrios Dentsas
+	 */
 	class ListLabelProvider implements ILabelProvider {
 
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
+		 */
 		@Override
 		public Image getImage(Object element) {
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
+		 */
 		@Override
 		public String getText(Object element) {
 			return ((IEditorDescriptor) element).getLabel();
 		}
 
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.jface.viewers.ILabelProviderListener)
+		 */
 		@Override
 		public void addListener(ILabelProviderListener listener) {
 		}
 
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
+		 */
 		@Override
 		public void dispose() {
 		}
 
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang.Object, java.lang.String)
+		 */
 		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse.jface.viewers.ILabelProviderListener)
+		 */
 		@Override
 		public void removeListener(ILabelProviderListener listener) {
 		}
@@ -1179,7 +1208,6 @@ public class TreeViewerOperator {
 				.browseArtifact_byType(artefactAdapter(type));
 
 		int id;
-		String desc;
 		boolean checkedOut;
 		try {
 			ArtefactDescriptorType[] artefacts = response
@@ -1187,19 +1215,9 @@ public class TreeViewerOperator {
 
 			if (artefacts != null)
 				for (int i = 0; i < artefacts.length; i++) {
-					id = (int) artefacts[i].getArtefactId();
-					if (artefacts[i].getDescription().contains("<!--")) {
-						desc = (String) artefacts[i]
-								.getDescription()
-								.subSequence(
-										0,
-										artefacts[i].getDescription().indexOf(
-												"<!--")).toString().trim();
-					} else {
-						desc = artefacts[i].getDescription();
-					}
+					id = (int) artefacts[i].getArtefactId();					
 					checkedOut = isCheckedOut(id);
-					addArtefact(id, desc, type, checkedOut);
+					addArtefact(id, this.trimString(artefacts[i].getDescription()), type, checkedOut);
 				}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1217,7 +1235,6 @@ public class TreeViewerOperator {
 				.browseRelation_byType(relationAdapter(type));
 
 		int id;
-		String desc;
 		int fromId;
 		int toId;
 		try {
@@ -1225,19 +1242,9 @@ public class TreeViewerOperator {
 			if (relations != null)
 				for (int i = 0; i < relations.length; i++) {
 					id = (int) relations[i].getRelationId();
-					if (relations[i].getDescription().contains("<!--")) {
-						desc = (String) relations[i]
-								.getDescription()
-								.subSequence(
-										0,
-										relations[i].getDescription().indexOf(
-												"<!--")).toString().trim();
-					} else {
-						desc = relations[i].getDescription();
-					}
 					fromId = (int) relations[i].getFrom();
 					toId = (int) relations[i].getTo();
-					addRelation(id, desc, type, fromId, toId);
+					addRelation(id, this.trimString(relations[i].getDescription()), type, fromId, toId);
 				}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1469,21 +1476,21 @@ public class TreeViewerOperator {
 	public ArtefactTypes artefactInverseAdapter(String type) {
 		ArtefactTypes typeString = ArtefactTypes.ANNOTATION;
 
-		if (type == "Annotation") {
+		if (type.equals("Annotation")) {
 			typeString = ArtefactTypes.ANNOTATION;
-		} else if (type == "Container") {
+		} else if (type.equals("Container")) {
 			typeString = ArtefactTypes.CONTAINER;
-		} else if (type == "Deployment Descriptor") {
+		} else if (type.equals("Deployment Descriptor")) {
 			typeString = ArtefactTypes.DEPLOYMENT_DESCRIPTOR;
-		} else if (type == "Fragment") {
+		} else if (type.equals("Fragment")) {
 			typeString = ArtefactTypes.FRAGMENT;
-		} else if (type == "Modeller Data") {
+		} else if (type.equals("Modeller Data")) {
 			typeString = ArtefactTypes.MODELLER_DATA;
-		} else if (type == "Process") {
+		} else if (type.equals("Process")) {
 			typeString = ArtefactTypes.PROCESS;
-		} else if (type == "Transformation Rule") {
+		} else if (type.equals("Transformation Rule")) {
 			typeString = ArtefactTypes.TRANSFORMATION_RULE;
-		} else if (type == "WSDL") {
+		} else if (type.equals("WSDL")) {
 			typeString = ArtefactTypes.WSDL;
 		}
 
@@ -1501,17 +1508,17 @@ public class TreeViewerOperator {
 			String type) {
 		FragmentServiceStub.RelationTypeSchemaType typeString = FragmentServiceStub.RelationTypeSchemaType.annotation;
 
-		if (type == "annotation") {
+		if (type.equals("annotation")) {
 			typeString = FragmentServiceStub.RelationTypeSchemaType.annotation;
-		} else if (type == "container") {
+		} else if (type.equals("container")) {
 			typeString = FragmentServiceStub.RelationTypeSchemaType.container;
-		} else if (type == "deployment") {
+		} else if (type.equals("deployment")) {
 			typeString = FragmentServiceStub.RelationTypeSchemaType.deployment;
-		} else if (type == "modeller") {
+		} else if (type.equals("modeller")) {
 			typeString = FragmentServiceStub.RelationTypeSchemaType.modeller;
-		} else if (type == "transformation") {
+		} else if (type.equals("transformation")) {
 			typeString = FragmentServiceStub.RelationTypeSchemaType.transformation;
-		} else if (type == "wsdl") {
+		} else if (type.equals("wsdl")) {
 			typeString = FragmentServiceStub.RelationTypeSchemaType.wsdl;
 		}
 
@@ -1528,17 +1535,17 @@ public class TreeViewerOperator {
 	public RelationTypes relationInverseAdapter2(String type) {
 		RelationTypes typeString = RelationTypes.ANNOTATION;
 
-		if (type == "annotation") {
+		if (type.equals("annotation")) {
 			typeString = RelationTypes.ANNOTATION;
-		} else if (type == "container") {
+		} else if (type.equals("container")) {
 			typeString = RelationTypes.CONTAINER;
-		} else if (type == "deployment") {
+		} else if (type.equals("deployment")) {
 			typeString = RelationTypes.DEPLOYMENT;
-		} else if (type == "modeller") {
+		} else if (type.equals("modeller")) {
 			typeString = RelationTypes.MODELLER_DATA;
-		} else if (type == "transformation") {
+		} else if (type.equals("transformation")) {
 			typeString = RelationTypes.TRANSFORMATION;
-		} else if (type == "wsdl") {
+		} else if (type.equals("wsdl")) {
 			typeString = RelationTypes.WSDL;
 		}
 
@@ -1597,12 +1604,38 @@ public class TreeViewerOperator {
 	 */
 	public void addArtefact(int id, String desc, ArtefactTypes type,
 			boolean checkedOut) {
+		
+		ArtefactHistoryBundle history;
+		List<ArtefactHistoryBundle> list = new ArrayList<ArtefactHistoryBundle>();
+		
+		
+		RetrieveArtefactHistoryResponseMessage his = fragmento.retrieveArtifactHistory((long)id);
+		
+		if (his != null) {
+			
+			ArtefactDescriptorType[] historychildren = his.getArtefactDescriptors().getArtefact();
+			for (int i = 0; i < historychildren.length; i++) {
+				history  = new ArtefactHistoryBundle();
+				
+				history.setArtefactDescription(this.trimString(historychildren[i].getDescription()));
+				history.setArtefactID((int)historychildren[i].getArtefactId());
+				history.setArtefactType(type);
+				history.setCheckedOut(false);
+				list.add(history);
+			}
+		}
+		
 		Artefact artefact = new Artefact();
 		artefact.setArtefactID(id);
-		this.getArtefactList().add(String.valueOf(id));
+		this.getArtefactList().add(String.valueOf(id) + " - " +  desc);
 		artefact.setArtefactDescription(desc);
 		artefact.setArtefactType(type);
 		artefact.setCheckedOut(checkedOut);
+		
+		if (his != null) {
+			artefact.setChildren(list);			
+		}
+		
 		TodoMockModel input = (TodoMockModel) viewer.getInput();
 		ArrayList<IPlaceHolder> categories = (ArrayList<IPlaceHolder>) input
 				.getCategories();
@@ -1613,13 +1646,76 @@ public class TreeViewerOperator {
 		for (int i = 0; i < subArray.length; i++) {
 			@SuppressWarnings("unchecked")
 			ArtefactCategory<Artefact> sub = (ArtefactCategory<Artefact>) subArray[i];
+			this.viewer.collapseToLevel(sub, 1);
 			if (sub.getName() == type.toString()) {
 				sub.getChildren().add(artefact);
 				viewer.refresh();
 			}
 		}
 	}
-
+	
+	/**
+	 * Adds the artefact to the list.
+	 * 
+	 * @param id
+	 *            the id
+	 * @param desc
+	 *            the description
+	 * @param type
+	 *            the type
+	 * @param checkedOut
+	 *            is checked out
+	 */
+	public void addArtefactContainer(int id, String desc, ArtefactTypes type,
+			boolean checkedOut) {
+		
+		ArtefactHistoryBundle history;
+		List<ArtefactHistoryBundle> list = new ArrayList<ArtefactHistoryBundle>();
+		
+		
+		RetrieveArtefactHistoryResponseMessage his = fragmento.retrieveArtifactHistory((long)id);
+		if (his != null) {
+			
+			ArtefactDescriptorType[] historychildren = his.getArtefactDescriptors().getArtefact();
+			for (int i = 0; i < historychildren.length; i++) {
+				history  = new ArtefactHistoryBundle();			
+				history.setArtefactDescription(this.trimString(historychildren[i].getDescription()));
+				history.setArtefactID((int)historychildren[i].getArtefactId());
+				history.setArtefactType(type);
+				history.setCheckedOut(false);
+				list.add(history);
+			}
+		}
+		
+		Artefact artefact = new Artefact();
+		artefact.setArtefactID(id);
+		this.getArtefactList().add(String.valueOf(id) + " - " +  desc);
+		artefact.setArtefactDescription(desc);
+		artefact.setArtefactType(type);
+		artefact.setCheckedOut(checkedOut);
+		
+		if (his != null) {
+			artefact.setChildren(list);			
+		}
+		
+		TodoMockModel input = (TodoMockModel) viewer.getInput();
+		ArrayList<IPlaceHolder> categories = (ArrayList<IPlaceHolder>) input
+				.getCategories();
+		@SuppressWarnings("unchecked")
+		ArtefactCategory<ArtefactCategory<Artefact>> artefactsCategory = (ArtefactCategory<ArtefactCategory<Artefact>>) categories
+				.get(0);
+		Object[] subArray = artefactsCategory.getChildren().toArray();
+		for (int i = 0; i < subArray.length; i++) {
+			@SuppressWarnings("unchecked")
+			ArtefactCategory<Artefact> sub = (ArtefactCategory<Artefact>) subArray[i];
+			this.viewer.collapseToLevel(sub, 1);
+			if (sub.getName() == ArtefactTypes.CONTAINER.toString()) {
+				sub.getChildren().add(artefact);
+				viewer.refresh();
+			}
+		}
+	}
+	
 	/**
 	 * Adds the relation to the list.
 	 * 
@@ -1659,7 +1755,47 @@ public class TreeViewerOperator {
 			}
 		}
 	}
+	
+	/**
+	 * Adds the relation to the list.
+	 * 
+	 * @param id
+	 *            the id
+	 * @param desc
+	 *            the description
+	 * @param type
+	 *            the type
+	 * @param fromId
+	 *            the from id
+	 * @param toId
+	 *            the to id
+	 */
+	public void addRelationContainer(int id, String desc, RelationTypes type,
+			int fromId, int toId) {
+		Relation relation = new Relation();
+		relation.setRelationID(id);
+		relation.setRelationDescription(desc);
+		relation.setRelationType(type);
+		relation.setFromID(fromId);
+		relation.setToID(toId);
 
+		TodoMockModel input = (TodoMockModel) viewer.getInput();
+		ArrayList<IPlaceHolder> categories = (ArrayList<IPlaceHolder>) input
+				.getCategories();
+		@SuppressWarnings("unchecked")
+		RelationsCategory<RelationsCategory<Relation>> relationsCategory = (RelationsCategory<RelationsCategory<Relation>>) categories
+				.get(1);
+		Object[] subArray = relationsCategory.getChildren().toArray();
+		for (int i = 0; i < subArray.length; i++) {
+			@SuppressWarnings("unchecked")
+			RelationsCategory<Relation> sub = (RelationsCategory<Relation>) subArray[i];
+			if (sub.getName() == RelationTypes.CONTAINER.toString()) {
+				sub.getChildren().add(relation);
+				viewer.refresh();
+			}
+		}
+	}
+	
 	/**
 	 * Removes the artefact from the list.
 	 * 
@@ -1763,5 +1899,23 @@ public class TreeViewerOperator {
 			viewer.refresh();
 		}
 	}
-
+	
+	
+	/**
+	 * Trim string.
+	 *
+	 * @param s the s
+	 * @return the string
+	 */
+	private String trimString(String s) {
+		if (s.contains("<!--")) {
+			return (String) s
+					.subSequence(
+							0,
+							s.indexOf(
+									"<!--")).toString().trim();
+		} else {
+			return s;
+		}
+	}
 }

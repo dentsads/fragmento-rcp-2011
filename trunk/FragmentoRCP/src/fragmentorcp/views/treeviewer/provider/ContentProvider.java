@@ -3,6 +3,7 @@ package fragmentorcp.views.treeviewer.provider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
+import fragmentorcppresenter.models.repository.Artefact;
 import fragmentorcppresenter.models.repository.ArtefactCategory;
 import fragmentorcppresenter.models.repository.RelationsCategory;
 
@@ -44,10 +45,15 @@ public class ContentProvider implements ITreeContentProvider {
 	 */
 	@Override
 	public Object[] getChildren(Object parentElement) {
-		if (parentElement instanceof ArtefactCategory<?>) {
+		if (parentElement instanceof Artefact) {
+			Artefact art = (Artefact)parentElement;
+			return art.getChildren().toArray();
+		}
+		else if (parentElement instanceof ArtefactCategory<?>) {
 			ArtefactCategory<?> category = (ArtefactCategory<?>) parentElement;
 			return category.getChildren().toArray();
-		} else if (parentElement instanceof RelationsCategory<?>) {
+		}
+		else if (parentElement instanceof RelationsCategory<?>) {
 			RelationsCategory<?> category = (RelationsCategory<?>) parentElement;
 			return category.getChildren().toArray();
 		}
@@ -70,6 +76,8 @@ public class ContentProvider implements ITreeContentProvider {
 		if (element instanceof ArtefactCategory<?>) {
 			return true;
 		} else if (element instanceof RelationsCategory<?>) {
+			return true;
+		} else if (element instanceof Artefact) {
 			return true;
 		}
 		return false;

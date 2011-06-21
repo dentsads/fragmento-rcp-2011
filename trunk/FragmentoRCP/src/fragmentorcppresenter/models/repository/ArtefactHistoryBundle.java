@@ -1,16 +1,12 @@
 package fragmentorcppresenter.models.repository;
 
-import java.util.ArrayList;
-import java.util.List;
-
 // TODO: Auto-generated Javadoc
 /**
- * The Class Artefact.
+ * The Class ArtefactHistoryBundle.
  *
  * @author Dimitrios Dentsas
  */
-public class Artefact implements IPlaceHolder {
-	
+public class ArtefactHistoryBundle implements IPlaceHolder {
 	/** The artefact id. */
 	private int artefactID;
 	
@@ -22,9 +18,6 @@ public class Artefact implements IPlaceHolder {
 	
 	/** is checked out. */
 	private boolean checkedOut;
-	
-	/** The children. */
-	private List<ArtefactHistoryBundle> children = new ArrayList<ArtefactHistoryBundle>();
 	
 	/**
 	 * Gets the artefact id.
@@ -98,23 +91,4 @@ public class Artefact implements IPlaceHolder {
 		this.checkedOut = checkedOut;
 	}
 
-	/**
-	 * Sets the children.
-	 *
-	 * @param children the new children
-	 */
-	public void setChildren(List<ArtefactHistoryBundle> children) {
-		this.children = children;
-	}
-
-	/**
-	 * Gets the children.
-	 *
-	 * @return the children
-	 */
-	public List<ArtefactHistoryBundle> getChildren() {
-		return children;
-	}
-	
-	
 }

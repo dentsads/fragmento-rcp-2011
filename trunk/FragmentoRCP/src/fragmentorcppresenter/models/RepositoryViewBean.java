@@ -1,5 +1,6 @@
 package fragmentorcppresenter.models;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class RepositoryViewBean  is the model for the repository view.
  * 
@@ -39,7 +40,11 @@ public class RepositoryViewBean extends ModelAbstraction {
 
 	/** The keep relations. */
 	private boolean keepRelations;
-
+	
+	
+	/** The get bundle. */
+	private boolean getBundle;
+	
 	/**
 	 * Instantiates a new repository view bean.
 	 */
@@ -267,6 +272,25 @@ public class RepositoryViewBean extends ModelAbstraction {
 	 */
 	public boolean isKeepRelations() {
 		return keepRelations;
+	}
+
+	/**
+	 * Sets the gets the bundle.
+	 *
+	 * @param getBundle the new gets the bundle
+	 */
+	public void setGetBundle(boolean getBundle) {
+		propertyChangeSupport.firePropertyChange("getBundle",
+				this.getBundle, this.getBundle = getBundle);
+	}
+
+	/**
+	 * Checks if is gets the bundle.
+	 *
+	 * @return true, if is gets the bundle
+	 */
+	public boolean isGetBundle() {
+		return getBundle;
 	}
 
 }
