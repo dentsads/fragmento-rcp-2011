@@ -236,7 +236,7 @@
                visible="true">       </separator>
          <command
                commandId="fragmentorcp.commands.toolbarRemainingCommand"
-               label="get bundle"
+               label="%command.label.14"
                style="push">
             <parameter
                   name="FragmentoRCP.WizardParameter"
