@@ -16,6 +16,7 @@ import org.osgi.framework.Bundle;
 
 import fragmentorcppresenter.models.repository.Artefact;
 import fragmentorcppresenter.models.repository.ArtefactCategory;
+import fragmentorcppresenter.models.repository.ArtefactHistoryBundle;
 import fragmentorcppresenter.models.repository.Relation;
 import fragmentorcppresenter.models.repository.RelationsCategory;
 
@@ -62,18 +63,76 @@ public class LabelProvider extends StyledCellLabelProvider {
 			// StyledString.DECORATIONS_STYLER);
 		} else if (element instanceof Artefact) {
 			Artefact artefact = (Artefact) element;
+			
+			String iconPath = "icons/document.gif";			
+			
 			if (artefact.isCheckedOut()) {
+				
+				switch (artefact.getArtefactType()) {
+				case ANNOTATION:
+					iconPath = "icons/type_icons/annotation_locked.gif";
+					break;			
+				case DEPLOYMENT_DESCRIPTOR:
+					iconPath = "icons/type_icons/deployment_descriptor_locked.gif";
+					break;
+				case FRAGMENT:
+					iconPath = "icons/type_icons/fragment_locked.png";
+					break;
+				case MODELLER_DATA:
+					iconPath = "icons/type_icons/modeller_data_locked.png";
+					break;
+				case PROCESS:
+					iconPath = "icons/type_icons/process_locked.gif";
+					break;
+				case TRANSFORMATION_RULE:
+					iconPath = "icons/type_icons/transformation_rule_locked.gif";
+					break;
+				case WSDL:
+					iconPath = "icons/type_icons/wsdl_locked.gif";
+					break;
+				default:
+					break;
+				}
 				// text.append(" (" + "c" + ") ",
 				// StyledString.createColorRegistryStyler(FOREGROUND_COLOR,
 				// null));
 				cell.setImage(ImageDescriptor
 						.createFromURL(
 								BundleUtility.find(bundle,
-										"icons/document_locked.gif"))
+										iconPath))
 						.createImage());
 			} else {
+				
+				switch (artefact.getArtefactType()) {
+				case ANNOTATION:
+					iconPath = "icons/type_icons/annotation.gif";
+					break;			
+				case DEPLOYMENT_DESCRIPTOR:
+					iconPath = "icons/type_icons/deployment_descriptor.gif";
+					break;
+				case FRAGMENT:
+					iconPath = "icons/type_icons/fragment.png";
+					break;
+				case MODELLER_DATA:
+					iconPath = "icons/type_icons/modeller_data.png";
+					break;
+				case PROCESS:
+					iconPath = "icons/type_icons/process.gif";
+					break;
+				case TRANSFORMATION_RULE:
+					iconPath = "icons/type_icons/transformation_rule.gif";
+					break;
+				case WSDL:
+					iconPath = "icons/type_icons/wsdl.gif";
+					break;
+				default:
+					break;
+				}
+//				cell.setImage(ImageDescriptor.createFromURL(
+//						BundleUtility.find(bundle, "icons/document.gif"))
+//						.createImage());
 				cell.setImage(ImageDescriptor.createFromURL(
-						BundleUtility.find(bundle, "icons/document.gif"))
+						BundleUtility.find(bundle, iconPath))
 						.createImage());
 			}
 			text.append("(ID " + String.valueOf(artefact.getArtefactID())
@@ -91,11 +150,72 @@ public class LabelProvider extends StyledCellLabelProvider {
 						StyledString.COUNTER_STYLER);
 		} else if (element instanceof Relation) {
 			Relation relation = (Relation) element;
+			
+			String iconPath = "icons/document.gif";
+			
+			switch (relation.getRelationType()) {
+			case ANNOTATION:
+				iconPath = "icons/type_icons/annotation.gif";
+				break;
+			case DEPLOYMENT:
+				iconPath = "icons/type_icons/deployment_descriptor.gif";
+				break;
+			case MODELLER_DATA:
+				iconPath = "icons/type_icons/modeller_data.png";
+				break;
+			case TRANSFORMATION:
+				iconPath = "icons/type_icons/transformation_rule.gif";
+				break;
+			case WSDL:
+				iconPath = "icons/type_icons/wsdl.gif";
+				break;
+			default:
+				break;
+			}
+			
 			text.append("(ID " + String.valueOf(relation.getRelationID())
 					+ ") ");
 			text.append(relation.getRelationDescription());
 			cell.setImage(ImageDescriptor.createFromURL(
-					BundleUtility.find(bundle, "icons/document.gif"))
+					BundleUtility.find(bundle, iconPath))
+					.createImage());
+			// cell.setImage(PlatformUI.getWorkbench().getSharedImages()
+			// .getImage(ISharedImages.IMG_OBJ_FILE));
+		} else if (element instanceof ArtefactHistoryBundle) {
+			ArtefactHistoryBundle latestHistory = (ArtefactHistoryBundle) element;
+			
+			String iconPath = "icons/document.gif";
+			switch (latestHistory.getArtefactType()) {
+			case DEPLOYMENT_DESCRIPTOR:
+				iconPath = "icons/type_icons/deployment_descriptor.gif";
+				break;
+			case ANNOTATION:
+				iconPath = "icons/type_icons/annotation.gif";
+				break;						
+			case FRAGMENT:
+				iconPath = "icons/type_icons/fragment.png";
+				break;
+			case MODELLER_DATA:
+				iconPath = "icons/type_icons/modeller_data.png";
+				break;
+			case PROCESS:
+				iconPath = "icons/type_icons/process.gif";
+				break;
+			case TRANSFORMATION_RULE:
+				iconPath = "icons/type_icons/transformation_rule.gif";
+				break;
+			case WSDL:
+				iconPath = "icons/type_icons/wsdl.gif";
+				break;
+			default:
+				break;
+			}
+						
+			text.append("(ID " + String.valueOf(latestHistory.getArtefactID())
+					+ ") ");
+			text.append(latestHistory.getArtefactDescription());
+			cell.setImage(ImageDescriptor.createFromURL(
+					BundleUtility.find(bundle, iconPath))
 					.createImage());
 			// cell.setImage(PlatformUI.getWorkbench().getSharedImages()
 			// .getImage(ISharedImages.IMG_OBJ_FILE));

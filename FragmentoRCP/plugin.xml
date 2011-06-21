@@ -231,6 +231,43 @@
                </with>
             </visibleWhen>
          </command>
+         <separator
+               name="FragmentoRCP.separator3"
+               visible="true">       </separator>
+         <command
+               commandId="fragmentorcp.commands.toolbarRemainingCommand"
+               label="get bundle"
+               style="push">
+            <parameter
+                  name="FragmentoRCP.WizardParameter"
+                  value="GET_BUNDLE">
+            </parameter>
+            <visibleWhen
+                  checkEnabled="false">
+               <or>
+                  <with
+                        variable="selection">
+                     <iterate>
+                        <instanceof
+                              value="fragmentorcppresenter.models.repository.Artefact">
+                        </instanceof>
+                     </iterate>
+                  </with>
+                  <with
+                        variable="selection">
+                     <iterate>
+                        <instanceof
+                              value="fragmentorcppresenter.models.repository.ArtefactHistoryBundle">
+                        </instanceof>
+                     </iterate>
+                  </with>
+               </or>
+            </visibleWhen>
+         </command>
+         <separator
+               name="FragmentoRCP.separator4"
+               visible="true">
+         </separator>
          <command
                commandId="fragmentorcp.commands.openOptionsCommand"
                label="%command.label.13"

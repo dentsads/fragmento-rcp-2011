@@ -74,7 +74,7 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 		ColumnViewerToolTipSupport.enableFor(viewer, ToolTip.NO_RECREATE);
 		viewer.setLabelProvider(new LabelProvider());
 		// Expand the tree
-		viewer.setAutoExpandLevel(2);
+		viewer.setAutoExpandLevel(3);
 		// Provide the input to the ContentProvider
 
 		viewer.setInput(mock);
@@ -122,7 +122,7 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 	public void modelPropertyChange(PropertyChangeEvent event) {
 		if (event.getPropertyName().equals("expandAll")) {
 			if ((Boolean) event.getNewValue()) {
-				viewer.expandAll();
+				viewer.expandToLevel(3);
 				this.presenter.setModelProperty("collapseAll", false);
 			}
 		} else if (event.getPropertyName().equals("btnRetrieveNow")) {
@@ -131,8 +131,7 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 				presenter.getOperator().init();
 
 				viewer.refresh();
-
-				viewer.expandAll();
+				viewer.expandToLevel(3);
 				this.presenter.setModelProperty("btnRetrieveNow", false);
 			}
 		} else if (event.getPropertyName().equals("collapseAll")) {
@@ -194,7 +193,7 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 			if ((Boolean) event.getNewValue()) {
 				mock.getCategories().clear();
 				presenter.getOperator().init();
-				viewer.expandAll();
+				viewer.expandToLevel(3);
 				viewer.refresh();
 				this.presenter.setModelProperty("refresh", false);
 			}
@@ -217,6 +216,12 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 		} else if (event.getPropertyName().equals("keepRelations")) {
 			this.presenter.getOperator().setKeepRelations(
 					(Boolean) event.getNewValue());
+		} else if (event.getPropertyName().equals("getBundle")) {
+			if ((Boolean) event.getNewValue()) {
+				this.presenter.getOperator().retrieveArtefactBundle();
+				viewer.refresh();
+				this.presenter.setModelProperty("getBundle", false);
+			};
 		}
 	}
 
