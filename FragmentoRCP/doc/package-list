@@ -1,0 +1,14 @@
+eu.compas_ict.www.fragmentservice
+fragmentService
+fragmentorcp
+fragmentorcp.commands
+fragmentorcp.sourceprovider
+fragmentorcp.views
+fragmentorcp.views.treeviewer.provider
+fragmentorcp.wizards
+fragmentorcp.wizards.pages
+fragmentorcppresenter.ifaces
+fragmentorcppresenter.models
+fragmentorcppresenter.models.repository
+fragmentorcppresenter.presenter
+org.eclipse.wb.swt
