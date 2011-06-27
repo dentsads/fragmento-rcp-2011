@@ -41,9 +41,11 @@ public class RepositoryViewBean extends ModelAbstraction {
 	/** The keep relations. */
 	private boolean keepRelations;
 	
-	
 	/** The get bundle. */
 	private boolean getBundle;
+	
+	/** The is serialized. */
+	private boolean isSerialized;
 	
 	/**
 	 * Instantiates a new repository view bean.
@@ -291,6 +293,25 @@ public class RepositoryViewBean extends ModelAbstraction {
 	 */
 	public boolean isGetBundle() {
 		return getBundle;
+	}
+
+	/**
+	 * Sets the serialized.
+	 *
+	 * @param isSerialized the new serialized
+	 */
+	public void setIsSerialized(boolean isSerialized) {
+		propertyChangeSupport.firePropertyChange("isSerialized",
+				this.isSerialized, this.isSerialized = isSerialized);
+	}
+
+	/**
+	 * Checks if is serialized.
+	 *
+	 * @return true, if is serialized
+	 */
+	public boolean isSerialized() {
+		return isSerialized;
 	}
 
 }

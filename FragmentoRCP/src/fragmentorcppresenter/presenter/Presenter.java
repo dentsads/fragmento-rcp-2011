@@ -1,9 +1,13 @@
 package fragmentorcppresenter.presenter;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import org.apache.commons.io.FileUtils;
 
 import fragmentorcp.views.treeviewer.provider.TreeViewerOperator;
 import fragmentorcppresenter.ifaces.IGuiModelPropertyChange;
@@ -148,5 +152,43 @@ public class Presenter extends PresenterAbstraction<IGuiModelPropertyChange>{
 		}
 		return false;
 		
+	}
+	
+	/**
+	 * Checks if is serialized.
+	 *
+	 * @param filename the filename
+	 * @return true, if is serialized
+	 */
+	public boolean isSerialized(String filename) {
+		boolean sercheck = false;
+		 @SuppressWarnings("unused")
+		FileInputStream fis = null;
+		   try
+		   {
+		     fis = new FileInputStream(filename);
+		     sercheck = true;
+		   }
+		   catch(IOException ex)
+		   {
+		     //ex.printStackTrace();
+		   }
+		   
+		   return sercheck && this.isValidUrl(this.returnServiceUriFile());
+	}
+	
+	/**
+	 * Return service uri file.
+	 *
+	 * @return the string
+	 */
+	public String returnServiceUriFile() {
+			File fileToOpen = new File("serviceUriFile.txt");
+			try {
+				return FileUtils.readFileToString(fileToOpen);
+			} catch (IOException e1) {
+			}
+			
+			return null;
 	}
 }

@@ -10,7 +10,12 @@ import fragmentorcppresenter.models.repository.IPlaceHolder;
  * 
  * @author Dimitrios Dentsas
  */
-public class TodoMockModel {
+public class TodoMockModel implements java.io.Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Instantiates a new todo mock model.
@@ -30,5 +35,12 @@ public class TodoMockModel {
 
 		return categories;
 	}
+	
+	/**
+	 * Sets the categories.
+	 */
+	public void setCategories(List<IPlaceHolder> categories) {
 
+		this.categories = categories;
+	}
 }

@@ -9,8 +9,13 @@ import java.util.List;
  * @param <T> the generic type
  * @author Dimitrios Dentsas
  */
-public class ArtefactCategory<T> implements IPlaceHolder {
+public class ArtefactCategory<T> implements IPlaceHolder{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/** The category name (e.g. WSDL, Fragment...) . */
 	private String name;
 	

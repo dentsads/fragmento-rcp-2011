@@ -7,6 +7,11 @@ package fragmentorcppresenter.models.repository;
  * @author Dimitrios Dentsas
  */
 public class ArtefactHistoryBundle implements IPlaceHolder {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/** The artefact id. */
 	private int artefactID;
 	
