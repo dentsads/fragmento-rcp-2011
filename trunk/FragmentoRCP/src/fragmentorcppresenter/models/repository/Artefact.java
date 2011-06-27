@@ -11,6 +11,11 @@ import java.util.List;
  */
 public class Artefact implements IPlaceHolder {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/** The artefact id. */
 	private int artefactID;
 	

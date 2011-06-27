@@ -2,7 +2,10 @@ package fragmentorcp.views;
 
 import java.beans.PropertyChangeEvent;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.core.filesystem.EFS;
@@ -67,7 +70,12 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		mock = new TodoMockModel();
+		
+		if (!this.presenter.isSerialized("serial.ser")) {
+			mock = new TodoMockModel();			
+		} else {
+			mock = deserializeTree("serial.ser");
+		}
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		// drillDownAdapter = new DrillDownAdapter(viewer);
 		viewer.setContentProvider(new ContentProvider());
@@ -76,16 +84,85 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 		// Expand the tree
 		viewer.setAutoExpandLevel(3);
 		// Provide the input to the ContentProvider
-
+		
 		viewer.setInput(mock);
+		
 		this.presenter.setOperator(new TreeViewerOperator(viewer, mock));
 
 		this.presenter.getOperator().makeActions();
 		hookContextMenu();
 		this.presenter.getOperator().hookDoubleClickAction();
 		getSite().setSelectionProvider(viewer);
+		
+		if (this.presenter.isSerialized("serial.ser")) {
+			this.presenter.getOperator().getFragmento().setServiceURI(this.presenter.returnServiceUriFile());
+			this.presenter.getOperator().setArtefactList(deserializeArtefactList());
+			viewer.refresh();
+			viewer.expandToLevel(3);
+		} else {
+			
+		}
 	}
 
+	/**
+	 * Deserialize tree.
+	 *
+	 * @param filename the filename
+	 * @return the todo mock model
+	 */
+	private TodoMockModel deserializeTree(String filename) {
+		 TodoMockModel mock = null;
+		 FileInputStream fis = null;
+		   ObjectInputStream in = null;
+		   try
+		   {
+		     fis = new FileInputStream(filename);
+		     in = new ObjectInputStream(fis);
+		     mock = (TodoMockModel)in.readObject();		    
+		     in.close();
+		   }
+		   catch(IOException ex)
+		   {
+		     ex.printStackTrace();
+		   }
+		   catch(ClassNotFoundException ex)
+		   {
+		     ex.printStackTrace();
+		   }
+		   
+		   return mock;
+	}
+	
+	/**
+	 * Deserialize tree.
+	 *
+	 * @param filename the filename
+	 * @return the todo mock model
+	 */
+	@SuppressWarnings("unchecked")
+	private ArrayList<String> deserializeArtefactList() {
+		ArrayList<String> list = null;
+		 FileInputStream fis = null;
+		   ObjectInputStream in = null;
+		   try
+		   {
+		     fis = new FileInputStream("ArtefactList.ser");
+		     in = new ObjectInputStream(fis);
+		     list = (ArrayList<String>)in.readObject();		    
+		     in.close();
+		   }
+		   catch(IOException ex)
+		   {
+		     ex.printStackTrace();
+		   }
+		   catch(ClassNotFoundException ex)
+		   {
+		     ex.printStackTrace();
+		   }
+		   
+		   return list;
+	}
+	
 	/**
 	 * Hook context menu.
 	 */

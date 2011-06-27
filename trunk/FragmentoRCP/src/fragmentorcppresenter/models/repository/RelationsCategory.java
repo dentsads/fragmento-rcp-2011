@@ -11,6 +11,11 @@ import java.util.List;
  */
 public class RelationsCategory<T> implements IPlaceHolder {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/** The category name. */
 	private String name;
 	

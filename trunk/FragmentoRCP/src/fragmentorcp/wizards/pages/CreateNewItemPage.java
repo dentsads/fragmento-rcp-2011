@@ -320,11 +320,11 @@ public class CreateNewItemPage extends GuiModelPropertyChange_IWizardPage {
 		grpSourcetarget.setBounds(22, 90, 519, 111);
 
 		Label lblSourceId = new Label(grpSourcetarget, SWT.NONE);
-		lblSourceId.setBounds(31, 48, 63, 15);
+		lblSourceId.setBounds(31, 25, 63, 15);
 		lblSourceId.setText("Source Id");
 
 		Label lblTargetId = new Label(grpSourcetarget, SWT.NONE);
-		lblTargetId.setBounds(284, 48, 63, 15);
+		lblTargetId.setBounds(31, 66, 63, 15);
 		lblTargetId.setText("Target Id");
 
 		text_3 = new Combo(grpSourcetarget, SWT.READ_ONLY);
@@ -334,13 +334,13 @@ public class CreateNewItemPage extends GuiModelPropertyChange_IWizardPage {
 		text_3.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				presenter.setModelProperty("fromId", text_3.getSelection()
-						.toString());
+				presenter.setModelProperty("fromId", presenter.getOperator().trimIntegerString(text_3.getText()));
 			}
 		});
-		text_3.setBounds(121, 44, 120, 25);
+		text_3.setBounds(121, 21, 367, 25);
 		if (updateRelation) {
-			text_3.setText(String.valueOf(this.relation.getFromID()));
+			//text_3.setText(String.valueOf(this.relation.getFromID()));
+			text_3.setText(this.presenter.getOperator().getArtefactList().get(0).toString());
 		}
 
 		text_4 = new Combo(grpSourcetarget, SWT.READ_ONLY);
@@ -350,11 +350,10 @@ public class CreateNewItemPage extends GuiModelPropertyChange_IWizardPage {
 		text_4.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				presenter.setModelProperty("toId", text_4.getSelection()
-						.toString());
+				presenter.setModelProperty("toId", presenter.getOperator().trimIntegerString(text_4.getText()));
 			}
 		});
-		text_4.setBounds(357, 44, 120, 27);
+		text_4.setBounds(121, 61, 367, 27);
 
 		/*
 		 * This conditional is common throughout this class. It changes the GUI
@@ -362,7 +361,8 @@ public class CreateNewItemPage extends GuiModelPropertyChange_IWizardPage {
 		 * call).
 		 */
 		if (updateRelation) {
-			text_4.setText(String.valueOf(this.relation.getToID()));
+			//text_4.setText(String.valueOf(this.relation.getToID()));
+			text_4.setText(String.valueOf(this.presenter.getOperator().getArtefactList().get(1).toString()));
 		}
 
 		Group group_1 = new Group(composite_2, SWT.NONE);
@@ -487,8 +487,8 @@ public class CreateNewItemPage extends GuiModelPropertyChange_IWizardPage {
 			if ((Boolean) event.getNewValue()) {
 				this.presenter.getOperator().createNewRelation(
 						combo_1.getText(), text_5.getText(),
-						Integer.parseInt(text_3.getText()),
-						Integer.parseInt(text_4.getText()));
+						Integer.parseInt(presenter.getOperator().trimIntegerString(text_3.getText())),
+						Integer.parseInt(presenter.getOperator().trimIntegerString(text_4.getText())));
 				this.btnCreateRelation.setEnabled(false);
 				this.setPageComplete(true);
 
@@ -498,8 +498,8 @@ public class CreateNewItemPage extends GuiModelPropertyChange_IWizardPage {
 			if ((Boolean) event.getNewValue()) {
 				this.presenter.getOperator().updateRelation(this.relation,
 						combo_1.getText(), text_5.getText(),
-						Integer.parseInt(text_3.getText()),
-						Integer.parseInt(text_4.getText()));
+						Integer.parseInt(presenter.getOperator().trimIntegerString(text_3.getText())),
+						Integer.parseInt(presenter.getOperator().trimIntegerString(text_4.getText())));
 				this.btnCreateRelation.setEnabled(false);
 				this.setPageComplete(true);
 

@@ -6,6 +6,9 @@ import java.util.Map;
 import org.eclipse.ui.AbstractSourceProvider;
 import org.eclipse.ui.ISources;
 
+import fragmentorcp.Activator;
+import fragmentorcppresenter.presenter.Presenter;
+
 /**
  * The Class CommandState takes the current predefined visibility state of the
  * view toolbar, manages it and provides methods for changing it.
@@ -24,12 +27,17 @@ public class CommandState extends AbstractSourceProvider {
 	public final static String DISENABLED = "DISENABLED";
 
 	/** The enabled. */
-	private boolean enabled = false;
-
+	private boolean enabled;
+	
+	/** The presenter. */
+	private Presenter presenter;
+	
 	/**
 	 * Instantiates a new command state.
 	 */
 	public CommandState() {
+		this.presenter = Activator.getDefault().getPresenter();
+		enabled = this.presenter.isSerialized("serial.ser") ? true : false;
 	}
 
 	/*
@@ -82,4 +90,5 @@ public class CommandState extends AbstractSourceProvider {
 	public void enable() {
 		fireSourceChanged(ISources.WORKBENCH, MY_STATE, ENABLED);
 	}
+	
 }

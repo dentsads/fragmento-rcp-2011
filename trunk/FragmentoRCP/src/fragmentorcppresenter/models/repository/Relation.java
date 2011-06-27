@@ -5,8 +5,13 @@ package fragmentorcppresenter.models.repository;
  *
  * @author Dimitrios Dentsas
  */
-public class Relation implements IPlaceHolder {
+public class Relation implements IPlaceHolder{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/** The relation id. */
 	private int relationID;
 	

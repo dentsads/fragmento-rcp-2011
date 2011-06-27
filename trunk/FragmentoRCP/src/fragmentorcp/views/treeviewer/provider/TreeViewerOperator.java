@@ -1,7 +1,9 @@
 package fragmentorcp.views.treeviewer.provider;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -389,9 +391,43 @@ public class TreeViewerOperator {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
+		}				
 	}
-
+	
+	/**
+	 * Serialize tree.
+	 *
+	 * @param filename the filename
+	 */
+	public void serializeTree(String filename) {
+	     FileOutputStream fos = null;
+	     ObjectOutputStream out = null;
+	     try
+	     {
+	       fos = new FileOutputStream(filename);
+	       out = new ObjectOutputStream(fos);
+	
+	       out.writeObject(this.getViewer().getInput());
+	       
+	       fos = new FileOutputStream("ArtefactList.ser");
+	       out = new ObjectOutputStream(fos);
+	
+	       out.writeObject(this.getArtefactList());
+	       
+	       out.close();
+	     }
+	     catch(IOException ex)
+	     {
+	       ex.printStackTrace();
+	     }
+	     
+	     File fileToOpen = new File("serviceUriFile.txt");
+			try {
+				FileUtils.writeStringToFile(fileToOpen, this.getFragmento().getServiceURI());
+			} catch (IOException e1) {
+			}
+	}
+	
 	/**
 	 * Sets the checkout path.
 	 * 
@@ -1020,11 +1056,11 @@ public class TreeViewerOperator {
 	 *            the file name
 	 */
 	private void openFile(Artefact artefact, String dir, String fileName) {
-		String postfix = ".xml";
+		String postfix = ".bpel";
 
 		switch (artefact.getArtefactType()) {
 		case WSDL:
-			postfix = ".wsdl";
+			postfix = ".bpel";
 			break;
 		case FRAGMENT:
 			postfix = ".bpel";
@@ -1087,11 +1123,11 @@ public class TreeViewerOperator {
 	 *            the file name
 	 */
 	private void openFile(ArtefactHistoryBundle artefact, String dir, String fileName) {
-		String postfix = ".xml";
+		String postfix = ".bpel";
 
 		switch (artefact.getArtefactType()) {
 		case WSDL:
-			postfix = ".wsdl";
+			postfix = ".bpel";
 			break;
 		case FRAGMENT:
 			postfix = ".bpel";
@@ -1302,6 +1338,7 @@ public class TreeViewerOperator {
 				showErrorMessage("Please select an artefact!");
 			}
 		}
+		this.serializeTree("serial.ser");
 	}
 
 	/**
@@ -1647,11 +1684,13 @@ public class TreeViewerOperator {
 			@SuppressWarnings("unchecked")
 			ArtefactCategory<Artefact> sub = (ArtefactCategory<Artefact>) subArray[i];
 			this.viewer.collapseToLevel(sub, 1);
-			if (sub.getName() == type.toString()) {
+			if (sub.getName().equals(type.toString())) {
 				sub.getChildren().add(artefact);
 				viewer.refresh();
 			}
 		}
+		
+		this.serializeTree("serial.ser");
 	}
 	
 	/**
@@ -1709,11 +1748,12 @@ public class TreeViewerOperator {
 			@SuppressWarnings("unchecked")
 			ArtefactCategory<Artefact> sub = (ArtefactCategory<Artefact>) subArray[i];
 			this.viewer.collapseToLevel(sub, 1);
-			if (sub.getName() == ArtefactTypes.CONTAINER.toString()) {
+			if (sub.getName().equals(ArtefactTypes.CONTAINER.toString())) {
 				sub.getChildren().add(artefact);
 				viewer.refresh();
 			}
 		}
+		this.serializeTree("serial.ser");
 	}
 	
 	/**
@@ -1738,10 +1778,11 @@ public class TreeViewerOperator {
 		relation.setRelationType(type);
 		relation.setFromID(fromId);
 		relation.setToID(toId);
-
-		TodoMockModel input = (TodoMockModel) viewer.getInput();
+											
+		TodoMockModel input = (TodoMockModel) this.getViewer().getInput();
 		ArrayList<IPlaceHolder> categories = (ArrayList<IPlaceHolder>) input
 				.getCategories();
+		
 		@SuppressWarnings("unchecked")
 		RelationsCategory<RelationsCategory<Relation>> relationsCategory = (RelationsCategory<RelationsCategory<Relation>>) categories
 				.get(1);
@@ -1749,11 +1790,12 @@ public class TreeViewerOperator {
 		for (int i = 0; i < subArray.length; i++) {
 			@SuppressWarnings("unchecked")
 			RelationsCategory<Relation> sub = (RelationsCategory<Relation>) subArray[i];
-			if (sub.getName() == type.toString()) {
+			if (sub.getName().equals(type.toString())) {
 				sub.getChildren().add(relation);
 				viewer.refresh();
 			}
 		}
+		this.serializeTree("serial.ser");
 	}
 	
 	/**
@@ -1789,11 +1831,12 @@ public class TreeViewerOperator {
 		for (int i = 0; i < subArray.length; i++) {
 			@SuppressWarnings("unchecked")
 			RelationsCategory<Relation> sub = (RelationsCategory<Relation>) subArray[i];
-			if (sub.getName() == RelationTypes.CONTAINER.toString()) {
+			if (sub.getName().equals(RelationTypes.CONTAINER.toString())) {
 				sub.getChildren().add(relation);
 				viewer.refresh();
 			}
 		}
+		this.serializeTree("serial.ser");
 	}
 	
 	/**
@@ -1816,7 +1859,7 @@ public class TreeViewerOperator {
 		for (int i = 0; i < subArray.length; i++) {
 			@SuppressWarnings("unchecked")
 			ArtefactCategory<Artefact> sub = (ArtefactCategory<Artefact>) subArray[i];
-			if (sub.getName() == type.toString()) {
+			if (sub.getName().equals(type.toString())) {
 
 				Object[] subArt = sub.getChildren().toArray();
 				for (int j = 0; j < subArt.length; j++) {
@@ -1828,6 +1871,7 @@ public class TreeViewerOperator {
 				}
 			}
 		}
+		this.serializeTree("serial.ser");
 	}
 
 	/**
@@ -1850,7 +1894,7 @@ public class TreeViewerOperator {
 		for (int i = 0; i < subArray.length; i++) {
 			@SuppressWarnings("unchecked")
 			RelationsCategory<Relation> sub = (RelationsCategory<Relation>) subArray[i];
-			if (sub.getName() == type.toString()) {
+			if (sub.getName().equals(type.toString())) {
 
 				Object[] subArt = sub.getChildren().toArray();
 				for (int j = 0; j < subArt.length; j++) {
@@ -1862,6 +1906,7 @@ public class TreeViewerOperator {
 				}
 			}
 		}
+		this.serializeTree("serial.ser");
 	}
 
 	/**
@@ -1898,6 +1943,7 @@ public class TreeViewerOperator {
 			viewer.update(relation, null);
 			viewer.refresh();
 		}
+		this.serializeTree("serial.ser");
 	}
 	
 	
@@ -1914,6 +1960,18 @@ public class TreeViewerOperator {
 							0,
 							s.indexOf(
 									"<!--")).toString().trim();
+		} else {
+			return s;
+		}
+	}
+	
+	public String trimIntegerString(String s) {
+		if (s.contains(" - ")) {
+			return (String) s
+					.subSequence(
+							0,
+							s.indexOf(
+									" - ")).toString().trim();
 		} else {
 			return s;
 		}

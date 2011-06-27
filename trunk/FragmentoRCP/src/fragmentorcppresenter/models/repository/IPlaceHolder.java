@@ -6,6 +6,6 @@ package fragmentorcppresenter.models.repository;
  *
  * @author Dimitrios Dentsas
  */
-public interface IPlaceHolder {
+public interface IPlaceHolder extends java.io.Serializable{
 
 }
