@@ -67,6 +67,10 @@ public class OpenOptionsPage extends GuiModelPropertyChange_IWizardPage
 
 	/** The btn new button. */
 	private Button btnNewButton;
+	private Label label_1;
+	private Label lblChooseDirectoryFor;
+	private Text text_1;
+	private Button button;
 
 	/**
 	 * Instantiates a new open options page.
@@ -172,7 +176,7 @@ public class OpenOptionsPage extends GuiModelPropertyChange_IWizardPage
 
 		grpRetrievalOptions = new Group(composite, SWT.NONE);
 		grpRetrievalOptions.setText("Options (for current repository)");
-		grpRetrievalOptions.setBounds(10, 178, 558, 177);
+		grpRetrievalOptions.setBounds(10, 178, 558, 282);
 		grpRetrievalOptions.setEnabled(initiallyEnabled);
 		// this.btnApplyObservable =
 		// SWTObservables.observeEnabled(this.btnApply);
@@ -236,6 +240,35 @@ public class OpenOptionsPage extends GuiModelPropertyChange_IWizardPage
 		btnNewButton.setEnabled(initiallyEnabled);
 		btnNewButton.setBounds(400, 125, 84, 27);
 		btnNewButton.setText("Browse");
+		
+		label_1 = new Label(grpRetrievalOptions, SWT.SEPARATOR | SWT.HORIZONTAL);
+		label_1.setEnabled(initiallyEnabled);
+		label_1.setBounds(43, 169, 400, 2);
+		
+		lblChooseDirectoryFor = new Label(grpRetrievalOptions, SWT.NONE);
+		lblChooseDirectoryFor.setText("Choose directory for exporting items");
+		lblChooseDirectoryFor.setEnabled(initiallyEnabled);
+		lblChooseDirectoryFor.setBounds(43, 184, 304, 15);
+		
+		text_1 = new Text(grpRetrievalOptions, SWT.BORDER);
+		text_1.setText(this.presenter.getOperator().getExportPath());
+		text_1.setEnabled(initiallyEnabled);
+		text_1.setEditable(false);
+		text_1.setBounds(43, 211, 336, 25);
+		
+		button = new Button(grpRetrievalOptions, SWT.NONE);
+		button.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				DirectoryDialog dialog = new DirectoryDialog(parent.getShell());
+				dialog.setFilterPath("");
+				text_1.setText(dialog.open());
+				presenter.setModelProperty("exportPath", text_1.getText());
+			}
+		});
+		button.setText("Browse");
+		button.setEnabled(initiallyEnabled);
+		button.setBounds(400, 211, 84, 27);
 
 		// this.getWizard().performFinish();
 	}

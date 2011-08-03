@@ -299,6 +299,14 @@ public class RepositoryView extends GuiModelPropertyChange_IViewPart {
 				viewer.refresh();
 				this.presenter.setModelProperty("getBundle", false);
 			};
+		} else if (event.getPropertyName().equals("toolbarExport")) {
+			if ((Boolean) event.getNewValue()) {
+				this.presenter.getOperator().exportSelected();
+				this.presenter.setModelProperty("toolbarExport", false);
+			};
+		} else if (event.getPropertyName().equals("exportPath")) {
+			this.presenter.getOperator().setExportPath(
+					(String) event.getNewValue());
 		}
 	}
 

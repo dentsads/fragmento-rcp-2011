@@ -168,6 +168,30 @@
                   value="TOOLBAR_COLLAPSE_ALL">
             </parameter>
          </command>
+         <separator
+               name="FragmentoRCP.separator4"
+               visible="true">
+         </separator>
+         <command
+               commandId="fragmentorcp.commands.toolbarRemainingCommand"
+               icon="icons/toolbar_export.png"
+               label="%command.label.15"
+               style="push"
+               tooltip="%command.tooltip.6">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="FragmentoRCP.active">
+                  <equals
+                        value="ENABLED">
+                  </equals>
+               </with>
+            </visibleWhen>
+            <parameter
+                  name="FragmentoRCP.WizardParameter"
+                  value="TOOLBAR_EXPORT">
+            </parameter>
+         </command>
       </menuContribution>
       <menuContribution
             allPopups="false"

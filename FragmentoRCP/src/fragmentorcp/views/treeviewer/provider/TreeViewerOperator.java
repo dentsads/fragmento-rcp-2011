@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -63,7 +64,6 @@ import fragmentorcppresenter.models.repository.Relation;
 import fragmentorcppresenter.models.repository.RelationTypes;
 import fragmentorcppresenter.models.repository.RelationsCategory;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TreeViewerOperator provides an aggregation of essential custom
  * lookup methods and operations for the TreeViewer.
@@ -84,7 +84,7 @@ public class TreeViewerOperator {
 	// private Action doubleClickAction;
 	/** The action_open editor. */
 	private Action action_openEditor;
-
+	
 	/** The Artefact list. */
 	private ArrayList<String> ArtefactList = new ArrayList<String>();
 
@@ -93,7 +93,9 @@ public class TreeViewerOperator {
 
 	/** The checkout path. */
 	private String checkoutPath = System.getProperty("java.io.tmpdir");
-
+	
+	private String exportPath = System.getProperty("java.io.tmpdir");
+	
 	/** The Fragmento Axis Class. */
 	FragmentoAxis fragmento = new FragmentoAxis();
 
@@ -193,7 +195,92 @@ public class TreeViewerOperator {
 			}
 		});
 	}
+	
+	public void exportSelected() {
+		if (viewer.getSelection().isEmpty()) {
+			showErrorMessage("Please selected an item to complete operation.");
+		} else {
+			
+			boolean answer =
+		          MessageDialog.openQuestion(
+		        		  viewer.getControl().getShell(),
+		            "Export selected items",
+		            "Do you really want to export these items?");
+		        //System.out.println("Your answer is " + (answer ? "YES" : "NO"));
+			if (answer) {
+			IStructuredSelection selection = (IStructuredSelection) viewer
+					.getSelection();
+			Object obj;
+			for (@SuppressWarnings("rawtypes")
+			Iterator iterator = selection.iterator(); iterator.hasNext();) {
+					obj = iterator.next();
+	               if (obj instanceof Artefact) {
+	            	   RetrieveArtefactBundleResponseMessage bundle = fragmento.retrieveArtifactBundle(((Artefact)obj).getArtefactID());
+	            	   if (bundle != null && bundle.getArtefactBundle().getRelation()!= null) {
+	           			Relation_type0[] reltype = bundle.getArtefactBundle().getRelation();
+	           			for (int i = 0; i < reltype.length; i++) {
+	           				exportFile(this.artefactInverseAdapter(reltype[i].getType()),this.getExportPath(),String.valueOf(reltype[i].getArtefactId()),reltype[i].getExtraElement().toString());
+	           			}
+	            	   }
+	            	   
+	            	   exportFile((Artefact)obj,this.getExportPath(),String.valueOf(((Artefact)obj).getArtefactID()));
+	               } else {
+						showErrorMessage("Please select one or more artefacts to complete operation.");
+					}
+	        	   
+	        	 
+	           }
+			}
+		}		
+	}
+	
+	public void exportFile(Artefact artefact, String dir, String fileName) {
+		String postfix = ".bpel";
 
+		switch (artefact.getArtefactType()) {
+		case WSDL:
+			postfix = ".wsdl";
+			break;
+		case FRAGMENT:
+			postfix = ".bpel";
+			break;
+		default:
+			break;
+		}		
+		
+		File fileToOpen = new File(dir, fileName + postfix);		
+		try {
+			FileUtils.writeStringToFile(fileToOpen,
+					fragmento.retrieveArtifact(artefact.getArtefactID())
+					.getArtefact().getExtraElement().toString());
+		} catch (IOException e1) {
+			showErrorMessage("Couldn't export artefact with ID: " + artefact.getArtefactID());
+		}
+	}
+	
+	public void exportFile(ArtefactTypes type, String dir, String fileName, String payload) {
+		String postfix = ".bpel";
+
+		switch (type) {
+		case WSDL:
+			postfix = ".wsdl";
+			break;
+		case FRAGMENT:
+			postfix = ".bpel";
+			break;
+		default:
+			break;
+		}		
+		
+		File fileToOpen = new File(dir, fileName + postfix);		
+		try {
+			FileUtils.writeStringToFile(fileToOpen,
+					payload);
+		} catch (IOException e1) {
+			showErrorMessage("Couldn't export artefact with ID: " + fileName);
+		}
+	}
+	
 	/**
 	 * Show message.
 	 * 
@@ -445,6 +532,14 @@ public class TreeViewerOperator {
 	 */
 	public String getCheckoutPath() {
 		return checkoutPath;
+	}
+
+	public void setExportPath(String exportPath) {
+		this.exportPath = exportPath;
+	}
+
+	public String getExportPath() {
+		return exportPath;
 	}
 
 	/**
