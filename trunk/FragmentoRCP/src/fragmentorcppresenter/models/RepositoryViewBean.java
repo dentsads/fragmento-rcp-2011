@@ -47,6 +47,10 @@ public class RepositoryViewBean extends ModelAbstraction {
 	/** The is serialized. */
 	private boolean isSerialized;
 	
+	private boolean toolbarExport;
+	
+	private String exportPath;
+	
 	/**
 	 * Instantiates a new repository view bean.
 	 */
@@ -312,6 +316,24 @@ public class RepositoryViewBean extends ModelAbstraction {
 	 */
 	public boolean isSerialized() {
 		return isSerialized;
+	}
+
+	public void setToolbarExport(boolean toolbarExport) {
+		propertyChangeSupport.firePropertyChange("toolbarExport",
+				this.toolbarExport, this.toolbarExport = toolbarExport);
+	}
+
+	public boolean isToolbarExport() {
+		return toolbarExport;
+	}
+
+	public void setExportPath(String exportPath) {
+		propertyChangeSupport.firePropertyChange("exportPath",
+				this.exportPath, this.exportPath = exportPath);
+	}
+
+	public String getExportPath() {
+		return exportPath;
 	}
 
 }

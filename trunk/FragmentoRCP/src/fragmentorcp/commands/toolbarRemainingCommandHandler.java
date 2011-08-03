@@ -44,8 +44,10 @@ public class toolbarRemainingCommandHandler extends AbstractHandler {
 			this.presenter.setModelProperty("releaseLock", true);
 		} else if (wizardParameter.equalsIgnoreCase("GET_BUNDLE")) {
 			this.presenter.setModelProperty("getBundle", true);
+		} else if (wizardParameter.equalsIgnoreCase("TOOLBAR_EXPORT")) {
+			this.presenter.setModelProperty("toolbarExport", true);
 		}
-
+		
 		return null;
 	}
 

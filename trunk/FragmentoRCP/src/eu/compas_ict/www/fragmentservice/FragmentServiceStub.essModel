@@ -1,0 +1,450 @@
+[Box: ::eu.compas_ict.www.fragmentservice - ::<<Unknown>>::org.apache.axis2.client.Stub]
+X=15303
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::<<Unknown>>::org.apache.axis2.databinding.ADBBean]
+X=7685
+Y=564
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::ArtefactDescriptorsType.Factory]
+X=2247
+Y=2038
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::ArtefactDescriptorType.Factory]
+X=2680
+Y=2038
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::ArtefactSelectorType.Factory]
+X=1897
+Y=1946
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::ArtefactsType.Factory]
+X=515
+Y=564
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::ArtefactType.Factory]
+X=2543
+Y=1946
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::BrowseArtefactSelectorType.Factory]
+X=2748
+Y=1946
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::BrowseArtefactsRequestMessage.Factory]
+X=2452
+Y=2038
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::BrowseArtefactsResponseMessage.Factory]
+X=2933
+Y=564
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::BrowseLocksRequestMessage.Factory]
+X=1607
+Y=2130
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::BrowseLocksResponseMessage.Factory]
+X=476
+Y=1946
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::BrowseRelationsRequestMessage.Factory]
+X=2017
+Y=2038
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::BrowseRelationsResponseMessage.Factory]
+X=2695
+Y=564
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::CheckInArtefactRequestMessage.Factory]
+X=3172
+Y=1946
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::CheckInArtefactResponseMessage.Factory]
+X=2307
+Y=1946
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::CheckOutArtefactRequestMessage.Factory]
+X=1781
+Y=2038
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::CheckOutArtefactResponseMessage.Factory]
+X=1537
+Y=2038
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::CreateArtefactRequestMessage.Factory]
+X=1678
+Y=1946
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::CreateArtefactResponseMessage.Factory]
+X=1310
+Y=2038
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::CreateRelationRequestMessage.Factory]
+X=1086
+Y=2130
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::CreateRelationResponseMessage.Factory]
+X=2885
+Y=2038
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::Date_type0.Factory]
+X=881
+Y=2130
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::DeleteRelationRequestMessage.Factory]
+X=1457
+Y=1946
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::DeleteRelationResponseMessage.Factory]
+X=1820
+Y=564
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceCallbackHandler]
+X=430
+Y=2130
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub]
+X=15275
+Y=564
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.ArtefactDescriptorsType]
+X=8957
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.ArtefactDescriptorType]
+X=10749
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.ArtefactSelectorType]
+X=4805
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.ArtefactsType]
+X=1741
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.ArtefactType]
+X=4523
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.BrowseArtefactSelectorType]
+X=5995
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.BrowseArtefactsRequestMessage]
+X=9206
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.BrowseArtefactsResponseMessage]
+X=830
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.BrowseLocksRequestMessage]
+X=14112
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.BrowseLocksResponseMessage]
+X=6611
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.BrowseRelationsRequestMessage]
+X=9816
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.BrowseRelationsResponseMessage]
+X=1200
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.CheckInArtefactRequestMessage]
+X=5418
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.CheckInArtefactResponseMessage]
+X=4220
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.CheckOutArtefactRequestMessage]
+X=9513
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.CheckOutArtefactResponseMessage]
+X=12408
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.CreateArtefactRequestMessage]
+X=7984
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.CreateArtefactResponseMessage]
+X=12114
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.CreateRelationRequestMessage]
+X=13563
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.CreateRelationResponseMessage]
+X=10993
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.Date_type0]
+X=14394
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.DeleteRelationRequestMessage]
+X=7696
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.DeleteRelationResponseMessage]
+X=534
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.ExtensionMapper]
+X=683
+Y=2038
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.Interval_type0]
+X=6901
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.Lock_type0]
+X=5213
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.LockDescriptorsType]
+X=1505
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.Mainartefact_type0]
+X=3548
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.Relation_type0]
+X=15021
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.Relation_type1]
+X=14599
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.Relation_type2]
+X=14810
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.RelationSelectorType]
+X=2953
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.RelationsType]
+X=12719
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.RelationType]
+X=323
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.RelationTypeSchemaType]
+X=13851
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.RelationUpdateInformationType]
+X=7106
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.ReleaseLocksRequestMessage]
+X=6325
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.ReleaseLocksResponseMessage]
+X=2659
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.RetrieveArtefactBundleRequestMessage]
+X=8629
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.RetrieveArtefactBundleResponseMessage]
+X=10413
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.RetrieveArtefactHistoryRequestMessage]
+X=3221
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.RetrieveArtefactHistoryResponseMessage]
+X=2289
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.RetrieveArtefactLatestVersionRequestMessage]
+X=8270
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.RetrieveArtefactLatestVersionResponseMessage]
+X=13196
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.RetrieveArtefactRequestMessage]
+X=11819
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.RetrieveArtefactResponseMessage]
+X=20
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.RetrieveRelationRequestMessage]
+X=11522
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.RetrieveRelationResponseMessage]
+X=7391
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.TransformArtefact_type0]
+X=5713
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.TransformedArtefactId_type0]
+X=12924
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.TypeAndDate_type0]
+X=11289
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.TypedInterval_type0]
+X=2057
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.UpdateRelationRequestMessage]
+X=3830
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::FragmentServiceStub.UpdateRelationResponseMessage]
+X=10113
+Y=40
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::Interval_type0.Factory]
+X=699
+Y=1946
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::Lock_type0.Factory]
+X=2102
+Y=1946
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::LockDescriptorsType.Factory]
+X=2490
+Y=564
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::Mainartefact_type0.Factory]
+X=925
+Y=564
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::Relation_type0.Factory]
+X=676
+Y=2130
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::Relation_type1.Factory]
+X=225
+Y=2130
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::Relation_type2.Factory]
+X=20
+Y=2130
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::RelationSelectorType.Factory]
+X=1355
+Y=564
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::RelationsType.Factory]
+X=900
+Y=2038
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::RelationType.Factory]
+X=2049
+Y=564
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::RelationTypeSchemaType.Factory]
+X=1822
+Y=2130
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::RelationUpdateInformationType.Factory]
+X=20
+Y=1946
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::ReleaseLocksRequestMessage.Factory]
+X=2953
+Y=1946
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::ReleaseLocksResponseMessage.Factory]
+X=288
+Y=564
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::RetrieveArtefactBundleRequestMessage.Factory]
+X=1196
+Y=1946
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::RetrieveArtefactBundleResponseMessage.Factory]
+X=3347
+Y=2038
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::RetrieveArtefactHistoryRequestMessage.Factory]
+X=1560
+Y=564
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::RetrieveArtefactHistoryResponseMessage.Factory]
+X=20
+Y=564
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::RetrieveArtefactLatestVersionRequestMessage.Factory]
+X=904
+Y=1946
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::RetrieveArtefactLatestVersionResponseMessage.Factory]
+X=1307
+Y=2130
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::RetrieveArtefactRequestMessage.Factory]
+X=250
+Y=2038
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::RetrieveArtefactResponseMessage.Factory]
+X=2254
+Y=564
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::RetrieveRelationRequestMessage.Factory]
+X=20
+Y=2038
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::RetrieveRelationResponseMessage.Factory]
+X=238
+Y=1946
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::TransformArtefact_type0.Factory]
+X=3400
+Y=1946
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::TransformedArtefactId_type0.Factory]
+X=1105
+Y=2038
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::TypeAndDate_type0.Factory]
+X=478
+Y=2038
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::TypedInterval_type0.Factory]
+X=720
+Y=564
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::UpdateRelationRequestMessage.Factory]
+X=1130
+Y=564
+
+[Box: ::eu.compas_ict.www.fragmentservice - ::eu.compas_ict.www.fragmentservice::UpdateRelationResponseMessage.Factory]
+X=3114
+Y=2038
+
+[Diagram: ::eu.compas_ict.www.fragmentservice]
+OffsetX=0
+OffsetY=0
+Visibility=0
+ShowAssoc=0
+
